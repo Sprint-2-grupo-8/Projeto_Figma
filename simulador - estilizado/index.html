@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/styles/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Simulador financeiro v1</title>
+</head>
+
+<body>
+
+    
+<header>
+<div class="container">
+
+<div class="logo">
+<img src="img/Frame.svg">
+<h1>GasControl</h1>
+</div>
+
+<nav>
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#sobre">Sobre</a></li>
+<li><a href="#solucao">A solução</a></li>
+<li><a href="#simulador">Simulador</a></li>
+</ul>
+</nav>
+
+<button class="entrar">Entrar</button>
+
+</div>
+</header>
+
+    <main>
+        <div class="text-box">
+            <span>Simulador Financeiro</span>
+            <span>Descubra o potencial de lucro e aumento de produtividade que a GasControl pode trazer para sua
+                estufa!</span>
+        </div>
+
+        <div class="container">
+            <div class="title">
+                <p>Insira seus dados:</p>
+            
+            </div>
+
+            <div class="input">
+                <span>Área da estufa (m²)</span>
+                <input type="number" id="ipt_area_estufa" placeholder="Área da estufa...">
+            </div>
+
+            <div class="input">
+                <span>Quantidade de estufas</span>
+                <input type="number" id="ipt_qtd_estufas" placeholder="Quantidade de estufas...">
+            </div>
+
+            <div class="input">
+                <span>Preço médio de venda (kg)</span>
+                <input type="number" id="ipt_preco_venda" placeholder="Preço médio de venda...">
+            </div>
+
+            <div class="input">
+                <span>Simule as condições da estufa</span>
+                <select id="ipt_nivel_co2">
+                    <option value="400">Baixo</option>
+                    <option value="600">Médio</option>
+                    <option value="900">Alto</option>
+                </select>
+            </div>
+
+            <button class="button" onclick="calc()">Calcular</button>
+        </div>
+    </main>
+
+    <div class="retornos">
+        <div class="text-box">
+            <p>Comparação de resultados</p>
+            <span>Veja a diferença entre operar sem controle adequado de CO₂ e com o GasControl</span>
+        </div>
+    </div>
+    <div id="div_retorno_negativo" class="retorno-negativo">
+        <div class="text">
+            <div class="title">
+                <i class="fa-solid fa-circle-xmark"></i>
+                <p>Sem GasControl</p>
+            </div>
+            <div class="subtitle">
+                <span></span>
+            </div>
+        </div>
+        <div class="retorno"></div>
+    </div>
+
+    <div  class="retorno-positivo">
+        <div class="text">
+            <div class="title">
+                <i class="fa-solid fa-circle-check"></i>
+                <p>Com GasControl</p>
+            </div>
+            <div class="subtitle">
+                <span></span>
+            </div>
+        </div>
+        <div class="retorno"></div>
+    </div>
+    </div>
+
+    <div class="metodologia">
+        <div class="card"></div>
+    </div>
+</body>
+<script src="src/js/script.js"></script>
+
+</html>

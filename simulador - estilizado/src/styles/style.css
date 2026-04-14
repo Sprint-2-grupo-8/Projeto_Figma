@@ -1,0 +1,254 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #f9fafb;
+    color: #111827;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+h1, h2, h3, p, span {
+    letter-spacing: -0.01em;
+}
+
+.text-box {
+    text-align: center;
+    margin: 0 auto 40px auto;
+    max-width: 600px;
+}
+
+.text-box span:first-child {
+    display: block;
+    font-size: 40px;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.2;
+}
+
+.text-box span:last-child {
+    display: block;
+    font-size: 15px;
+    color: #6b7280;
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+
+header {
+    background: white;
+    padding: 20px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 55px;
+}
+
+.logo h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+
+nav ul {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+}
+
+nav ul li {
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+nav ul li:hover {
+    color: #2ecc71;
+}
+
+nav a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.entrar {
+    padding: 10px 26px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    font-size: 18px;
+    cursor: pointer;
+    background: white;
+}
+
+.entrar:hover {
+    border-color: #2ecc71;
+    color: #2ecc71;
+}
+
+/** Layout para telas maiores (deixa um do ladinho do outro)*/
+
+@media (min-width: 1024px) {
+    main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "top top"
+            "left right";
+        gap: 40px;
+        align-items: start;
+    }
+
+    main > .text-box {
+        grid-area: top;
+        justify-self: center;
+    }
+
+    .container {
+        grid-area: left;
+    }
+
+    .retornos,
+    .retorno-negativo,
+    .retorno-positivo {
+        grid-area: right;
+    }
+}
+
+.container {
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid #e5e7eb;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+}
+
+.input span {
+    font-weight: 500;
+}
+
+.input input,
+.input select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+}
+
+/*Deixa a caixa de input verde ao clicar */
+.input input:focus,
+.input select:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+}
+
+.button {
+    width: 100%;
+    background: #16a34a;
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+}
+
+.button:hover {
+    background: #15803d;
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.3);
+}
+
+.retornos {
+    margin-top: 20px;
+}
+
+.retorno-negativo,
+.retorno-positivo {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 16px;
+    background: white;
+    border: 1px solid #e5e7eb;
+}
+
+.retorno-negativo {
+    background: #fef2f2;
+    border-left: 5px solid #dc2626;
+}
+
+.retorno-positivo {
+    background: #f0fdf4;
+    border-left: 5px solid #16a34a;
+}
+
+.text .title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.text .subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 5px;
+}
+
+.retorno {
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #16a34a;
+    border-radius: 10px;
+}
+
+section {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
