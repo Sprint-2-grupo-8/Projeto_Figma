@@ -1,21 +1,22 @@
-
-
-    nav a {
+nav a {
     text-decoration: none;
-    color: inherit;        
+    color: inherit;
 }
+
 html {
     scroll-behavior: smooth;
 }
+
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
 }
 
-footer a{
+footer a {
     text-decoration: none;
-    color: inherit; 
+    color: inherit;
 }
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -25,10 +26,11 @@ footer a{
 .titulo {
     color: #16a34a;
 }
+
 header {
     background: white;
     padding: 20px 0;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 header .container {
@@ -86,7 +88,7 @@ nav ul li:hover {
 
 .hero {
     padding: 100px 0;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .hero .container {
@@ -114,10 +116,10 @@ nav ul li:hover {
 .destaque {
     font-size: 40px;
     background: linear-gradient(90deg, #3d6805, #60da8d);
-    background-clip: text;  
+    background-clip: text;
     -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    
+    -webkit-text-fill-color: transparent;
+
 }
 
 .hero p {
@@ -145,10 +147,12 @@ nav ul li:hover {
     transition: 0.3s;
     box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
 }
-.primary:hover{
+
+.primary:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
+
 .secondary {
     font-family: 'Poppins', sans-serif;
     padding: 14px 80px;
@@ -160,9 +164,10 @@ nav ul li:hover {
     transition: 0.3s;
     cursor: pointer;
 }
-.secondary:hover{
+
+.secondary:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .hero-image {
@@ -191,18 +196,20 @@ nav ul li:hover {
     top: 20px;
     right: 20px;
 }
+
 .card-ppm img {
-   width: 40px;
-   height: 40px;
+    width: 40px;
+    height: 40px;
 }
 
 .card-prod {
     bottom: 20px;
     left: 20px;
 }
+
 .card-prod img {
-   width: 40px;
-   height: 40px;
+    width: 40px;
+    height: 40px;
 }
 
 
@@ -210,14 +217,16 @@ nav ul li:hover {
     display: block;
     padding: 100px 0;
     text-align: center;
-    
-    
+
+
 }
-.features h3{
+
+.features h3 {
     font-size: 24px;
     font-weight: lighter;
     padding-bottom: 20px;
 }
+
 .features h2 {
     font-size: 32px;
     font-weight: 700;
@@ -228,21 +237,21 @@ nav ul li:hover {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 25px;
-    
+
 }
 
 .mini_caixa {
     background: white;
-    padding: 18px ;
+    padding: 18px;
     border-radius: 14px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     transition: 0.3s;
     border: 2px solid #16a34a;
 }
 
 .mini_caixa:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .mini_caixa h3 {
@@ -266,6 +275,7 @@ nav ul li:hover {
     font-size: 32px;
     font-weight: 700;
 }
+
 .como-funciona h3 {
     font-size: 20px;
 }
@@ -288,9 +298,10 @@ nav ul li:hover {
     padding: 25px;
     border-radius: 12px;
     text-align: left;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
-.func-card img{
+
+.func-card img {
     width: 50px;
     height: 70px;
     padding: 10px;
@@ -301,7 +312,7 @@ nav ul li:hover {
     color: white;
     text-align: center;
     padding: 80px 0;
-    
+
 }
 
 .cta h2 {
@@ -326,28 +337,32 @@ nav ul li:hover {
     font-family: 'Poppins', sans-serif;
     font-weight: bolder;
 }
-.cta button:hover{
+
+.cta button:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
+
 footer {
     background: #0f172a;
     color: white;
     padding: 20px 0 20px;
-    
+
 }
 
-.footer{
+.footer {
     display: flex;
     justify-content: space-between;
 }
-.footer_info{
+
+.footer_info {
     display: flex;
     justify-content: center;
     gap: 80px;
-    width: 100%; 
+    width: 100%;
 
 }
+
 footer h4 {
     font-size: 18px;
 }
