@@ -36,7 +36,6 @@ body {
 .top-painel .data{
     display: flex;
     justify-content: center;
-    
     flex-direction: column;
     text-align: center;
 }
@@ -74,6 +73,12 @@ body {
 }
 
 .indicadores .indicador .title {
+    font-size: 1.1em;
+    font-weight: 400;
+    color: rgb(45, 45, 45);
+}
+
+.indicadores-individual .indicador .title {
     font-size: 1.1em;
     font-weight: 400;
     color: rgb(45, 45, 45);
@@ -145,4 +150,40 @@ body {
 
 .legenda-ok {
     color: #059669;
+}
+
+.filtro{
+    display: flex;
+    text-align: center;
+    margin-top: 3vh;
+    gap: 1vw;
+}
+
+.filtro select{
+    width: 10vw;
+    height: 3vh;
+    border-radius: 5px;
+}
+
+.filtro button{
+    width: 8vw;
+    height: 3vh;
+    border-radius: 5px;
+    border: 1px solid gray;
+    background-color: #efefef;
+}
+
+.individual{
+    display: none;
+}
+
+.indicadores-individual {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 5vh;
+    padding: 20px;
+    border-radius: 5px;
+    gap: 4vw;
 }

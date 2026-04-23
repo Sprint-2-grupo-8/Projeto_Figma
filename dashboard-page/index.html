@@ -10,6 +10,9 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.1.0/chartjs-plugin-annotation.min.js"
         integrity="sha512-8MntMizyPIYkcjoDkYqgrQOuWOZsp92zlZ9d7M2RCG0s1Zua8H215p2PdsxS7qg/4hLrHrdPsZgVZpXheHYT+Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -18,15 +21,58 @@
         <div class="text-box">
             <p>Dashboard de monitoramento</p>
             <span>Acompanhe o desempenho de suas estufas</span>
+
+            <div class="filtro">
+                <select id="filter">
+                    <option selected disabled>Filtro</option>
+                    <option value="geral">Visão Geral</option>
+                    <option value="individual">Estufa 1</option>
+                    <option value="individual">Estufa 2</option>
+                    <option value="individual">Estufa 3</option>
+                    <option value="individual">Estufa 4</option>
+                </select>
+
+                <button onclick="filter()">Filtrar</button>
+            </div>
         </div>
         <div class="data">
             <p>Data da análise:</p>
             <span id="data_atual"></span>
         </div>
     </div>
+
+
+    <div class="indicadores-individual">
+        <div class="indicador indicador-ok">
+            <span class="title">Concentração atual de CO₂ (ppm)</span>
+            <img class="icon" src="" alt="">
+
+            <span class="value">655 ppm</span>
+        </div>
+        <div class="indicador indicador-ok">
+            <span class="title">Nível de eficiência (produtividade)</span>
+            <img class="icon" src="" alt="">
+
+            <span class="value">15%</span>
+        </div>
+        <div class="indicador indicador-attention">
+            <span class="title">Alertas da estufa - últimas 24h</span>
+            <img class="icon" src="" alt="">
+
+            <span class="value">01 alertas</span>
+            <span class="legenda legenda-attention">Nível: atenção</span>
+        </div>
+        <div class="indicador indicador-ok">
+            <span class="title">Status estufa</span>
+            <img class="icon 4" src="" alt="">
+
+            <span class="value">CO₂ na faixa ideal</span>
+            <span class="legenda legenda-ok">Faixa ideal: 600 a 900</span>
+        </div>
+    </div>
     <div class="indicadores">
         <div class="indicador indicador-danger">
-            <span class="title">Lucro total</span>
+            <span class="title">Receita total</span>
             <img class="icon" src="" alt="">
 
             <span class="value">R$5098.98</span>
@@ -40,37 +86,37 @@
             <span class="legenda legenda-ok">Meta do mês: 25%</span>
         </div>
         <div class="indicador indicador-attention">
-            <span class="title">Total de alertas - últimas 24h</span>
+            <span class="title">Total de alertas: últimas 24h</span>
             <img class="icon" src="" alt="">
 
             <span class="value">08 alertas</span>
             <span class="legenda legenda-attention">Nível: atenção</span>
         </div>
-        <div class="indicador indicador-danger">
-            <span class="title">Estufas normalizadas</span>
+        <div class="indicador indicador-attention">
+            <span class="title">Alertas estabilizados</span>
             <img class="icon 4" src="" alt="">
 
-            <span class="value">3 / 4</span>
-            <span class="legenda legenda-danger">Estufa 2 em alerta</span>
+            <span class="value">05 alertas</span>
+            <span class="legenda legenda-attention">Há 3 alertas pendentes</span>
         </div>
     </div>
 
     <div class="graficos">
-        <div class="grafico">
-            <p>Média de CO2 ao longo do dia em intervalos de 4h</p>
-            <canvas id="indice_estufas_24h"></canvas>
-        </div>
-        <div class="grafico">
+        <!-- <div class="grafico">
             <p>Índice atual de CO2 em ppm de cada estufa</p>
             <canvas id="indice_estufas"></canvas>
-        </div>
-        <div class="grafico">
-            <p>Média de produtividade dos últimos 12 meses</p>
+        </div>  -->
+        <div class="grafico geral">
+            <p>Média de produtividade em porcentagem dos últimos 12 meses (em relação ao índice de ppm)</p>
             <canvas id="produtividade_meses"></canvas>
         </div>
-        <div class="grafico">
+        <div class="grafico geral">
             <p>Percentual do total de registros normalizados x em alerta das últimas 24h</p>
             <canvas id="percentual_registros"></canvas>
+        </div>
+        <div class="grafico individual">
+            <p>Média de CO2 ao longo do dia em intervalos de 4h</p>
+            <canvas id="indice_estufa_24h"></canvas>
         </div>
     </div>
 
@@ -81,12 +127,48 @@
 
     document.getElementById('data_atual').innerText = data_formatada;
 
-    const estufas_label = [
-        'Estufa 1',
-        'Estufa 2',
-        'Estufa 3',
-        'Estufa 4'
-    ];
+    const grafico_geral = document.querySelectorAll('.geral');
+    const grafico_individual = document.querySelectorAll('.individual');
+    const indicadores_gerais = document.querySelector('.indicadores');
+    const indicadores_individuais = document.querySelector('.indicadores-individual');
+
+    function filter() {
+        let tipo_dash = document.getElementById('filter');
+
+        if (tipo_dash.value === 'geral') {
+
+            for (let i = 0; i < grafico_geral.length; i++) {
+                grafico_geral[i].style.display = 'flex';
+            }
+
+            for (let i = 0; i < grafico_individual.length; i++) {
+                grafico_individual[i].style.display = 'none';
+            }
+
+            indicadores_gerais.style.display = 'flex';
+            indicadores_individuais.style.display = 'none';
+
+        } else if (tipo_dash.value === 'individual') {
+
+            for (let i = 0; i < grafico_geral.length; i++) {
+                grafico_geral[i].style.display = 'none';
+            }
+
+            for (let i = 0; i < grafico_individual.length; i++) {
+                grafico_individual[i].style.display = 'flex';
+            }
+
+            indicadores_gerais.style.display = 'none';
+            indicadores_individuais.style.display = 'flex';
+        }
+    }
+
+    // const estufas_label = [
+    //     'Estufa 1',
+    //     'Estufa 2',
+    //     'Estufa 3',
+    //     'Estufa 4'
+    // ];
 
     const periodo_label = [
         '00:00',
@@ -117,85 +199,67 @@
         'Dec'
     ];
 
-    const bar_data = {
-        labels: estufas_label,
-        datasets: [{
-            label: 'Índice de CO2 em ppm',
-            backgroundColor: 'pink',
-            borderColor: 'pink',
-            data: [550, 600, 800, 400],
-        }]
-    };
+    // const bar_data = {
+    //     labels: estufas_label,
+    //     datasets: [{
+    //         label: 'Índice de CO2 em ppm',
+    //         backgroundColor: 'pink',
+    //         borderColor: 'pink',
+    //         data: [550, 600, 800, 400],
+    //     }]
+    // };
 
-    const bar_config = {
-        type: 'bar',
-        data: bar_data,
-        options: {
-            scales: {
-                y: {
-                    min: 0,
-                    max: 1400,
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                annotation: {
-                    annotations: {
-                        faixa_ideal: {
-                            type: 'box',
-                            yMin: 600,
-                            yMax: 900,
-                            backgroundColor: 'rgba(0, 255, 0, 0.1)',
-                            label: {
-                                display: true,
-                                content: 'Faixa ideal',
-                                position: 'center',
-                                color: 'black'
-                            }
-                        },
-                        faixa_ok: {
-                            type: 'box',
-                            yMin: 400,
-                            yMax: 1100,
-                            backgroundColor: 'rgba(255, 205, 86, 0.15)',
-                            label: {
-                                display: true,
-                                content: 'Faixa ok',
-                                position: 'start',
-                                color: 'black'
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
+    // const bar_config = { 
+    //     type: 'bar',
+    //     data: bar_data,
+    //     options: {
+    //         scales: {
+    //             y: {
+    //                 min: 0,
+    //                 max: 1400,
+    //                 beginAtZero: true
+    //             }
+    //         },
+    //         plugins: {
+    //             annotation: {
+    //                 annotations: {
+    //                     faixa_ideal: {
+    //                         type: 'box',
+    //                         yMin: 600,
+    //                         yMax: 900,
+    //                         backgroundColor: 'rgba(0, 255, 0, 0.1)',
+    //                         label: {
+    //                             display: true,
+    //                             content: 'Faixa ideal',
+    //                             position: 'center',
+    //                             color: 'black'
+    //                         }
+    //                     },
+    //                     faixa_ok: {
+    //                         type: 'box',
+    //                         yMin: 400,
+    //                         yMax: 1100,
+    //                         backgroundColor: 'rgba(255, 205, 86, 0.15)',
+    //                         label: {
+    //                             display: true,
+    //                             content: 'Faixa ok',
+    //                             position: 'start',
+    //                             color: 'black'
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // };
 
     const line_data = {
         labels: periodo_label,
         datasets: [{
             label: 'Estufa 1',
-            backgroundColor: 'purple',
-            borderColor: 'purple',
-            data: [550, 400, 500, 1000, 1200, 800],
-        },
-        {
-            label: 'Estufa 2',
             backgroundColor: 'blue',
             borderColor: 'blue',
-            data: [550, 200, 300, 350, 500, 550],
-        },
-        {
-            label: 'Estufa 3',
-            backgroundColor: 'green',
-            borderColor: 'green',
-            data: [550, 500, 400, 350, 590, 700],
-        },
-        {
-            label: 'Estufa 4',
-            backgroundColor: 'orange',
-            borderColor: 'orange',
-            data: [800, 750, 790, 800, 600, 750],
+            data: [550, 400, 500, 1000, 1200, 800],
         }
         ]
     };
@@ -260,14 +324,13 @@
         options: {
             responsive: false
         }
-    }
+    };
 
     const bar_two_data = {
         labels: produtividade_label,
         datasets: [{
             label: 'Média de produtividade',
-            backgroundColor: 'rgb(255, 205, 86)',
-            borderColor: 'rgb(255, 205, 86)',
+            backgroundColor: '#10b981',
             data: [30, 40, 50, 20, 50, 55, 10, 34, 89, 67, 43, 59],
         }]
     };
@@ -282,16 +345,17 @@
                     max: 100,
                     beginAtZero: true
                 }
+
             }
         }
     };
 
-    const indice_estufas = new Chart(
-        document.getElementById('indice_estufas'),
-        bar_config
-    );
-    const indice_estufas_24h = new Chart(
-        document.getElementById('indice_estufas_24h'),
+    // const indice_estufas = new Chart(
+    //     document.getElementById('indice_estufas'),
+    //     bar_config
+    // );
+    const indice_estufa_24h = new Chart(
+        document.getElementById('indice_estufa_24h'),
         line_config
     );
     const percentual_registros = new Chart(
