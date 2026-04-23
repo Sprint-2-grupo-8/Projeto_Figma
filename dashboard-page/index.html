@@ -102,10 +102,6 @@
     </div>
 
     <div class="graficos">
-        <!-- <div class="grafico">
-            <p>Índice atual de CO2 em ppm de cada estufa</p>
-            <canvas id="indice_estufas"></canvas>
-        </div>  -->
         <div class="grafico geral">
             <p>Média de produtividade em porcentagem dos últimos 12 meses (em relação ao índice de ppm)</p>
             <canvas id="produtividade_meses"></canvas>
@@ -117,6 +113,10 @@
         <div class="grafico individual">
             <p>Média de CO2 ao longo do dia em intervalos de 4h</p>
             <canvas id="indice_estufa_24h"></canvas>
+        </div>
+        <div class="grafico individual">
+            <p>Padrão de distribuição do CO₂ ao longo do dia</p>
+            <canvas id="grafico_dispersao"></canvas>
         </div>
     </div>
 
@@ -163,13 +163,6 @@
         }
     }
 
-    // const estufas_label = [
-    //     'Estufa 1',
-    //     'Estufa 2',
-    //     'Estufa 3',
-    //     'Estufa 4'
-    // ];
-
     const periodo_label = [
         '00:00',
         '04:00',
@@ -199,59 +192,86 @@
         'Dec'
     ];
 
-    // const bar_data = {
-    //     labels: estufas_label,
-    //     datasets: [{
-    //         label: 'Índice de CO2 em ppm',
-    //         backgroundColor: 'pink',
-    //         borderColor: 'pink',
-    //         data: [550, 600, 800, 400],
-    //     }]
-    // };
+    const scatter_data = {
+        datasets: [{
+            label: 'Concentração de CO₂ (ppm)',
+            backgroundColor: '#10b981',
+            pointRadius: 6,
+            data: [
+            { x: '00h', y: 550 },
+            { x: '01h', y: 600 },
+            { x: '02h', y: 800 },
+            { x: '03h', y: 400 },
+            { x: '04h', y: 500 },
+            { x: '05h', y: 650 },
+            { x: '06h', y: 700 },
+            { x: '07h', y: 750 },
+            { x: '08h', y: 820 },
+            { x: '09h', y: 900 },
+            { x: '10h', y: 1000 },
+            { x: '11h', y: 950 },
+            { x: '12h', y: 1100 },
+            { x: '13h', y: 1050 },
+            { x: '14h', y: 980 },
+            { x: '15h', y: 920 },
+            { x: '16h', y: 880 },
+            { x: '17h', y: 860 },
+            { x: '18h', y: 800 },
+            { x: '19h', y: 780 },
+            { x: '20h', y: 700 },
+            { x: '21h', y: 680 },
+            { x: '22h', y: 650 },
+            { x: '23h', y: 620 }
+        ]
+        }]
+    };
 
-    // const bar_config = { 
-    //     type: 'bar',
-    //     data: bar_data,
-    //     options: {
-    //         scales: {
-    //             y: {
-    //                 min: 0,
-    //                 max: 1400,
-    //                 beginAtZero: true
-    //             }
-    //         },
-    //         plugins: {
-    //             annotation: {
-    //                 annotations: {
-    //                     faixa_ideal: {
-    //                         type: 'box',
-    //                         yMin: 600,
-    //                         yMax: 900,
-    //                         backgroundColor: 'rgba(0, 255, 0, 0.1)',
-    //                         label: {
-    //                             display: true,
-    //                             content: 'Faixa ideal',
-    //                             position: 'center',
-    //                             color: 'black'
-    //                         }
-    //                     },
-    //                     faixa_ok: {
-    //                         type: 'box',
-    //                         yMin: 400,
-    //                         yMax: 1100,
-    //                         backgroundColor: 'rgba(255, 205, 86, 0.15)',
-    //                         label: {
-    //                             display: true,
-    //                             content: 'Faixa ok',
-    //                             position: 'start',
-    //                             color: 'black'
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // };
+    const scatter_config = {
+        type: 'scatter',
+        data: scatter_data,
+        options: {
+            scales: {
+                y: {
+                    min: 0,
+                    max: 1400,
+                    beginAtZero: true
+                },
+                x:{
+                    type: 'category'
+                }
+            },
+                        plugins: {
+                annotation: {
+                    annotations: {
+                        faixa_ideal: {
+                            type: 'box',
+                            yMin: 600,
+                            yMax: 900,
+                            backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                            label: {
+                                display: true,
+                                content: 'Faixa ideal',
+                                position: 'center',
+                                color: 'black'
+                            }
+                        },
+                        faixa_ok: {
+                            type: 'box',
+                            yMin: 400,
+                            yMax: 1100,
+                            backgroundColor: 'rgba(255, 205, 86, 0.15)',
+                            label: {
+                                display: true,
+                                content: 'Faixa ok',
+                                position: 'start',
+                                color: 'black'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
 
     const line_data = {
         labels: periodo_label,
@@ -345,15 +365,14 @@
                     max: 100,
                     beginAtZero: true
                 }
-
-            }
+            },
         }
     };
 
-    // const indice_estufas = new Chart(
-    //     document.getElementById('indice_estufas'),
-    //     bar_config
-    // );
+    const variacao_co2 = new Chart(
+        document.getElementById('grafico_dispersao'),
+        scatter_config
+    );
     const indice_estufa_24h = new Chart(
         document.getElementById('indice_estufa_24h'),
         line_config
