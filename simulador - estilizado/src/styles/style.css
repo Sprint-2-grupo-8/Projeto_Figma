@@ -101,9 +101,7 @@ nav a {
     color: #2ecc71;
 }
 
-/** Layout para telas maiores (deixa um do ladinho do outro)*/
-
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
     main {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -128,7 +126,7 @@ nav a {
     .retorno-positivo {
         grid-area: right;
     }
-}
+} */
 
 .container {
     background: white;
@@ -157,7 +155,6 @@ nav a {
     outline: none;
 }
 
-/*Deixa a caixa de input verde ao clicar */
 .input input:focus,
 .input select:focus {
     border-color: #16a34a;
