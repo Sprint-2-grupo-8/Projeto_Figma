@@ -12,6 +12,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -50,7 +53,7 @@
             <span class="value">655 ppm</span>
         </div>
         <div class="indicador indicador-ok">
-            <span class="title">Nível de eficiência (produtividade)</span>
+            <span class="title">Nível de eficiência atual (produtividade)</span>
             <img class="icon" src="" alt="">
 
             <span class="value">15%</span>
@@ -120,6 +123,46 @@
         </div>
     </div>
 
+    <div class="painel-container">
+        <div class="painel-alertas">
+            <div class="texto-painel">
+                <span>Painel de alertas</span>
+                <p>Últimas 24h</p>
+            </div>
+            <div class="notificacoes">
+                <div class="notificacao yellow">
+                    <div class="descricao">
+                        <span class="estufa">Atenção: estufa 2 na faixa intermediária</span>
+                        <span class="horario">Há 2 horas</span>
+                    </div>
+                    <div class="buttons">
+                        <button id="update_alerta"><i class="fa-solid fa-circle-check"></i></button>
+                        <button id="delete_alerta"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="notificacao red">
+                    <div class="descricao">
+                        <span class="estufa">Atenção: estufa 3 na faixa de perigo</span>
+                        <span class="horario">Há 20 minutos</span>
+                    </div>
+                    <div class="buttons">
+                        <button id="update_alerta"><i class="fa-solid fa-circle-check"></i></button>
+                        <button id="delete_alerta"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="notificacao green">
+                    <div class="descricao">
+                        <span class="estufa">Estufa 1 normalizada</span>
+                        <span class="horario">Há 7 horas</span>
+                    </div>
+                    <div class="buttons">
+                        <button id="update_alerta"><i class="fa-solid fa-circle-check"></i></button>
+                        <button id="delete_alerta"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     let data_atual = new Date();
@@ -198,31 +241,31 @@
             backgroundColor: '#10b981',
             pointRadius: 6,
             data: [
-            { x: '00h', y: 550 },
-            { x: '01h', y: 600 },
-            { x: '02h', y: 800 },
-            { x: '03h', y: 400 },
-            { x: '04h', y: 500 },
-            { x: '05h', y: 650 },
-            { x: '06h', y: 700 },
-            { x: '07h', y: 750 },
-            { x: '08h', y: 820 },
-            { x: '09h', y: 900 },
-            { x: '10h', y: 1000 },
-            { x: '11h', y: 950 },
-            { x: '12h', y: 1100 },
-            { x: '13h', y: 1050 },
-            { x: '14h', y: 980 },
-            { x: '15h', y: 920 },
-            { x: '16h', y: 880 },
-            { x: '17h', y: 860 },
-            { x: '18h', y: 800 },
-            { x: '19h', y: 780 },
-            { x: '20h', y: 700 },
-            { x: '21h', y: 680 },
-            { x: '22h', y: 650 },
-            { x: '23h', y: 620 }
-        ]
+                { x: '00h', y: 550 },
+                { x: '01h', y: 600 },
+                { x: '02h', y: 800 },
+                { x: '03h', y: 400 },
+                { x: '04h', y: 500 },
+                { x: '05h', y: 650 },
+                { x: '06h', y: 700 },
+                { x: '07h', y: 750 },
+                { x: '08h', y: 820 },
+                { x: '09h', y: 900 },
+                { x: '10h', y: 1000 },
+                { x: '11h', y: 950 },
+                { x: '12h', y: 1100 },
+                { x: '13h', y: 1050 },
+                { x: '14h', y: 980 },
+                { x: '15h', y: 920 },
+                { x: '16h', y: 880 },
+                { x: '17h', y: 860 },
+                { x: '18h', y: 800 },
+                { x: '19h', y: 780 },
+                { x: '20h', y: 700 },
+                { x: '21h', y: 680 },
+                { x: '22h', y: 650 },
+                { x: '23h', y: 620 }
+            ]
         }]
     };
 
@@ -236,11 +279,11 @@
                     max: 1400,
                     beginAtZero: true
                 },
-                x:{
+                x: {
                     type: 'category'
                 }
             },
-                        plugins: {
+            plugins: {
                 annotation: {
                     annotations: {
                         faixa_ideal: {
