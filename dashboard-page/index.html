@@ -48,17 +48,17 @@
     <div class="indicadores-individual">
         <div class="indicador indicador-ok">
             <span class="title">Concentração atual de CO₂ (ppm)</span>
-            
+
             <span class="value">655 ppm</span>
         </div>
         <div class="indicador indicador-ok">
             <span class="title">Nível de eficiência atual (produtividade)</span>
-            
+
             <span class="value">15%</span>
         </div>
         <div class="indicador indicador-attention">
             <span class="title">Alertas da estufa - últimas 24h</span>
-            
+
             <span class="value">01 alertas</span>
             <span class="legenda legenda-attention">Nível: atenção</span>
         </div>
@@ -73,19 +73,19 @@
     <div class="indicadores">
         <div class="indicador indicador-danger">
             <span class="title">Tempo fora da faixa: últimas 24h</span>
-            
+
             <span class="value">5 horas</span>
             <span class="legenda legenda-danger">Muito instável</span>
         </div>
         <div class="indicador indicador-ok">
             <span class="title">Produtividade Total</span>
-            
+
             <span class="value">35%</span>
             <span class="legenda legenda-ok">Meta do mês: 25%</span>
         </div>
         <div class="indicador indicador-attention">
             <span class="title">Total de alertas: últimas 24h</span>
-            
+
             <span class="value">08 alertas</span>
             <span class="legenda legenda-attention">Nível: atenção</span>
         </div>
@@ -93,8 +93,8 @@
             <span class="title">Alertas estabilizados</span>
             <img class="icon 4" src="" alt="">
 
-            <span class="value">05 alertas</span>
-            <span class="legenda legenda-attention">Há 3 alertas pendentes</span>
+            <span class="value">06 alertas</span>
+            <span class="legenda legenda-attention">Há 2 alertas pendentes</span>
         </div>
     </div>
 
@@ -121,33 +121,36 @@
         <div class="painel-alertas">
             <div class="titulo-painel">
                 <div class="texto-painel">
-                    <span>Painel de alertas - Últimas 24h</span>
-                    <p>Âncoras: abaixo de 400 ppm & acima de 900 ppm</p>
+                    <span>Painel de alertas - Últimos 7 dias</span>
+                    <p>Você será alertado quando: CO2 abaixo de 400 ppm ou acima de 900 ppm</p>
                 </div>
                 <div class="texto-painel">
                     <div class="config-button">
-                        <button id="update_ancora" onclick="atualizarAncora()"><img src="engrenagem.svg" alt=""></button>
+                        <button id="update_ancora" onclick="atualizarAncora()"><img src="engrenagem.svg"
+                                alt=""></button>
                     </div>
                 </div>
             </div>
             <div class="notificacoes">
-                <div class="notificacao yellow">
+                <div class="notificacao red">
                     <div class="descricao">
-                        <span class="estufa">Atenção: estufa 2 na faixa intermediária</span>
+                        <span class="estufa">Atenção: estufa 2 acima do limite</span>
                         <span class="horario">Há 2 horas</span>
                     </div>
                     <div class="buttons">
                         <button id="update_alerta"><img src="check.svg" alt=""></button>
+                        <button id="delete_alerta"><img src="delete.svg" alt=""></button>
 
                     </div>
                 </div>
                 <div class="notificacao red">
                     <div class="descricao">
-                        <span class="estufa">Atenção: estufa 3 na faixa de perigo</span>
+                        <span class="estufa">Atenção: estufa 3 abaixo do limite</span>
                         <span class="horario">Há 20 minutos</span>
                     </div>
                     <div class="buttons">
                         <button id="update_alerta"><img src="check.svg" alt=""></button>
+                        <button id="delete_alerta"><img src="delete.svg" alt=""></button>
 
                     </div>
                 </div>
@@ -158,6 +161,7 @@
                     </div>
                     <div class="buttons">
                         <button id="update_alerta"><img src="check.svg" alt=""></button>
+                        <button id="delete_alerta"><img src="delete.svg" alt=""></button>
 
                     </div>
                 </div>
@@ -173,7 +177,41 @@
 
             <div class="input">
                 <p>Selecione um setor</p>
-                <select  id="setor">
+                <select id="setor">
+                    <option disabled selected>Setores</option>
+                    <option>Setor A</option>
+                    <option>Setor B</option>
+                    <option>Setor C</option>
+                </select>
+            </div>
+
+            <div class="input">
+                <p>Digite o valor mínimo para alerta</p>
+                <input type="number" placeholder="Min para alerta">
+            </div>
+            <div class="input">
+                <p>Digite o valor máximo para alerta</p>
+                <input type="number" placeholder="Máx para alerta">
+            </div>
+
+            <div class="btn-update">
+                <button onclick="fecharPopup()">Atualizar</button>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="ancora-popup" id="popup">
+        <div class="content">
+            <div class="texto">
+                <span>Atualize as âncoras</span>
+            </div>
+
+            <div class="input">
+                <p>Selecione um setor</p>
+                <select id="setor">
                     <option disabled selected>Setores</option>
                     <option>Setor A</option>
                     <option>Setor B</option>
@@ -210,12 +248,12 @@
     const indicadores_gerais = document.querySelector('.indicadores');
     const indicadores_individuais = document.querySelector('.indicadores-individual');
     const popup = document.getElementById('popup');
-    
-    function atualizarAncora(){
+
+    function atualizarAncora() {
         popup.style.display = "flex";
     }
 
-    function fecharPopup(){
+    function fecharPopup() {
         popup.style.display = "none";
     }
 
