@@ -125,9 +125,16 @@
 
     <div class="painel-container">
         <div class="painel-alertas">
-            <div class="texto-painel">
-                <span>Painel de alertas</span>
-                <p>Últimas 24h</p>
+            <div class="titulo-painel">
+                <div class="texto-painel">
+                    <span>Painel de alertas - Últimas 24h</span>
+                    <p>Âncoras: >400 & <900</p>
+                </div>
+                <div class="texto-painel">
+                    <div class="config-button">
+                        <button id="update_ancora" onclick="atualizarAncora()"><i class="fa-solid fa-gear"></i></button>
+                    </div>
+                </div>
             </div>
             <div class="notificacoes">
                 <div class="notificacao yellow">
@@ -137,7 +144,7 @@
                     </div>
                     <div class="buttons">
                         <button id="update_alerta"><i class="fa-solid fa-circle-check"></i></button>
-                        <button id="delete_alerta"><i class="fa-solid fa-trash"></i></button>
+
                     </div>
                 </div>
                 <div class="notificacao red">
@@ -147,7 +154,7 @@
                     </div>
                     <div class="buttons">
                         <button id="update_alerta"><i class="fa-solid fa-circle-check"></i></button>
-                        <button id="delete_alerta"><i class="fa-solid fa-trash"></i></button>
+
                     </div>
                 </div>
                 <div class="notificacao green">
@@ -157,12 +164,35 @@
                     </div>
                     <div class="buttons">
                         <button id="update_alerta"><i class="fa-solid fa-circle-check"></i></button>
-                        <button id="delete_alerta"><i class="fa-solid fa-trash"></i></button>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="ancora-popup" id="popup">
+        <div class="content">
+            <div class="texto">
+                <span>Atualize as âncoras</span>
+            </div>
+
+            <div class="input">
+                <p>Digite o valor mínimo para alerta</p>
+                <input type="number" placeholder="Min para alerta">
+            </div>
+            <div class="input">
+                <p>Digite o valor máximo para alerta</p>
+                <input type="number" placeholder="Máx para alerta">
+            </div>
+
+            <div class="btn-update">
+                <button onclick="fecharPopup()">Atualizar</button>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 <script>
     let data_atual = new Date();
@@ -170,10 +200,20 @@
 
     document.getElementById('data_atual').innerText = data_formatada;
 
+    //o querySelectorAll retorna uma lista de todos os elementos que possuem a determinada classe
     const grafico_geral = document.querySelectorAll('.geral');
     const grafico_individual = document.querySelectorAll('.individual');
     const indicadores_gerais = document.querySelector('.indicadores');
     const indicadores_individuais = document.querySelector('.indicadores-individual');
+    const popup = document.getElementById('popup');
+    
+    function atualizarAncora(){
+        popup.style.display = "flex";
+    }
+
+    function fecharPopup(){
+        popup.style.display = "none";
+    }
 
     function filter() {
         let tipo_dash = document.getElementById('filter');
@@ -205,6 +245,7 @@
             indicadores_individuais.style.display = 'flex';
         }
     }
+
 
     const periodo_label = [
         '00:00',
