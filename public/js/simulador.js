@@ -4,7 +4,7 @@
     // Média do ciclo de cultivo: 70 dias - fonte: https://www.embrapa.br/agencia-de-informacao-tecnologica/cultivos/morango/producao/colheita
     // Produtividade média por muda em 1 ciclo: 1kg - fonte: https://blog.epagri.sc.gov.br/morango-semi-hidroponico-sc/#:~:text=A%20produtividade%20m%C3%A9dia%20alcan%C3%A7ou%201kg,1.500kg/ciclo/ano.
     // Percentual de aumento médio do peso do fruto dentro faixa ideal de CO2 (600 a 900): aproximadamente 7,50% - fonte: EFFECT OF CO2 ENRICHMENT ON GREENHOUSE GROWN STRAWBERRY F. Lieten National Research Centre for Strawberries, Proefbedrijf der Noorderkempen (IWONL), Voort 71, 2328 Meerle, Belgium
-    // Índice médio de produtividade dentro do aceitável (400 a 900): nivel baixo (400) => 7% | nivel médio (600) 15% | nível alto (900) => 25% - fonte: https://ishs.org/ishs-article/439_98/
+    // Índice médio de produtividade dentro do aceitável (400 a 900): nivel baixo (400) => 7% | nivel médio (600) => 15% | nível alto (900) => 25% - fonte: https://ishs.org/ishs-article/439_98/
 
 
     function calc() {
