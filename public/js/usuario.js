@@ -1,11 +1,11 @@
 
-let email_padrao = "mateus@email.com";
+let email_padrao = "brandao@email.com";
 let senha_padrao = "urubu100";
 let funcionario_padrao = "Miguel";
 let perm_funcionario_padrao = 1;
 let nome_estufa_padrao = "moranguinho"
-let min_ppm_padrao = 800
-let max_ppm_padrao = 1200
+let min_ppm_padrao = 600
+let max_ppm_padrao = 900
 
 let emails = [email_padrao];
 let senhas = [senha_padrao];
@@ -79,7 +79,7 @@ function logar() {
 
     for (let i = 0; i < emails.length; i++) {
         if (email_login === emails[i] && senha_login === senhas[i]) {
-            window.location.href = "Dashes.html" // simula oq acontecerá se logar
+            window.location = "./dashboard.html" // simula oq acontecerá se logar
             logou = true
 
         }
@@ -90,10 +90,9 @@ function logar() {
     }
 }
 
-
 function ir_login() {
-    window.location.href = "login.html"
+    window.location.href = "./login.html"
 }
 function ir_cadastro() {
-    window.location.href = "cadastro.html"
+    window.location.href = "./cadastro.html"
 }
