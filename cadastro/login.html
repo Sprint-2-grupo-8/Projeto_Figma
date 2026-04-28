@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="page-center">
+
+    <div class="form-card">
+
+        <h1 class="titulo">Login</h1>
+
+        <input type="email" id="ipt_email" placeholder="Digite seu email">
+        <input type="password" id="ipt_senha" placeholder="Digite sua senha">
+
+        <div id="confirmacao_login" class="vermelho bold"></div>
+
+        <div class="form-actions">
+            <button class="primary" onclick="logar()">Entrar</button>
+            <button class="secondary" onclick="ir_cadastro()">Criar conta</button>
+        </div>
+
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>
