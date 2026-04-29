@@ -1,49 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
     <link rel="stylesheet" href="styles/usuario.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/global.css">
 </head>
-<body class="page-center">
 
-    <div class="form-card">
+<body>
+    <header>
+        <div class="container">
 
-        <h1 class="titulo">Cadastro</h1>
+            <div class="logo">
+                <img src="assets/img/Frame.svg">
+                <h1>GasControl</h1>
+            </div>
 
-        <h3>Empresa</h3>
-        <input type="text" id="ipt_nome" placeholder="Nome da empresa">
-        <input type="email" id="ipt_email_criado" placeholder="Email">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="simulador.html">Simulador</a></li>
+                </ul>
+            </nav>
 
-        <h3>Funcionário</h3>
-        <input type="text" id="ipt_funcionario" placeholder="Nome do funcionário">
-        <select id="tipo_usuario">
-            <option value="0">Funcionário comum</option>
-            <option value="1">Administrador</option>
-        </select>
-        <button class="primary" onclick="cadastrarfunc()">Adicionar funcionário</button>
+            <button class="entrar" onclick="mudarJanela('./login.html')">Entrar</button>
 
-        <h3>Estufa</h3>
-        <input type="text" id="ipt_estufa" placeholder="Nome da estufa">
-        <input type="text" id="ipt_minimo" placeholder="PPM mínimo">
-        <input type="text" id="ipt_max" placeholder="PPM máximo">
-        <button class="primary" onclick="cadastrarestufa()">Adicionar estufa</button>
-
-        <h3>Senha</h3>
-        <input type="password" id="ipt_senha_criada" placeholder="Senha">
-        <input type="password" id="ipt_c_senha" placeholder="Confirmar senha">
-
-        <div id="confirmacao_senha" class="vermelho bold"></div>
-
-        <div class="form-actions">
-            <button class="primary" onclick="cadastrar()">Finalizar cadastro</button>
-            <button class="secondary" onclick="ir_login()">Já tenho conta</button>
         </div>
+    </header>
 
+    <div class="page-center">
+        <div class="form-card">
+
+            <h1 class="titulo">Cadastro</h1>
+
+            <h3>Empresa</h3>
+            <input type="text" id="ipt_nome" placeholder="Nome da empresa">
+            <input type="email" id="ipt_email_criado" placeholder="Email">
+
+            <h3>Funcionário</h3>
+            <input type="text" id="ipt_funcionario" placeholder="Nome do funcionário">
+            <select id="tipo_usuario">
+                <option value="0">Funcionário comum</option>
+                <option value="1">Administrador</option>
+            </select>
+            <button class="primary" onclick="cadastrarfunc()">Adicionar funcionário</button>
+
+            <h3>Estufa</h3>
+            <input type="text" id="ipt_estufa" placeholder="Nome da estufa">
+            <input type="text" id="ipt_minimo" placeholder="PPM mínimo">
+            <input type="text" id="ipt_max" placeholder="PPM máximo">
+            <button class="primary" onclick="cadastrarestufa()">Adicionar estufa</button>
+
+            <h3>Senha</h3>
+            <input type="password" id="ipt_senha_criada" placeholder="Senha">
+            <input type="password" id="ipt_c_senha" placeholder="Confirmar senha">
+
+            <div id="confirmacao_senha" class="vermelho bold"></div>
+
+            <div class="form-actions">
+                <button class="primary" onclick="cadastrar()">Finalizar cadastro</button>
+                <button class="secondary" onclick="ir_login()">Já tenho conta</button>
+            </div>
+
+        </div>
     </div>
 
     <script src="js/usuario.js"></script>
 </body>
+
 </html>

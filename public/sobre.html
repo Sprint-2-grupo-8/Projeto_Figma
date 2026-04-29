@@ -5,34 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sobre Nós - GasControl</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="styles/sobre.css">
+<link rel="stylesheet" href="styles/global.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
 
-<header>
-<div class="container">
+  <header>
+        <div class="container">
 
-<div class="logo">
-<img src="img/Frame.svg">
-<h1>GasControl</h1>
-</div>
+            <div class="logo">
+                <img src="assets/img/Frame.svg">
+                <h1>GasControl</h1>
+            </div>
 
-<nav>
-<ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="index.html#solucao">A solução</a></li>
-<li><a href="sobre.html">Sobre Nós</a></li>
-<li><a href="index.html#simulador">Simulador</a></li>
-</ul>
-</nav>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="simulador.html">Simulador</a></li>
+                </ul>
+            </nav>
 
-<button class="entrar">Entrar</button>
+            <button class="entrar" onclick="mudarJanela('./login.html')">Entrar</button>
 
-</div>
-</header>
+        </div>
+    </header>
 
 
 <section class="sobre">
@@ -102,41 +102,42 @@
 </section>
 
 <footer>
-<div class="container">
+        <div class="container">
 
-<div class="logo">
-<img src="img/Frame.svg">
-<h1>GasControl</h1>
-</div>
+            <div class="logo">
+                <img src="assets/img/Frame.svg">
+                <h1>GasControl</h1>
+            </div>
 
-<hr>
+            <hr>
+            <div class="container footer">
 
-<div class="container footer">
 
-<div class="footer_info">
 
-<div>
-<h4>Seções</h4>
-<p><a href="index.html">Home</a></p>
-<p><a href="sobre.html">Sobre</a></p>
-<p><a href="index.html#solucao">A solução</a></p>
-</div>
+                <div class="footer_info">
+                    <div>
 
-<div>
-<h4>Contato</h4>
-<p>contato@gascontrol.com</p>
-<p>(11) 99999-9999</p>
-<p>São Paulo, SP</p>
-</div>
+                        <h4>Seções</h4>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="sobre.html">Sobre</a></li>
+                        <li><a href="simulador.html">Simulador</a></li>
+                        <li><a href="login.html">Entrar</a></li>
+                        
+                    </div>
 
-</div>
-</div>
+                    <div>
+                        <h4>Contato</h4>
+                        <p>contato@gascontrol.com</p>
+                        <p>(11) 99999-9999</p>
+                        <p>São Paulo, SP</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
 
-<hr>
-
-<p class="copy">© 2026 GasControl. Todos os direitos reservados.</p>
-
-</footer>
+            <p class="copy">© 2026 GasControl. Todos os direitos reservados.</p>
+    </footer>
 
 </body>
+<script src="js/janela.js"></script>
 </html>
