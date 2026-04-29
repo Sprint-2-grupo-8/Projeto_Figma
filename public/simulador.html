@@ -38,83 +38,90 @@
         </div>
     </header>
 
-    <main>
-        <div class="text-box">
-            <span>Simulador Financeiro</span>
-            <span>Descubra o potencial de lucro e aumento de produtividade que a GasControl pode trazer para sua
-                estufa!</span>
+    <main class="simulador-main">
+        <div class="simulador-header">
+            <div class="icon-circle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#0CA554" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="32" height="32"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16.01" y2="14"></line><line x1="12" y1="14" x2="12.01" y2="14"></line><line x1="8" y1="14" x2="8.01" y2="14"></line><line x1="16" y1="18" x2="16.01" y2="18"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="8" y1="18" x2="8.01" y2="18"></line><line x1="16" y1="10" x2="16.01" y2="10"></line><line x1="12" y1="10" x2="12.01" y2="10"></line><line x1="8" y1="10" x2="8.01" y2="10"></line></svg>
+            </div>
+            <h2>Calculadora Financeira</h2>
+            <p>Descubra quanto sua estufa está perdendo sem monitoramento adequado de CO₂ e quanto você pode economizar com o GasControl</p>
         </div>
 
-        <div class="container-simulador">
-            <div class="title">
-                <p>Insira seus dados:</p>
+        <div class="simulador-grid">
+            <!-- Esquerda: Inputs -->
+            <div class="simulador-card">
+                <h3 class="card-title">Dados da Sua Estufa</h3>
+                
+                <div class="form-group">
+                    <label>Área da Estufa (m²)</label>
+                    <input type="number" id="ipt_area_estufa" placeholder="Ex: 500">
+                </div>
 
+                <div class="form-group">
+                    <label>Quantidade de estufas</label>
+                    <input type="number" id="ipt_qtd_estufas" placeholder="Ex: 2">
+                </div>
+
+                <div class="form-group">
+                    <label>Preço de Venda do Morango (R$/kg)</label>
+                    <input type="number" id="ipt_preco_venda" placeholder="Ex: 15.00">
+                </div>
+
+                <div class="form-group">
+                    <label>Simule as condições da estufa</label>
+                    <select id="ipt_nivel_co2">
+                        <option value="400">Baixo</option>
+                        <option value="600">Médio</option>
+                        <option value="900">Alto</option>
+                    </select>
+                </div>
+
+                <button class="btn-calcular-eco" onclick="calc()">Calcular Economia</button>
+
+                <div class="metodologia-box">
+                    <div class="metodologia-icon">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    </div>
+                    <div class="metodologia-text">
+                        <p><strong>Metodologia:</strong> Cálculos baseados em estudos que indicam perdas de até 30% em desperdício de CO₂ e 15% em redução de produtividade sem monitoramento adequado.</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="input">
-                <span>Área da estufa (m²)</span>
-                <input type="number" id="ipt_area_estufa" placeholder="Área da estufa...">
-            </div>
+            <!-- Direita: Resultados -->
+            <div class="simulador-card resultados-panel">
+                
+                <div id="placeholder_resultados" class="placeholder-box">
+                    <div class="icon-gray">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="48" height="48"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16.01" y2="14"></line><line x1="12" y1="14" x2="12.01" y2="14"></line><line x1="8" y1="14" x2="8.01" y2="14"></line><line x1="16" y1="18" x2="16.01" y2="18"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="8" y1="18" x2="8.01" y2="18"></line><line x1="16" y1="10" x2="16.01" y2="10"></line><line x1="12" y1="10" x2="12.01" y2="10"></line><line x1="8" y1="10" x2="8.01" y2="10"></line></svg>
+                    </div>
+                    <h3>Preencha os Dados</h3>
+                    <p>Insira as informações da sua estufa no formulário ao lado para visualizar a análise financeira completa</p>
+                </div>
 
-            <div class="input">
-                <span>Quantidade de estufas</span>
-                <input type="number" id="ipt_qtd_estufas" placeholder="Quantidade de estufas...">
-            </div>
+                <div id="div_retorno_negativo" class="retorno-negativo" style="display: none;">
+                    <div class="card-header-red">
+                        <div class="icon-box-red">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+                        </div>
+                        <h4>Perdas Sem Monitoramento</h4>
+                    </div>
+                    <div class="retorno"></div>
+                </div>
 
-            <div class="input">
-                <span>Preço médio de venda (kg)</span>
-                <input type="number" id="ipt_preco_venda" placeholder="Preço médio de venda...">
-            </div>
+                <div class="retorno-positivo" style="display: none;">
+                    <div class="card-header-green">
+                        <div class="icon-box-green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        </div>
+                        <h4>Economia Com GasControl</h4>
+                    </div>
+                    <div class="retorno"></div>
+                </div>
 
-            <div class="input">
-                <span>Simule as condições da estufa</span>
-                <select id="ipt_nivel_co2">
-                    <option value="400">Baixo</option>
-                    <option value="600">Médio</option>
-                    <option value="900">Alto</option>
-                </select>
             </div>
-
-            <button class="button" onclick="calc()">Calcular</button>
         </div>
     </main>
-
-    <div class="retornos">
-        <div class="text-box">
-            <p>Comparação de resultados</p>
-            <span>Veja a diferença entre operar sem controle adequado de CO₂ e com a GasControl</span>
-        </div>
-    </div>
-    <div id="div_retorno_negativo" class="retorno-negativo">
-        <div class="text">
-            <div class="title">
-                <i class="fa-solid fa-circle-xmark"></i>
-                <p>Sem GasControl</p>
-            </div>
-            <div class="subtitle">
-                <span></span>
-            </div>
-        </div>
-        <div class="retorno"></div>
-    </div>
-
-    <div class="retorno-positivo">
-        <div class="text">
-            <div class="title">
-                <i class="fa-solid fa-circle-check"></i>
-                <p>Com GasControl</p>
-            </div>
-            <div class="subtitle">
-                <span></span>
-            </div>
-        </div>
-        <div class="retorno"></div>
-    </div>
-    </div>
-
-    <div class="metodologia">
-        <div class="card"></div>
-    </div>
 </body>
 <script src="js/simulador.js"></script>
 <script src="js/janela.js"></script>

@@ -62,10 +62,15 @@
             <p>Produção anual (estimada): <b>${producao_anual_acrescida.toLocaleString('pt-BR', {maximumFractionDigits: 2})} kg</b> <span style="color: #16a34a; font-weight: bold;">(+${percentual_aumento_producao.toFixed(0)}%)</span></p>
         `;
 
-        // Exibir as divs que estavam escondidas
+        // Exibir as divs que estavam escondidas e esconder placeholder
+        let placeholder = document.getElementById("placeholder_resultados");
+        if(placeholder) placeholder.style.display = "none";
+
         div_container_negativo.style.display = "block";
         div_container_positivo.style.display = "block";
 
-        // Rolagem suave até o resultado
-        document.querySelector(".retornos").scrollIntoView({ behavior: 'smooth' });
+        // Rolagem suave até o resultado (mobile)
+        if(window.innerWidth <= 768) {
+            document.querySelector(".resultados-panel").scrollIntoView({ behavior: 'smooth' });
+        }
     }
