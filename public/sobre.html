@@ -13,23 +13,28 @@
 
 <body>
 
-  <header>
+    <header>
         <div class="container">
 
-            <div class="logo">
+            <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">
                 <img src="assets/img/Frame.svg">
                 <h1>GasControl</h1>
+            </a>
+
+            <div class="header-right">
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="sobre.html" class="active">Sobre o Projeto</a></li>
+                        <li><a href="simulador.html">Calculadora Financeira</a></li>
+                    </ul>
+                </nav>
+
+                <button class="btn-login" onclick="mudarJanela('./login.html')">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Login / Cadastro
+                </button>
             </div>
-
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="sobre.html">Sobre</a></li>
-                    <li><a href="simulador.html">Simulador</a></li>
-                </ul>
-            </nav>
-
-            <button class="entrar" onclick="mudarJanela('./login.html')">Entrar</button>
 
         </div>
     </header>
@@ -82,45 +87,7 @@
 </section>
 
 
-<!-- Caixas de baixo -->
 
-<section class="valores-acao-section">
-    <div class="container">
-        <h2>Nossos Valores em Ação</h2>
-        <p class="subtitle">Versão 1 - teste.</p>
-        
-        <div class="valores-grid">
-            <div class="valor-item">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
-                </div>
-                <h4>Sustentabilidade</h4>
-                <p> Paragrafo sustentabilidade</p>
-            </div>
-            <div class="valor-item">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                </div>
-                <h4>Compromisso</h4>
-                <p>  paragrafo compromisso</p>
-            </div>
-            <div class="valor-item">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                </div>
-                <h4>Inovação</h4>
-                <p>inovação.</p>
-            </div>
-            <div class="valor-item">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-                </div>
-                <h4>Excelência</h4>
-                <p>  paragrafo excelência</p>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!--Footer-->
 

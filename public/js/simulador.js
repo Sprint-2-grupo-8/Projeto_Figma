@@ -8,16 +8,21 @@
 
 
     function calc() {
-        let area_estufa = Number(ipt_area_estufa.value);
-        let qtd_estufa = Number(ipt_qtd_estufas.value);
-        let preco_kg = Number(ipt_preco_venda.value);
-        let nivel_co2 = Number(ipt_nivel_co2.value);
+        let area_estufa = Number(document.getElementById('ipt_area_estufa').value);
+        let qtd_estufa = Number(document.getElementById('ipt_qtd_estufas').value);
+        let preco_kg = Number(document.getElementById('ipt_preco_venda').value);
+        let nivel_co2 = Number(document.getElementById('ipt_nivel_co2').value);
         let indice_produtividade = 0;
+
+        if(!area_estufa || !qtd_estufa || !preco_kg) {
+            alert("Por favor, preencha todos os campos corretamente.");
+            return;
+        }
 
         if(nivel_co2 == 400){
             indice_produtividade = 0.07;
         } else if(nivel_co2 == 600){
-            indice_produtividade = 0.15
+            indice_produtividade = 0.15;
         } else{
             indice_produtividade = 0.25;
         }
@@ -39,21 +44,28 @@
         let producao_anual_acrescida = produtividade_acrescida * ciclos_por_ano;
         let percentual_aumento_producao = indice_produtividade * 100;
 
-        //sem solucao
-        'produtividade em kg: ', produtividade_total;
-        //com solucao
-        'produtividade em kg: ', produtividade_acrescida;
+        // Atualizar no DOM (Tela)
+        let div_container_negativo = document.getElementById("div_retorno_negativo");
+        let div_container_positivo = document.querySelector(".retorno-positivo");
+        let div_negativo = document.querySelector(".retorno-negativo .retorno");
+        let div_positivo = document.querySelector(".retorno-positivo .retorno");
 
-        //sem solucao
-        'receita: R$', receita.toFixed(2);
-        //com solucao
-        'receita acrescida: R$', receita_acrescida.toFixed(2);
-        'percentual aumento de receita:', percentual_aumento_receita,'%';
+        div_negativo.innerHTML = `
+            <p>Produtividade (ciclo): <b>${produtividade_total.toLocaleString('pt-BR', {maximumFractionDigits: 2})} kg</b></p>
+            <p>Receita (ciclo): <b>R$ ${receita.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</b></p>
+            <p>Produção anual (estimada): <b>${producao_anual.toLocaleString('pt-BR', {maximumFractionDigits: 2})} kg</b></p>
+        `;
 
-        //sem solucao
-        'producao anual:', producao_anual, 'kg';
+        div_positivo.innerHTML = `
+            <p>Produtividade (ciclo): <b>${produtividade_acrescida.toLocaleString('pt-BR', {maximumFractionDigits: 2})} kg</b></p>
+            <p>Receita (ciclo): <b>R$ ${receita_acrescida.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</b> <span style="color: #16a34a; font-weight: bold;">(+${percentual_aumento_receita.toFixed(0)}%)</span></p>
+            <p>Produção anual (estimada): <b>${producao_anual_acrescida.toLocaleString('pt-BR', {maximumFractionDigits: 2})} kg</b> <span style="color: #16a34a; font-weight: bold;">(+${percentual_aumento_producao.toFixed(0)}%)</span></p>
+        `;
 
-        //com solucao
-        'producao anual com gestao:', producao_anual_acrescida.toFixed(2), 'kg';
-        'percentual de aumento da producao por ciclos:', percentual_aumento_producao,'%';
+        // Exibir as divs que estavam escondidas
+        div_container_negativo.style.display = "block";
+        div_container_positivo.style.display = "block";
+
+        // Rolagem suave até o resultado
+        document.querySelector(".retornos").scrollIntoView({ behavior: 'smooth' });
     }

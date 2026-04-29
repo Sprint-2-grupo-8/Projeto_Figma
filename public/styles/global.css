@@ -49,6 +49,7 @@ header .container {
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
 }
 
 .logo img {
@@ -61,35 +62,51 @@ header .container {
     margin: 0;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
 nav ul {
     display: flex;
-    gap: 40px;
+    gap: 30px;
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul li {
-    font-size: 20px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-nav ul li:hover {
-    color: #2ecc71;
-}
-
-.entrar {
-    width: 8vw;
-    padding: 10px 26px;
-    border-radius: 10px;
-    border: 1px solid #16a34a;
-    font-size: 18px;
-    cursor: pointer;
-    background: white;
+    font-size: 16px;
     font-weight: 500;
+    color: #1f2937;
+    cursor: pointer;
 }
 
-.entrar:hover {
+nav ul li a {
+    transition: color 0.2s;
+}
+
+nav ul li a:hover, nav ul li a.active {
+    color: #0CA554;
+    font-weight: 600;
+}
+
+.btn-login {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #0CA554;
     color: white;
-    background-color: #16a34a;
-    font-weight: 700;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.btn-login:hover {
+    background-color: #0a8f47;
 }
