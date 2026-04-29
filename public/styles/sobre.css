@@ -1,74 +1,166 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
 
-/* ================= SOBRE NÓS ================= */
-.sobre {
-    padding: 100px 0;
+
+body {
+    background-color: #F9FDFB;
+    font-family: 'Poppins', sans-serif;
+    color: #1D2128;
+}
+
+.sobre-hero {
+    padding: 80px 0 40px;
     text-align: center;
 }
 
-.sobre-topo {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    margin-top: 40px;
-    border: 2px solid #087736;
-    border-radius: 15px;
+.sobre-hero h2 {
+    font-size: 44px;
+    font-weight: 800;
+    color: #1A1D23;
+    margin-bottom: 20px;
 }
 
-.sobre-imagem img {
-    width: 700px;
-    height: 400px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+.sobre-hero h2 span {
+    color: #0CA554;
 }
 
-.sobre-texto {
-    text-align: left;
-    max-width: 500px;
-}
-
-.sobre-texto h3 {
-    font-size: 28px;
-    margin-bottom: 10px;
-}
-
-.sobre-texto p {
-    font-size: 18px;
+.subtitle {
+    font-size: 16px;
     color: #555;
+    max-width: 750px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
 }
 
-/* CARDS DA EQUIPE */
-.team-cards {
-    margin-top: 60px;
+.hero-image-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.hero-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* MVV Section */
+.mvv-section {
+    padding: 60px 0;
+}
+
+.mvv-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-.team-card {
-    margin: 30px;
-    background: white;
-    border: 2px solid green;
-    padding: 5px;
+.mvv-card {
+    background-color: #0CA554;
+    color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(12, 165, 84, 0.25);
+    transition: transform 0.3s ease;
+    text-align: left;
+}
+
+.mvv-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.mvv-card .icon-box {
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 48px;
+    height: 48px;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.team-card img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+.mvv-card .icon-box svg {
+    width: 24px;
+    height: 24px;
+    stroke: white;
 }
 
-.team-card h4 {
-    margin: 10px 0 5px;
+.mvv-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
 }
 
-.team-card p {
-    color: #777;
+.mvv-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
 }
 
-.team-card:hover {
-    transform: translateY(-10px);
+/* Valores em Ação Section */
+.valores-acao-section {
+    padding: 60px 0 100px;
+    text-align: center;
 }
 
+.valores-acao-section h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: #1A1D23;
+    margin-bottom: 20px;
+}
+
+.valores-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.valor-item {
+    text-align: center;
+}
+
+.valor-item .icon-box {
+    background-color: #0CA554;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.valor-item .icon-box svg {
+    width: 32px;
+    height: 32px;
+    stroke: white;
+}
+
+.valor-item h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1A1D23;
+    margin-bottom: 15px;
+}
+
+.valor-item p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
