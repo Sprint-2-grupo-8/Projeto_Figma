@@ -46,18 +46,34 @@
             </li>
             <li>
                 <img src="assets/img/logout.svg" alt="">
-                <a href="">Logout</a>
+                <a href="index.html">Logout</a>
             </li>
         </ul>
     </div>
     <main>
 
         <div class="painel-container">
+            <div class="filtros">
+                <div class="textbox">
+                    <span>Filtre os alertas por data e estufa</span>
+                </div>
+                <div class="inputs">
+                    <input type="date">
+                    <select id="select_estufa">
+                        <option disabled selected>Estufas</option>
+                        <option>Todas</option>
+                        <option>Estufa 1</option>
+                        <option>Estufa 2</option>
+                        <option>Estufa 3</option>
+                        <option>Estufa 4</option>
+                    </select>
+                </div>
+            </div>
             <div class="painel-alertas">
                 <div class="titulo-painel">
                     <div class="texto-painel">
                         <span>Painel de alertas</span>
-                        <p>Você será alertado quando: CO2 abaixo de 400 ppm ou acima de 900 ppm</p>
+                        <p>Você será alertado quando: CO2 abaixo de 400 ppm ou acima de 1100 ppm</p>
                         <p>Obs: você pode alterar esses valores clicando na engrenagem ao lado</p>
                     </div>
                     <div class="texto-painel">
@@ -163,4 +179,5 @@
 
 </body>
 <script src="js/painel.js"></script>
+
 </html>
