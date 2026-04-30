@@ -23,7 +23,7 @@
     <div class="left-painel">
         <div class="logo">
             <img src="assets/img/logo branca.svg">
-            <span>GasControl</span>
+            <a href="index.html"><span>GasControl</span></a> 
         </div>
 
             <span>MENU</span>
@@ -82,6 +82,14 @@
                 <span class="title">Concentração atual de CO₂ (ppm)</span>
 
                 <span class="value" id="nivel_atual">655 ppm</span>
+                <span class="legenda legenda-ok">Faixa ideal: 600 a 900</span>
+            </div>
+            <div class="indicador indicador-ok">
+                <span class="title">Percentual de tempo em faixa ideal</span>
+                <img class="icon 4" src="" alt="">
+
+                <span class="value">91%</span>
+                <span class="legenda legenda-ok">Últimas 24h</span>
             </div>
             <div class="indicador indicador-ok">
                 <span class="title">Nível de eficiência atual (produtividade)</span>
@@ -94,39 +102,31 @@
                 <span class="value">01 alertas</span>
                 <span class="legenda legenda-attention">Nível: atenção</span>
             </div>
-            <div class="indicador indicador-ok">
-                <span class="title">Status estufa</span>
-                <img class="icon 4" src="" alt="">
-
-                <span class="value">CO₂ na faixa ideal</span>
-                <span class="legenda legenda-ok">Faixa ideal: 600 a 900</span>
-            </div>
         </div>
         <div class="indicadores">
-            <div class="indicador indicador-danger">
-                <span class="title">Tempo fora da faixa: últimas 24h</span>
+            <div class="indicador indicador-attention">
+                <span class="title">Concentração média de CO₂ (todas as estufas)</span>
 
-                <span class="value">5 horas</span>
-                <span class="legenda legenda-danger">Muito instável</span>
+                <span class="value">500 ppm</span>
+                <span class="legenda legenda-attention">Instabilidade moderada</span>
             </div>
             <div class="indicador indicador-ok">
-                <span class="title">Produtividade Total</span>
+                <span class="title">Índice de produtividade das estufas baseado no CO₂ </span>
 
                 <span class="value">35%</span>
-                <span class="legenda legenda-ok">Meta do mês: 25%</span>
+                <span class="legenda legenda-ok">Mês atual</span>
+            </div>
+            <div class="indicador indicador-danger">
+                <span class="title">Nível de oscilação de CO₂ das estufas - Últimas 24h</span>
+
+                <span class="value">400 ppm</span>
+                <span class="legenda legenda-danger">Status: crítico!</span>
             </div>
             <div class="indicador indicador-attention">
-                <span class="title">Total de alertas: últimas 24h</span>
+                <span class="title">Total de alertas estabilizados: últimas 24h</span>
 
-                <span class="value">08 alertas</span>
+                <span class="value">6/8 alertas</span>
                 <span class="legenda legenda-attention">Nível: atenção</span>
-            </div>
-            <div class="indicador indicador-attention">
-                <span class="title">Alertas estabilizados</span>
-                <img class="icon 4" src="" alt="">
-
-                <span class="value">06 alertas</span>
-                <span class="legenda legenda-attention">Há 2 alertas pendentes</span>
             </div>
         </div>
 
@@ -146,6 +146,10 @@
             <div class="grafico individual">
                 <p>Padrão de distribuição do CO₂ ao longo do dia</p>
                 <canvas id="grafico_dispersao"></canvas>
+            </div>
+                <div class="grafico-ranking geral">
+                <p>Ranking de estufas com mais registros em alerta<p>
+                <canvas id="grafico_ranking"></canvas>
             </div>
         </div>
 

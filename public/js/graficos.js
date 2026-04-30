@@ -27,6 +27,13 @@ const produtividade_label = [
     'Dec'
 ];
 
+const estufas_label = [
+    'Estufa 1',
+    'Estufa 2',
+    'Estufa 3',
+    'Estufa 4'
+];
+
 const scatter_data = {
     datasets: [{
         label: 'Concentração de CO₂ (ppm)',
@@ -204,6 +211,35 @@ const bar_two_config = {
     }
 };
 
+const bar_data = {
+    labels: estufas_label,
+    datasets: [{
+        label: 'Alertas registrados',
+        backgroundColor: 'rgb(54, 162, 235)',
+        data: [55, 20, 13, 2],
+    }]
+};
+
+const bar_config = {
+    type: 'bar',
+    data: bar_data,
+    options: {
+        indexAxis: 'y',
+        scales: {
+            x: {
+                min: 0,
+                max: 100,
+                beginAtZero: true
+            },
+            y:{
+                 reverse: false 
+            }
+        }
+    }
+
+};
+
+
 const variacao_co2 = new Chart(
     document.getElementById('grafico_dispersao'),
     scatter_config
@@ -220,4 +256,9 @@ const percentual_registros = new Chart(
 const produtividade_meses = new Chart(
     document.getElementById('produtividade_meses'),
     bar_two_config
+);
+
+const ranking_estufas = new Chart(
+    document.getElementById('grafico_ranking'),
+    bar_config
 );

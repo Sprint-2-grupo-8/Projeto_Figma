@@ -63,11 +63,12 @@
 }
 
 .btn-saiba-mais {
-    padding: 12px 30px;
-    border: 1px solid #D1D5DB;
+    width: 12vw;
+    padding: 12px;
+    border: 1.5px solid #D1D5DB;
     border-radius: 8px;
-    background-color: white;
-    color: #374151;
+    background-color: #087736;
+    color: white;
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
@@ -75,8 +76,8 @@
 }
 
 .btn-saiba-mais:hover {
-    background-color: #F3F4F6;
-    border-color: #9CA3AF;
+    background-color: #065a29;
+    color: #f2f2f2;
 }
 
 .hero-buttons {
