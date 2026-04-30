@@ -112,6 +112,10 @@ body {
 
 .metodologia-box {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    display: flex;
     gap: 12px;
     background-color: #F0F4F8;
     padding: 15px;
@@ -125,7 +129,7 @@ body {
 }
 
 .metodologia-text p {
-    font-size: 13px;
+    font-size: 1.1em;
     color: #4B5563;
     margin: 0;
     line-height: 1.5;

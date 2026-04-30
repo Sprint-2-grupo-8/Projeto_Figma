@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasControl | Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.1.0/chartjs-plugin-annotation.min.js"
+        integrity="sha512-8MntMizyPIYkcjoDkYqgrQOuWOZsp92zlZ9d7M2RCG0s1Zua8H215p2PdsxS7qg/4hLrHrdPsZgVZpXheHYT+Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+
+<body>
+    <div class="left-painel">
+        <div class="logo">
+            <img src="assets/img/logo branca.svg">
+            <span>GasControl</span>
+        </div>
+
+        <span>MENU</span>
+        <ul>
+            <li>
+                <img src="assets/img/dashboard.svg" alt="">
+                <a href="dashboard.html">Dashboard</a>
+            </li>
+            <li>
+                <img src="assets/img/alerta.svg" alt="">
+                <a href="">Painel de avisos</a>
+            </li>
+        </ul>
+
+        <span>GERAL</span>
+        <ul>
+            <li>
+                <img src="assets/img/admin.svg" alt="">
+                <a href="">Acesso Adm</a>
+            </li>
+            <li>
+                <img src="assets/img/logout.svg" alt="">
+                <a href="">Logout</a>
+            </li>
+        </ul>
+    </div>
+    <main>
+
+        <div class="painel-container">
+            <div class="painel-alertas">
+                <div class="titulo-painel">
+                    <div class="texto-painel">
+                        <span>Painel de alertas</span>
+                        <p>Você será alertado quando: CO2 abaixo de 400 ppm ou acima de 900 ppm</p>
+                        <p>Obs: você pode alterar esses valores clicando na engrenagem ao lado</p>
+                    </div>
+                    <div class="texto-painel">
+                        <div class="config-button">
+                            <button id="update_ancora" onclick="atualizarAncora()"><img src="assets/img/engrenagem.svg"
+                                    alt=""></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="notificacoes">
+                    <div class="notificacao red">
+                        <div class="descricao">
+                            <span class="estufa">Perigo: estufa 2 acima do limite</span>
+                            <span class="horario">Há 2 horas</span>
+                        </div>
+                        <div class="buttons">
+                            <button><img src="assets/img/check.svg" alt=""></button>
+                            <button><img src="assets/img/delete.svg" alt=""></button>
+
+                        </div>
+                    </div>
+                    <div class="notificacao red">
+                        <div class="descricao">
+                            <span class="estufa">Perigo: estufa 3 abaixo do limite</span>
+                            <span class="horario">Há 20 minutos</span>
+                        </div>
+                        <div class="buttons">
+                            <button><img src="assets/img/check.svg" alt=""></button>
+                            <button><img src="assets/img/delete.svg" alt=""></button>
+
+                        </div>
+                    </div>
+                    <div class="notificacao green">
+                        <div class="descricao">
+                            <span class="estufa">Estufa 1 normalizada</span>
+                            <span class="horario">Há 7 horas</span>
+                        </div>
+                        <div class="buttons">
+                            <button><img src="assets/img/check.svg" alt=""></button>
+                            <button><img src="assets/img/delete.svg" alt=""></button>
+
+                        </div>
+                    </div>
+                    <div class="notificacao green">
+                        <div class="descricao">
+                            <span class="estufa">Estufa 4 normalizada</span>
+                            <span class="horario">Há 5 minutos</span>
+                        </div>
+                        <div class="buttons">
+                            <button><img src="assets/img/check.svg" alt=""></button>
+                            <button><img src="assets/img/delete.svg" alt=""></button>
+
+                        </div>
+                    </div>
+                    <div class="notificacao yellow">
+                        <div class="descricao">
+                            <span class="estufa">Atenção: Estufa 1 acima do limite</span>
+                            <span class="horario">Há 18 minutos</span>
+                        </div>
+                        <div class="buttons">
+                            <button><img src="assets/img/check.svg" alt=""></button>
+                            <button><img src="assets/img/delete.svg" alt=""></button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ancora-popup" id="popup">
+            <div class="content">
+                <div class="texto">
+                    <span>Atualize as âncoras</span>
+                </div>
+
+                <div class="input">
+                    <p>Selecione uma estufa</p>
+                    <select id="setor">
+                        <option disabled selected>Estufas</option>
+                        <option>Estufa A</option>
+                        <option>Estufa B</option>
+                        <option>Estufa C</option>
+                    </select>
+                </div>
+
+                <div class="input">
+                    <p>Digite o valor mínimo para alerta</p>
+                    <input type="number" placeholder="Min para alerta">
+                </div>
+                <div class="input">
+                    <p>Digite o valor máximo para alerta</p>
+                    <input type="number" placeholder="Máx para alerta">
+                </div>
+
+                <div class="btn-update">
+                    <button onclick="fecharPopup()">Atualizar</button>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+</body>
+<script src="js/painel.js"></script>
+</html>
