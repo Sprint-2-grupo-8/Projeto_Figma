@@ -20,222 +20,173 @@
 </head>
 
 <body>
-    <div class="top-painel">
-        <div class="text-box">
-            <p>Bem-vindo de volta, Fernando Brandão!</p>
-            <span>Acompanhe o desempenho de suas estufas</span>
-
-            <div class="filtro">
-                <select id="filter">
-                    <option selected disabled>Filtro</option>
-                    <option value="geral">Visão Geral</option>
-                    <option value="individual">Estufa 1</option>
-                    <option value="individual">Estufa 2</option>
-                    <option value="individual">Estufa 3</option>
-                    <option value="individual">Estufa 4</option>
-                </select>
-
-                <button onclick="filter()">Filtrar</button>
-            </div>
+    <div class="left-painel">
+        <div class="logo">
+            <img src="assets/img/logo branca.svg">
+            <span>GasControl</span>
         </div>
-        <div class="data">
-            <p>Data da análise:</p>
-            <span id="data_atual"></span>
-        </div>
-    </div>
 
+            <span>MENU</span>
+            <ul>
+                <li>
+                    <img src="assets/img/dashboard.svg" alt="">
+                    <a href="dashboard.html">Dashboard</a>
+                </li>
+                <li>
+                    <img src="assets/img/alerta.svg" alt="">
+                    <a href="painel.html">Painel de avisos</a>
+                </li>
+            </ul>
 
-    <div class="indicadores-individual">
-        <div class="indicador indicador-ok">
-            <span class="title">Concentração atual de CO₂ (ppm)</span>
+            <span>GERAL</span>
+            <ul>
+            <li>
+                <img src="assets/img/admin.svg" alt="">
+                <a href="">Acesso Adm</a>
+            </li>
+                <li>
+                    <img src="assets/img/logout.svg" alt="">
+                    <a href="">Logout</a>
+                </li>
+            </ul>
+        </div>
 
-            <span class="value">655 ppm</span>
-        </div>
-        <div class="indicador indicador-ok">
-            <span class="title">Nível de eficiência atual (produtividade)</span>
+    <main>
+        <div class="top-painel">
+            <div class="text-box">
+                <p>Bem-vindo de volta, Fernando Brandão!</p>
+                <span>Acompanhe o desempenho de suas estufas</span>
 
-            <span class="value">15%</span>
-        </div>
-        <div class="indicador indicador-attention">
-            <span class="title">Alertas da estufa - últimas 24h</span>
+                <div class="filtro">
+                    <select id="filter">
+                        <option selected disabled>Filtro</option>
+                        <option value="geral">Visão Geral</option>
+                        <option value="individual">Estufa 1</option>
+                        <option value="individual">Estufa 2</option>
+                        <option value="individual">Estufa 3</option>
+                        <option value="individual">Estufa 4</option>
+                    </select>
 
-            <span class="value">01 alertas</span>
-            <span class="legenda legenda-attention">Nível: atenção</span>
-        </div>
-        <div class="indicador indicador-ok">
-            <span class="title">Status estufa</span>
-            <img class="icon 4" src="" alt="">
-
-            <span class="value">CO₂ na faixa ideal</span>
-            <span class="legenda legenda-ok">Faixa ideal: 600 a 900</span>
-        </div>
-    </div>
-    <div class="indicadores">
-        <div class="indicador indicador-danger">
-            <span class="title">Tempo fora da faixa: últimas 24h</span>
-
-            <span class="value">5 horas</span>
-            <span class="legenda legenda-danger">Muito instável</span>
-        </div>
-        <div class="indicador indicador-ok">
-            <span class="title">Produtividade Total</span>
-
-            <span class="value">35%</span>
-            <span class="legenda legenda-ok">Meta do mês: 25%</span>
-        </div>
-        <div class="indicador indicador-attention">
-            <span class="title">Total de alertas: últimas 24h</span>
-
-            <span class="value">08 alertas</span>
-            <span class="legenda legenda-attention">Nível: atenção</span>
-        </div>
-        <div class="indicador indicador-attention">
-            <span class="title">Alertas estabilizados</span>
-            <img class="icon 4" src="" alt="">
-
-            <span class="value">06 alertas</span>
-            <span class="legenda legenda-attention">Há 2 alertas pendentes</span>
-        </div>
-    </div>
-
-    <div class="graficos">
-        <div class="grafico geral">
-            <p>Média de produtividade em porcentagem dos últimos 12 meses (em relação ao índice de ppm)</p>
-            <canvas id="produtividade_meses"></canvas>
-        </div>
-        <div class="grafico geral">
-            <p>Percentual do total de registros normalizados x em alerta das últimas 24h</p>
-            <canvas id="percentual_registros"></canvas>
-        </div>
-        <div class="grafico individual">
-            <p>Média de CO2 ao longo do dia em intervalos de 4h</p>
-            <canvas id="indice_estufa_24h"></canvas>
-        </div>
-        <div class="grafico individual">
-            <p>Padrão de distribuição do CO₂ ao longo do dia</p>
-            <canvas id="grafico_dispersao"></canvas>
-        </div>
-    </div>
-
-    <div class="painel-container">
-        <div class="painel-alertas">
-            <div class="titulo-painel">
-                <div class="texto-painel">
-                    <span>Painel de alertas - Últimos 7 dias</span>
-                    <p>Você será alertado quando: CO2 abaixo de 400 ppm ou acima de 900 ppm</p>
-                </div>
-                <div class="texto-painel">
-                    <div class="config-button">
-                        <button id="update_ancora" onclick="atualizarAncora()"><img src="assets/img/engrenagem.svg"
-                                alt=""></button>
-                    </div>
+                    <button onclick="filter()">Filtrar</button>
                 </div>
             </div>
-            <div class="notificacoes">
-                <div class="notificacao red">
-                    <div class="descricao">
-                        <span class="estufa">Atenção: estufa 2 acima do limite</span>
-                        <span class="horario">Há 2 horas</span>
-                    </div>
-                    <div class="buttons">
-                        <button id="update_alerta"><img src="assets/img/check.svg" alt=""></button>
-                        <button id="delete_alerta"><img src="assets/img/delete.svg" alt=""></button>
+            <div class="data">
+                <p>Data da análise:</p>
+                <span id="data_atual"></span>
+            </div>
+        </div>
 
-                    </div>
+
+        <div class="indicadores-individual">
+            <div class="indicador indicador-ok">
+                <span class="title">Concentração atual de CO₂ (ppm)</span>
+
+                <span class="value" id="nivel_atual">655 ppm</span>
+            </div>
+            <div class="indicador indicador-ok">
+                <span class="title">Nível de eficiência atual (produtividade)</span>
+
+                <span class="value">15%</span>
+            </div>
+            <div class="indicador indicador-attention">
+                <span class="title">Alertas da estufa - últimas 24h</span>
+
+                <span class="value">01 alertas</span>
+                <span class="legenda legenda-attention">Nível: atenção</span>
+            </div>
+            <div class="indicador indicador-ok">
+                <span class="title">Status estufa</span>
+                <img class="icon 4" src="" alt="">
+
+                <span class="value">CO₂ na faixa ideal</span>
+                <span class="legenda legenda-ok">Faixa ideal: 600 a 900</span>
+            </div>
+        </div>
+        <div class="indicadores">
+            <div class="indicador indicador-danger">
+                <span class="title">Tempo fora da faixa: últimas 24h</span>
+
+                <span class="value">5 horas</span>
+                <span class="legenda legenda-danger">Muito instável</span>
+            </div>
+            <div class="indicador indicador-ok">
+                <span class="title">Produtividade Total</span>
+
+                <span class="value">35%</span>
+                <span class="legenda legenda-ok">Meta do mês: 25%</span>
+            </div>
+            <div class="indicador indicador-attention">
+                <span class="title">Total de alertas: últimas 24h</span>
+
+                <span class="value">08 alertas</span>
+                <span class="legenda legenda-attention">Nível: atenção</span>
+            </div>
+            <div class="indicador indicador-attention">
+                <span class="title">Alertas estabilizados</span>
+                <img class="icon 4" src="" alt="">
+
+                <span class="value">06 alertas</span>
+                <span class="legenda legenda-attention">Há 2 alertas pendentes</span>
+            </div>
+        </div>
+
+        <div class="graficos">
+            <div class="grafico geral">
+                <p>Média de produtividade em porcentagem dos últimos 12 meses (em relação ao índice de ppm)</p>
+                <canvas id="produtividade_meses"></canvas>
+            </div>
+            <div class="grafico geral">
+                <p>Percentual do total de registros normalizados x em alerta das últimas 24h</p>
+                <canvas id="percentual_registros"></canvas>
+            </div>
+            <div class="grafico individual">
+                <p>Média de CO2 ao longo do dia em intervalos de 4h</p>
+                <canvas id="indice_estufa_24h"></canvas>
+            </div>
+            <div class="grafico individual">
+                <p>Padrão de distribuição do CO₂ ao longo do dia</p>
+                <canvas id="grafico_dispersao"></canvas>
+            </div>
+        </div>
+
+        <div class="ancora-popup" id="popup">
+            <div class="content">
+                <div class="texto">
+                    <span>Atualize as âncoras</span>
                 </div>
-                <div class="notificacao red">
-                    <div class="descricao">
-                        <span class="estufa">Atenção: estufa 3 abaixo do limite</span>
-                        <span class="horario">Há 20 minutos</span>
-                    </div>
-                    <div class="buttons">
-                        <button id="update_alerta"><img src="assets/img/check.svg" alt=""></button>
-                        <button id="delete_alerta"><img src="assets/img/delete.svg" alt=""></button>
 
-                    </div>
+                <div class="input">
+                    <p>Selecione uma estufa</p>
+                    <select id="setor">
+                        <option disabled selected>Estufas</option>
+                        <option>Estufa A</option>
+                        <option>Estufa B</option>
+                        <option>Estufa C</option>
+                    </select>
                 </div>
-                <div class="notificacao green">
-                    <div class="descricao">
-                        <span class="estufa">Estufa 1 normalizada</span>
-                        <span class="horario">Há 7 horas</span>
-                    </div>
-                    <div class="buttons">
-                        <button id="update_alerta"><img src="assets/img/check.svg" alt=""></button>
-                        <button id="delete_alerta"><img src="assets/img/delete.svg" alt=""></button>
 
-                    </div>
+                <div class="input">
+                    <p>Digite o valor mínimo para alerta</p>
+                    <input type="number" placeholder="Min para alerta">
+                </div>
+                <div class="input">
+                    <p>Digite o valor máximo para alerta</p>
+                    <input type="number" placeholder="Máx para alerta">
+                </div>
+
+                <div class="btn-update">
+                    <button onclick="fecharPopup()">Atualizar</button>
+
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="ancora-popup" id="popup">
-        <div class="content">
-            <div class="texto">
-                <span>Atualize as âncoras</span>
-            </div>
-
-            <div class="input">
-                <p>Selecione um setor</p>
-                <select id="setor">
-                    <option disabled selected>Setores</option>
-                    <option>Setor A</option>
-                    <option>Setor B</option>
-                    <option>Setor C</option>
-                </select>
-            </div>
-
-            <div class="input">
-                <p>Digite o valor mínimo para alerta</p>
-                <input type="number" placeholder="Min para alerta">
-            </div>
-            <div class="input">
-                <p>Digite o valor máximo para alerta</p>
-                <input type="number" placeholder="Máx para alerta">
-            </div>
-
-            <div class="btn-update">
-                <button onclick="fecharPopup()">Atualizar</button>
-
-            </div>
         </div>
-    </div>
-    </div>
-    </div>
-
-    <div class="ancora-popup" id="popup">
-        <div class="content">
-            <div class="texto">
-                <span>Atualize as âncoras</span>
-            </div>
-
-            <div class="input">
-                <p>Selecione um setor</p>
-                <select id="setor">
-                    <option disabled selected>Setores</option>
-                    <option>Setor A</option>
-                    <option>Setor B</option>
-                    <option>Setor C</option>
-                </select>
-            </div>
-
-            <div class="input">
-                <p>Digite o valor mínimo para alerta</p>
-                <input type="number" placeholder="Min para alerta">
-            </div>
-            <div class="input">
-                <p>Digite o valor máximo para alerta</p>
-                <input type="number" placeholder="Máx para alerta">
-            </div>
-
-            <div class="btn-update">
-                <button onclick="fecharPopup()">Atualizar</button>
-            </div>
         </div>
-    </div>
+    </main>
 
 
 </body>
+<script src="js/graficos.js"></script>
 <script src="js/dashboard.js"></script>
 
 </html>
