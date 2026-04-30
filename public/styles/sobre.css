@@ -91,6 +91,14 @@ body {
     justify-content: center;
 }
 
+.icon-box {
+    transition: 0.7s;
+}
+.icon-box:hover {
+    transform: translateY(-1vh);
+
+}
+
 .mvv-card .icon-box svg {
     width: 24px;
     height: 24px;
