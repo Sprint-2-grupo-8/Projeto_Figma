@@ -148,6 +148,17 @@
     align-items: center;
     gap: 15px;
     z-index: 10;
+    transition: 0.3s;
+}
+
+.bottom-left:hover {
+    transform: translateY(-3vh);
+    padding: 16px 20px;
+}
+
+.top-right:hover {
+    transform: translateX(-2vw);
+    padding: 16px 20px;
 }
 
 .top-right {
