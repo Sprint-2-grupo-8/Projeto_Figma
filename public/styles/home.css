@@ -138,37 +138,66 @@
     object-fit: cover;
 }
 
-.card {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.floating-balloon {
     position: absolute;
     background: white;
-    padding: 12px 18px;
+    padding: 15px 20px;
     border-radius: 12px;
-    box-shadow: 0 12px 30px rgba(61, 119, 6, 0.3);
-    font-size: 16px;
-    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 10;
 }
 
-.card-ppm {
-    top: 20px;
-    right: 20px;
+.top-right {
+    top: -20px;
+    right: -30px;
 }
 
-.card-ppm img {
-    width: 40px;
-    height: 40px;
+.bottom-left {
+    bottom: -20px;
+    left: -30px;
 }
 
-.card-prod {
-    bottom: 20px;
-    left: 20px;
+.balloon-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.card-prod img {
-    width: 40px;
-    height: 40px;
+.balloon-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.blue-icon {
+    background-color: #E0E7FF;
+    color: #4F46E5;
+}
+
+.green-icon {
+    background-color: #DCFCE7;
+    color: #16A34A;
+}
+
+.balloon-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.balloon-text strong {
+    font-size: 20px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.balloon-text span {
+    font-size: 14px;
+    color: #6B7280;
 }
 
 
