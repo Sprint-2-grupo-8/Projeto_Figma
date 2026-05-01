@@ -1,44 +1,84 @@
+// Empresa_mockada
+let nome_empresa_padrao = 'Morango_consulting'
+let email_empresa_padrao = 'morango@gmail.com'
+let cnpj_padrao = '12345678/0001-91'
+let telefone_padrao = '11996105127'
 
+// Funcionario_mockado
 let nome_padrao = 'Fernando';
-let email_padrao = "brandao@email.com";
-let senha_padrao = "urubu100";
 let cpf_padrao = '12345678910'
+let email_padrao = "brandao@email.com";
+let cargo_padrao = "ADM"
+let senha_padrao = "urubu100";
 
+// Arryas de empresas
+let raz_social = [nome_empresa_padrao];
+let email_empresas = [email_empresa_padrao];
+let cnpjs = [cnpj_padrao];
+let telefones = [telefone_padrao];
+
+//arrays de funcionarios
 let nomes = [nome_padrao];
+let cpfs = [cpf_padrao];
+let cargos = [cargo_padrao];
 let emails = [email_padrao];
 let senhas = [senha_padrao];
-let cpfs = [cpf_padrao];
 
-function cadastrar() {
-    let nome_usuario = ipt_nome.value;
-    let email_cadastro = ipt_email_criado.value;
-    let cpf = ipt_cpf.value;
-    let senha_cadastro = ipt_senha_criada.value;
-    let senha_confirmacao = ipt_c_senha.value;
+function cadastrar_empresa() {
 
-    if (
-        senha_cadastro == ""
-        || senha_confirmacao == ""
-        || senha_cadastro != senha_confirmacao
-    ) {
-        confirmacao_senha.innerHTML = `Campo senha não coincide com a confirmação ou campo em branco<br>`
-        senha_cadastro = ""
-        senha_confirmacao = ""
+    let nome_empresa = ipt_nome.value;
+    let email_empresa = ipt_email_criado.value;
+    let cnpj = ipt_cnpj.value;
+    let telefone = ipt_telefone.value;
+    if (nome_empresa != "" &&
+        email_empresa != "" &&
+        cnpj != "" &&
+        telefone != "") {
+
+        alert("Empresa cadastrada");
+
+        raz_social.push(nome_empresa);
+        email_empresas.push(email_empresa);
+        telefones.push(telefone);
+        cnpjs.push(cnpj);
+
+        document.getElementById("empresa").style.display = "none";
+        document.getElementById("funcionario").style.display = "flex";
     }
     else {
-        alert("Usuário cadastrado");
+        erro_cadastro.innerHTML = "Todos os campos devem estar devidamente cadastrados"
+    }
+}
 
-        nome_usuario.push(nomes)
-        emails.push(emails);
-        senhas.push(senhas);
+function cadastrar_func() {
+
+    let nome_func = ipt_nome_func.value;
+    let cpf = ipt_cpf_func.value;
+    let email_func = ipt_email_func.value;
+    let cargo = slc_cargo.value;
+    let senha_cadastro = ipt_senha.value;
+    let senha_confirmacao = ipt_c_senha.value;
+
+    if (senha_cadastro === senha_confirmacao && senha_cadastro != "" && senha_confirmacao != "") {
+
+        nomes.push(nome_func);
         cpfs.push(cpf);
+        cargos.push(cargo);
+        emails.push(email_func);
+        senhas.push(senha_cadastro);
+
+        alert("Funcionario cadastrado");
+
+    }
+    else {
+        erro_senha.innerHTML = "Campos senha e confirmação de senha não coincidem ou estão vazios"
     }
 
-    ipt_nome.value = "";
-    ipt_email_criado.value = "";
-    ipt_senha_criada.value = "";
-    ipt_c_senha.value = "";
+
+    document.getElementById("empresa").style.display = "none";
+    document.getElementById("funcionario").style.display = "flex";
 }
+
 
 
 function logar() {

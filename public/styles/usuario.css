@@ -86,7 +86,12 @@
     width: 100%;
 }
 
-/* ─── UTILITÁRIOS ─── */
+
+/*  UTILITÁRIOS  */
+
+#funcionario {
+    display: none;
+}
 
 .vermelho {
     color: red;
