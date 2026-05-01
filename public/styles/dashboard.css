@@ -111,7 +111,7 @@ main {
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    margin-top: 5vh;
+    margin-top: 2vh;
     padding: 20px;
     border-radius: 5px;
     gap: 4vw;
@@ -179,49 +179,39 @@ main {
     background-color: #e6fff7;
 }
 
-.grafico-ranking {
-    width: 80%;
-    min-height: 30vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: rgb(248, 248, 248);
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-}
-
-.grafico-ranking p {
-    font-weight: 700;
-    font-size: 1.3em;
-}
-
 .graficos {
-    margin-top: 5vh;
+    margin-top: 2vh;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap; /* Permite quebrar linha em telas menores */
     justify-content: center;
+    gap: 80px;
     padding: 20px;
-    gap: 5vw;
-    flex-wrap: wrap;
 }
 
 .grafico {
-    width: 45%;
-    height: 50vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    width: 45%; 
+    min-width: 350px;
+    height: 50vh; 
     background-color: rgb(248, 248, 248);
     border-radius: 10px;
-    padding: 10px;
-    text-align: center;
+    padding: 15px;
+    box-sizing: border-box; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
 }
 
 .grafico p {
     font-weight: 700;
     font-size: 1.3em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.grafico-container {
+    flex-grow: 1; 
+    width: 100%;
+    position: relative; 
 }
 
 .legenda-danger {
@@ -239,7 +229,7 @@ main {
 .filtro {
     display: flex;
     text-align: center;
-    margin-top: 3vh;
+    margin-top: 2vh;
     gap: 1vw;
 }
 
@@ -430,6 +420,13 @@ main {
 .ancora-popup .content .texto span {
     font-size: 1.3em;
     font-weight: 700;
+}
+
+.ancora-popup .content .texto span:nth-of-type(2) {
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-top: 10px;
+    color: gray;
 }
 
 .ancora-popup .content .texto {

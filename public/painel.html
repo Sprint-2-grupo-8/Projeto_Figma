@@ -23,7 +23,7 @@
     <div class="left-painel">
         <div class="logo">
             <img src="assets/img/logo branca.svg">
-            <a href="index.html"><span>GasControl</span></a> 
+            <a href="index.html"><span>GasControl</span></a>
         </div>
 
         <span>MENU</span>
@@ -34,7 +34,7 @@
             </li>
             <li>
                 <img src="assets/img/alerta.svg" alt="">
-                <a href="">Painel de avisos</a>
+                <a href="">Alertas (5)</a>
             </li>
         </ul>
 
@@ -60,7 +60,6 @@
                 <div class="inputs">
                     <input type="date">
                     <select id="select_estufa">
-                        <option disabled selected>Estufas</option>
                         <option>Todas</option>
                         <option>Estufa 1</option>
                         <option>Estufa 2</option>
@@ -143,16 +142,17 @@
             </div>
         </div>
 
-        <div class="ancora-popup" id="popup">
+                   <div class="ancora-popup" id="popup">
             <div class="content">
                 <div class="texto">
-                    <span>Atualize as âncoras</span>
+                    <span>Quando deseja receber alertas?</span>
+                    <span>Obs: digite somente o número!</span>
                 </div>
 
                 <div class="input">
-                    <p>Selecione uma estufa</p>
+                    <p>Selecione uma opção</p>
                     <select id="setor">
-                        <option disabled selected>Estufas</option>
+                        <option>Todas as estufas</option>
                         <option>Estufa A</option>
                         <option>Estufa B</option>
                         <option>Estufa C</option>
@@ -160,12 +160,12 @@
                 </div>
 
                 <div class="input">
-                    <p>Digite o valor mínimo para alerta</p>
-                    <input type="number" placeholder="Min para alerta">
+                    <p>Nível abaixo de:</p>
+                    <input type="number" placeholder="Ex: 400 ppm">
                 </div>
                 <div class="input">
-                    <p>Digite o valor máximo para alerta</p>
-                    <input type="number" placeholder="Máx para alerta">
+                    <p>Nível acima de:</p>
+                    <input type="number" placeholder="Ex: 1200 ppm">
                 </div>
 
                 <div class="btn-update">

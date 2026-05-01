@@ -8,23 +8,9 @@ const periodo_label = [
 ];
 
 const percentual_label = [
-    'Em alerta',
-    'Normalizado'
-];
-
-const produtividade_label = [
-    'Jan',
-    'Fev',
-    'Mar',
-    'Abr',
-    'Mai',
-    'Jun',
-    'Jul',
-    'Ago',
-    'Set',
-    'Oct',
-    'Nov',
-    'Dec'
+    'Faixa crítica',
+    'Faixa intermediária',
+    'Faixa ideal',
 ];
 
 const estufas_label = [
@@ -72,6 +58,8 @@ const scatter_config = {
     type: 'scatter',
     data: scatter_data,
     options: {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
                 min: 0,
@@ -104,7 +92,7 @@ const scatter_config = {
                         backgroundColor: 'rgba(255, 205, 86, 0.15)',
                         label: {
                             display: true,
-                            content: 'Faixa ok',
+                            content: 'Faixa intermediária',
                             position: 'start',
                             color: 'black'
                         }
@@ -118,7 +106,7 @@ const scatter_config = {
 const line_data = {
     labels: periodo_label,
     datasets: [{
-        label: 'Estufa 1',
+        label: 'Concentração média do intervalo',
         backgroundColor: 'blue',
         borderColor: 'blue',
         data: [550, 400, 500, 1000, 1200, 800],
@@ -130,10 +118,12 @@ const line_config = {
     type: 'line',
     data: line_data,
     options: {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
                 min: 0,
-                max: 1400,
+                max: 1800,
                 beginAtZero: true
             }
         },
@@ -159,7 +149,7 @@ const line_config = {
                         backgroundColor: 'rgba(255, 205, 86, 0.15)',
                         label: {
                             display: true,
-                            content: 'Faixa ok',
+                            content: 'Faixa intermediária',
                             position: 'start',
                             color: 'black'
                         }
@@ -174,9 +164,9 @@ const doughnut_data = {
     labels: percentual_label,
     datasets: [{
         label: 'Percentual ',
-        backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)',],
-        borderColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)',],
-        data: [30, 70],
+        backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 255, 0)', 'rgb(54, 162, 235)',],
+        borderColor: ['rgb(255, 99, 132)', 'rgb(255, 255, 0)', 'rgb(54, 162, 235)',],
+        data: [20, 10, 70],
     }]
 };
 
@@ -184,30 +174,8 @@ const doughnut_config = {
     type: 'doughnut',
     data: doughnut_data,
     options: {
-        responsive: false
-    }
-};
-
-const bar_two_data = {
-    labels: produtividade_label,
-    datasets: [{
-        label: 'Média de produtividade',
-        backgroundColor: '#10b981',
-        data: [30, 40, 50, 20, 50, 55, 10, 34, 89, 67, 43, 59],
-    }]
-};
-
-const bar_two_config = {
-    type: 'bar',
-    data: bar_two_data,
-    options: {
-        scales: {
-            y: {
-                min: 0,
-                max: 100,
-                beginAtZero: true
-            }
-        },
+        responsive: true,
+        maintainAspectRatio: false
     }
 };
 
@@ -224,15 +192,17 @@ const bar_config = {
     type: 'bar',
     data: bar_data,
     options: {
+        responsive: true,
         indexAxis: 'y',
+        maintainAspectRatio: false,
         scales: {
             x: {
                 min: 0,
                 max: 100,
                 beginAtZero: true
             },
-            y:{
-                 reverse: false 
+            y: {
+                reverse: false
             }
         }
     }
@@ -251,11 +221,6 @@ const indice_estufa_24h = new Chart(
 const percentual_registros = new Chart(
     document.getElementById('percentual_registros'),
     doughnut_config
-);
-
-const produtividade_meses = new Chart(
-    document.getElementById('produtividade_meses'),
-    bar_two_config
 );
 
 const ranking_estufas = new Chart(

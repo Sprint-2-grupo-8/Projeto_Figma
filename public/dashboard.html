@@ -23,33 +23,33 @@
     <div class="left-painel">
         <div class="logo">
             <img src="assets/img/logo branca.svg">
-            <a href="index.html"><span>GasControl</span></a> 
+            <a href="index.html"><span>GasControl</span></a>
         </div>
 
-            <span>MENU</span>
-            <ul>
-                <li>
-                    <img src="assets/img/dashboard.svg" alt="">
-                    <a href="dashboard.html">Dashboard</a>
-                </li>
-                <li>
-                    <img src="assets/img/alerta.svg" alt="">
-                    <a href="painel.html">Painel de avisos</a>
-                </li>
-            </ul>
+        <span>MENU</span>
+        <ul>
+            <li>
+                <img src="assets/img/dashboard.svg" alt="">
+                <a href="dashboard.html">Dashboard</a>
+            </li>
+            <li>
+                <img src="assets/img/alerta.svg" alt="">
+                <a href="painel.html">Alertas (5)</a>
+            </li>
+        </ul>
 
-            <span>GERAL</span>
-            <ul>
+        <span>GERAL</span>
+        <ul>
             <li>
                 <img src="assets/img/admin.svg" alt="">
                 <a href="">Acesso Adm</a>
             </li>
-                <li>
-                    <img src="assets/img/logout.svg" alt="">
-                    <a href="index.html">Logout</a>
-                </li>
-            </ul>
-        </div>
+            <li>
+                <img src="assets/img/logout.svg" alt="">
+                <a href="index.html">Logout</a>
+            </li>
+        </ul>
+    </div>
 
     <main>
         <div class="top-painel">
@@ -59,8 +59,7 @@
 
                 <div class="filtro">
                     <select id="filter">
-                        <option selected disabled>Filtro</option>
-                        <option value="geral">Visão Geral</option>
+                        <option value="geral" selected>Visão Geral</option>
                         <option value="individual">Estufa 1</option>
                         <option value="individual">Estufa 2</option>
                         <option value="individual">Estufa 3</option>
@@ -78,113 +77,85 @@
 
 
         <div class="indicadores-individual">
-            <div class="indicador indicador-ok">
-                <span class="title">Concentração atual de CO₂ (ppm)</span>
+            <div class="indicador indicador-danger">
+                <span class="title">Concentração de CO₂</span>
 
-                <span class="value" id="nivel_atual">655 ppm</span>
-                <span class="legenda legenda-ok">Faixa ideal: 600 a 900</span>
+                <span class="value" id="nivel_atual">305 ppm</span>
+                <span class="legenda legenda-danger">Faixa ideal: 600 a 900</span>
             </div>
             <div class="indicador indicador-ok">
-                <span class="title">Percentual de tempo em faixa ideal</span>
+                <span class="title">Nível de oscilação do CO₂</span>
+
+                <span class="value">50 ppm</span>
+                <span class="legenda legenda-ok">Status: ok</span>
+            </div>
+            <div class="indicador indicador-ok">
+                <span class="title">Percentual em faixa ideal</span>
                 <img class="icon 4" src="" alt="">
 
                 <span class="value">91%</span>
                 <span class="legenda legenda-ok">Últimas 24h</span>
             </div>
             <div class="indicador indicador-ok">
-                <span class="title">Nível de eficiência atual (produtividade)</span>
+                <span class="title">Total de alertas</span>
 
-                <span class="value">15%</span>
-            </div>
-            <div class="indicador indicador-attention">
-                <span class="title">Alertas da estufa - últimas 24h</span>
+                <span class="value">1/1 alertas</span>
+                <span class="legenda legenda-ok">100% foram estabilizados</span>
 
-                <span class="value">01 alertas</span>
-                <span class="legenda legenda-attention">Nível: atenção</span>
             </div>
         </div>
         <div class="indicadores">
             <div class="indicador indicador-attention">
-                <span class="title">Concentração média de CO₂ (todas as estufas)</span>
+                <span class="title">Concentração média de CO₂</span>
 
                 <span class="value">500 ppm</span>
-                <span class="legenda legenda-attention">Instabilidade moderada</span>
+                <span class="legenda legenda-attention">Faixa ideal: 600 a 900</span>
             </div>
             <div class="indicador indicador-ok">
-                <span class="title">Índice de produtividade das estufas baseado no CO₂ </span>
+                <span class="title"></span>
 
                 <span class="value">35%</span>
                 <span class="legenda legenda-ok">Mês atual</span>
             </div>
             <div class="indicador indicador-danger">
-                <span class="title">Nível de oscilação de CO₂ das estufas - Últimas 24h</span>
+                <span class="title">Média de oscilação do CO₂</span>
 
                 <span class="value">400 ppm</span>
-                <span class="legenda legenda-danger">Status: crítico!</span>
+                <span class="legenda legenda-danger">Status: crítico</span>
             </div>
             <div class="indicador indicador-attention">
-                <span class="title">Total de alertas estabilizados: últimas 24h</span>
+                <span class="title">Total de alertas estabilizados</span>
 
                 <span class="value">6/8 alertas</span>
-                <span class="legenda legenda-attention">Nível: atenção</span>
+                <span class="legenda legenda-attention">75% dos alertas normalizados</span>
             </div>
         </div>
 
         <div class="graficos">
             <div class="grafico geral">
-                <p>Média de produtividade em porcentagem dos últimos 12 meses (em relação ao índice de ppm)</p>
-                <canvas id="produtividade_meses"></canvas>
+                <p>Ranking de estufas com mais alertas - Últimos 7 dias<p>
+                    <div class="grafico-container">
+                        <canvas id="grafico_ranking"></canvas>
+                    </div>
             </div>
             <div class="grafico geral">
-                <p>Percentual do total de registros normalizados x em alerta das últimas 24h</p>
-                <canvas id="percentual_registros"></canvas>
+                <p>Percentual de registros na faixa ideal x intermediária x crítica</p>
+                <div class="grafico-container">
+                    <canvas id="percentual_registros"></canvas>
+                </div>
             </div>
             <div class="grafico individual">
                 <p>Média de CO2 ao longo do dia em intervalos de 4h</p>
-                <canvas id="indice_estufa_24h"></canvas>
+                <div class="grafico-container">
+                    <canvas id="indice_estufa_24h"></canvas>
+                </div>
             </div>
             <div class="grafico individual">
                 <p>Padrão de distribuição do CO₂ ao longo do dia</p>
-                <canvas id="grafico_dispersao"></canvas>
-            </div>
-                <div class="grafico-ranking geral">
-                <p>Ranking de estufas com mais registros em alerta<p>
-                <canvas id="grafico_ranking"></canvas>
-            </div>
-        </div>
-
-        <div class="ancora-popup" id="popup">
-            <div class="content">
-                <div class="texto">
-                    <span>Atualize as âncoras</span>
-                </div>
-
-                <div class="input">
-                    <p>Selecione uma estufa</p>
-                    <select id="setor">
-                        <option disabled selected>Estufas</option>
-                        <option>Estufa A</option>
-                        <option>Estufa B</option>
-                        <option>Estufa C</option>
-                    </select>
-                </div>
-
-                <div class="input">
-                    <p>Digite o valor mínimo para alerta</p>
-                    <input type="number" placeholder="Min para alerta">
-                </div>
-                <div class="input">
-                    <p>Digite o valor máximo para alerta</p>
-                    <input type="number" placeholder="Máx para alerta">
-                </div>
-
-                <div class="btn-update">
-                    <button onclick="fecharPopup()">Atualizar</button>
-
+                <div class="grafico-container">
+                    <canvas id="grafico_dispersao"></canvas>
                 </div>
             </div>
-        </div>
-        </div>
         </div>
     </main>
 
