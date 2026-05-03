@@ -8,9 +8,9 @@ const periodo_label = [
 ];
 
 const percentual_label = [
-    'Faixa crítica',
-    'Faixa intermediária',
     'Faixa ideal',
+    'Faixa intermediária',
+    'Faixa crítica'
 ];
 
 const estufas_label = [
@@ -63,7 +63,7 @@ const scatter_config = {
         scales: {
             y: {
                 min: 0,
-                max: 1400,
+                max: 1800,
                 beginAtZero: true
             },
             x: {
@@ -164,9 +164,9 @@ const doughnut_data = {
     labels: percentual_label,
     datasets: [{
         label: 'Percentual ',
-        backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 255, 0)', 'rgb(54, 162, 235)',],
-        borderColor: ['rgb(255, 99, 132)', 'rgb(255, 255, 0)', 'rgb(54, 162, 235)',],
-        data: [20, 10, 70],
+        backgroundColor: ['rgb(54, 162, 235)', 'rgb(255, 255, 0)', 'rgb(255, 99, 132)'],
+        borderColor: ['rgb(54, 162, 235)', 'rgb(255, 255, 0)', 'rgb(255, 99, 132)'],
+        data: [70, 5, 25],
     }]
 };
 
@@ -175,8 +175,24 @@ const doughnut_config = {
     data: doughnut_data,
     options: {
         responsive: true,
-        maintainAspectRatio: false
-    }
+        maintainAspectRatio: false,
+        plugins: {
+            datalabels: {
+                color: '#000000',
+                font: {
+                    weight: 'bold',
+                    size: 14
+                },
+                formatter: (value, context) => {
+                    const data = context.chart.data.datasets[0].data;
+                    const total = data.reduce((acc, val) => acc + val, 0);
+                    const porcentagem = (value / total * 100).toFixed(1);
+                    return porcentagem + '%';
+                }
+            }
+        }
+    },
+    plugins: [ChartDataLabels]
 };
 
 const bar_data = {

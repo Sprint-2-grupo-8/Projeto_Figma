@@ -10,8 +10,7 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.1.0/chartjs-plugin-annotation.min.js"
         integrity="sha512-8MntMizyPIYkcjoDkYqgrQOuWOZsp92zlZ9d7M2RCG0s1Zua8H215p2PdsxS7qg/4hLrHrdPsZgVZpXheHYT+Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -40,10 +39,10 @@
 
         <span>GERAL</span>
         <ul>
-            <li>
+            <!-- <li>
                 <img src="assets/img/admin.svg" alt="">
-                <a href="">Acesso Adm</a>
-            </li>
+                <a href="cadastro-adm.html">Acesso Adm</a>
+            </li> -->
             <li>
                 <img src="assets/img/logout.svg" alt="">
                 <a href="index.html">Logout</a>
@@ -139,7 +138,7 @@
                     </div>
             </div>
             <div class="grafico geral">
-                <p>Percentual de registros na faixa ideal x intermediária x crítica</p>
+                <p>Percentual de registros por faixa</p>
                 <div class="grafico-container">
                     <canvas id="percentual_registros"></canvas>
                 </div>

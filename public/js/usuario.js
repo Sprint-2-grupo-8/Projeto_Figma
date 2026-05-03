@@ -68,6 +68,7 @@ function cadastrar_func() {
         senhas.push(senha_cadastro);
 
         alert("Funcionario cadastrado");
+        window.location = './login.html'
 
     }
     else {
