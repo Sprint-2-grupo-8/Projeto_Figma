@@ -263,6 +263,7 @@ main {
 }
 
 .painel-alertas {
+    margin-top: 5vh;
     display: flex;
     width: 80vw;
     padding: 30px;
