@@ -137,11 +137,8 @@ function cadastrar(req, res) {
                 }
             );
     }
-}
 
-/*------------------------------*
- *   Exportação dos métodos
- *------------------------------*/
+
 module.exports = {
     autenticar,
     cadastrar

@@ -5,58 +5,106 @@
 /*
 comandos para mysql server
 */
-
-CREATE DATABASE aquatech;
-
-USE aquatech;
+CREATE DATABASE PI;
+USE PI;
 
 CREATE TABLE empresa (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
+    idempresa INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(45),
+    cnpj CHAR(14) NOT NULL,
+    telefone VARCHAR(20),
+    emailCorporativo VARCHAR(220)
 );
 
-CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+CREATE TABLE setor (
+    idSetor INT PRIMARY KEY AUTO_INCREMENT,
+    identificador VARCHAR(45)
 );
 
-CREATE TABLE aviso (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+CREATE TABLE funcionario (
+    idfuncionario INT PRIMARY KEY AUTO_INCREMENT,
+    fkEmpresa INT,
+    nome VARCHAR(45),
+    cpf CHAR(11),
+    email VARCHAR(220),
+    senha VARCHAR(255),
+    fkSetor INT,
+    CONSTRAINT cFkEmpresa_func FOREIGN KEY (fkEmpresa)
+        REFERENCES empresa (idempresa),
+    CONSTRAINT cFkSetor_func FOREIGN KEY (fkSetor)
+        REFERENCES setor (idSetor),
+	cargo VARCHAR(45),
+    CONSTRAINT ckcargo CHECK (cargo IN('Funcionário Comum', 'Administrador'))
 );
 
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+CREATE TABLE estufa (
+    idestufa INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(45) NOT NULL,
+    gasMinimo INT,
+    gasMaximo INT,
+    fkEmpresa INT,
+    fkSetor INT,
+    CONSTRAINT cFkEmpresa_estuf FOREIGN KEY (fkEmpresa)
+        REFERENCES empresa (idempresa),
+    CONSTRAINT cFkSetor_estuf FOREIGN KEY (fkSetor)
+        REFERENCES setor (idSetor)
 );
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
-
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
+CREATE TABLE sensor (
+    idSensor INT PRIMARY KEY AUTO_INCREMENT,
+    modelo VARCHAR(45),
+    dtInstalacao DATE,
+    sensor_status VARCHAR(45),
+    fkEstufa INT,
+    CONSTRAINT cFkEstufa FOREIGN KEY (fkEstufa)
+        REFERENCES estufa (idestufa),
+    CONSTRAINT cStatus CHECK (sensor_status IN ('Ativo' , 'Inativo'))
 );
 
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+CREATE TABLE registro (
+    idRegistro INT PRIMARY KEY AUTO_INCREMENT,
+    fkSensor INT,
+    PPM float,
+    dtHrRegistro DATETIME DEFAULT (NOW()),
+    CONSTRAINT cFkSensor FOREIGN KEY (fkSensor)
+        REFERENCES sensor (idSensor)
+);
+
+INSERT INTO empresa (nome, cnpj, telefone, emailCorporativo) VALUES
+('Red Berry Company', '45083604000187', '11975519892', 'redberrycompanyy@gmail.com'),
+('Berry House', '12345678000199', '11988887777', 'contato@berryhouse.com.br');
+
+INSERT INTO setor (identificador) VALUES
+('Setor 1A RBC'),
+('Setor 1B RBC'),
+('Setor AA BH'),
+('Setor AB BH');
+
+INSERT INTO funcionario (fkEmpresa, nome, cpf, email, senha, fkSetor, cargo) VALUES
+(1, 'Arthur Lima Azevedo', 96255467802,'arthur.lazev@redberry.com.br', 'l4am0Pr@_01', 1, 'Administrador'),
+(1, 'Lucas Pereira Silva', '12345678901', 'lucas.silva@redberry.com.br', 'luc@S123', 2, 'Funcionário Comum'),
+(2, 'Mariana Costa Souza', '23456789012', 'mariana.souza@redberry.com.br', 'mar!2026', 3, 'Funcionário Comum'),
+(2, 'Carlos Eduardo Lima', '34567890123', 'carlos.lima@redberry.com.br', 'carl0s#adm', 4, 'Administrador');
+
+
+INSERT INTO estufa (nome, fkEmpresa, fkSetor, gasMinimo, gasMaximo) VALUES
+('Estufa M01', 1, 1, 300, 900),
+('Estufa M02', 1, 2, 350, 850),
+('Estufa M03', 1, 2, 400, 800),
+('Estufa H01', 2, 1, 300, 900),
+('Estufa H01', 2, 2, 450, 850),
+('Estufa H01', 2, 1, 390, 880);
+
+INSERT INTO sensor (modelo, dtInstalacao, sensor_status, fkEstufa) VALUES
+('Arduino MQ-2 UNO', '2026-04-22', 'Ativo', 1),
+('Arduino MQ-2 UNO', '2026-04-22', 'Ativo', 1),
+('Arduino MQ-2 UNO', '2026-04-23', 'Ativo', 2),
+('Arduino MQ-2 UNO', '2026-04-23', 'Ativo', 2),
+('Arduino MQ-2 UNO', '2026-04-24', 'Ativo', 3),
+('Arduino MQ-2 UNO', '2026-04-24', 'Ativo', 3),
+('Arduino MQ-2 UNO', '2026-04-25', 'Inativo', 4),
+('Arduino MQ-2 UNO', '2026-04-25', 'Ativo', 4),
+('Arduino MQ-2 UNO', '2026-04-26', 'Ativo', 5),
+('Arduino MQ-2 UNO', '2026-04-26', 'Ativo', 5),
+('Arduino MQ-2 UNO', '2026-04-27', 'Inativo', 6),
+('Arduino MQ-2 UNO', '2026-04-27', 'Inativo', 6);
