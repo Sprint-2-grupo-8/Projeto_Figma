@@ -14,6 +14,11 @@ function cadastrar_empresa() {
         return;
     }
 
+    if (email_empresa.indexOf("@") == -1 || email_empresa.indexOf(".") == -1) {
+        erro_cadastro.innerHTML = "O e-mail deve conter '@' e '.'";
+        return;
+    }
+
     // Validação do CNPJ: deve ter 14 dígitos e só números
     if (cnpj.length !== 14 || isNaN(Number(cnpj))) {
         erro_cadastro.innerHTML = "O CNPJ deve conter exatamente 14 números (apenas dígitos, sem pontos ou traços)";
@@ -67,8 +72,28 @@ function cadastrar_func() {
     let cpf_func = ipt_cpf_func.value;
 
 
-    if (nome_func == "" || email_func == "" || senha_cadastro == "" || senha_confirmacao == "") {
+    if (nome_func == "" || email_func == "" || senha_cadastro == "" || senha_confirmacao == "" || cpf_func == "") {
         erro_senha.innerHTML = "Preencha todos os campos";
+        return;
+    }
+
+    if (nome_func.length < 3) {
+        erro_senha.innerHTML = "O nome deve ter pelo menos 3 caracteres";
+        return;
+    }
+
+    if (email_func.indexOf("@") == -1 || email_func.indexOf(".") == -1) {
+        erro_senha.innerHTML = "O e-mail deve conter '@' e '.'";
+        return;
+    }
+
+    if (cpf_func.length !== 11 || isNaN(Number(cpf_func))) {
+        erro_senha.innerHTML = "O CPF deve conter exatamente 11 números";
+        return;
+    }
+
+    if (senha_cadastro.length < 6) {
+        erro_senha.innerHTML = "A senha deve ter pelo menos 6 caracteres";
         return;
     }
 

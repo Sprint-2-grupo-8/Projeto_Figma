@@ -70,15 +70,15 @@ function cadastrar(req, res) {
     var fkEmpresa = req.body.idEmpresaVincularServer;
     
 
-    // Valida campos q obrigatórios
-    if (nome == undefined) {
-        res.status(400).send("Seu nome está undefined!");
-    } else if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (senha == undefined) {
-        res.status(400).send("Sua senha está undefined!");
-    } else if (cpf == undefined) {
-        res.status(400).send("Seu CPF está undefined!");
+    // Valida campos obrigatórios e formatos
+    if (nome == undefined || nome.length < 3) {
+        res.status(400).send("Seu nome está inválido (mínimo 3 caracteres)!");
+    } else if (email == undefined || email.indexOf("@") == -1 || email.indexOf(".") == -1) {
+        res.status(400).send("Seu email está inválido (deve conter '@' e '.')!");
+    } else if (senha == undefined || senha.length < 6) {
+        res.status(400).send("Sua senha está inválida (mínimo 6 caracteres)!");
+    } else if (cpf == undefined || cpf.length !== 11 || isNaN(Number(cpf))) {
+        res.status(400).send("Seu CPF está inválido (deve conter 11 dígitos numéricos)!");
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua empresa a vincular está undefined!");
     } else {

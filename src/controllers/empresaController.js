@@ -28,10 +28,14 @@ function cadastrar(req, res) {
   var telefone = req.body.telefone;
   var email = req.body.email;
 
-  if (cnpj == undefined) {
-    res.status(400).send("Seu cnpj está undefined!");
-  } else if (nome == undefined) {
-    res.status(400).send("Sua razão social está undefined!");
+  if (cnpj == undefined || cnpj.length !== 14 || isNaN(Number(cnpj))) {
+    res.status(400).send("Seu CNPJ está inválido (deve conter 14 dígitos numéricos)!");
+  } else if (nome == undefined || nome.length < 3) {
+    res.status(400).send("Sua razão social está inválida (mínimo 3 caracteres)!");
+  } else if (telefone == undefined || (telefone.length !== 10 && telefone.length !== 11) || isNaN(Number(telefone))) {
+    res.status(400).send("Seu telefone está inválido (10 ou 11 dígitos numéricos)!");
+  } else if (email == undefined || email.indexOf("@") == -1 || email.indexOf(".") == -1) {
+    res.status(400).send("Seu e-mail está inválido (deve conter '@' e '.')!");
   } else {
     empresaModel.buscarPorCnpj(cnpj).then((resultado) => {
       if (resultado.length > 0) {
