@@ -12,6 +12,12 @@ function cadastrar_empresa() {
         return;
     }
 
+    // CNPJ validation: must be exactly 14 digits and only numbers
+    if (cnpj.length !== 14 || isNaN(Number(cnpj))) {
+        erro_cadastro.innerHTML = "O CNPJ deve conter exatamente 14 números (apenas dígitos, sem pontos ou traços)";
+        return;
+    }
+
     fetch("/empresas/cadastrar", {
         method: "POST",
         headers: {
