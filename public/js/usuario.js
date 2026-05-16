@@ -1,4 +1,4 @@
-// Variable to store the recently created empresa ID
+
 let idEmpresaVincular = null;
 
 function cadastrar_empresa() {
@@ -7,14 +7,22 @@ function cadastrar_empresa() {
     let cnpj = ipt_cnpj.value;
     let telefone = ipt_telefone.value;
 
+
+    // Validação - Todos os campos devem ser preenchidos
     if (nome_empresa == "" || email_empresa == "" || cnpj == "" || telefone == "") {
         erro_cadastro.innerHTML = "Todos os campos devem estar preenchidos";
         return;
     }
 
-    // CNPJ validation: must be exactly 14 digits and only numbers
+    // Validação do CNPJ: deve ter 14 dígitos e só números
     if (cnpj.length !== 14 || isNaN(Number(cnpj))) {
         erro_cadastro.innerHTML = "O CNPJ deve conter exatamente 14 números (apenas dígitos, sem pontos ou traços)";
+        return;
+    }
+
+    // Validação do Telefone: deve ter 10 (fixo) ou 11 (celular) - apenas números
+    if ((telefone.length !== 10 && telefone.length !== 11) || isNaN(Number(telefone))) {
+        erro_cadastro.innerHTML = "O telefone deve conter 10 ou 11 números (com DDD, apenas dígitos)";
         return;
     }
 
@@ -35,7 +43,7 @@ function cadastrar_empresa() {
             alert("Empresa cadastrada com sucesso!");
             resposta.json().then(json => {
                 console.log(json);
-                idEmpresaVincular = json.insertId; // Capture the new ID
+                idEmpresaVincular = json.insertId; // Captura o ID gerado
                 document.getElementById("empresa").style.display = "none";
                 document.getElementById("funcionario").style.display = "flex";
             });
