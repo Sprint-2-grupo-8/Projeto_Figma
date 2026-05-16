@@ -22,7 +22,17 @@ function cadastrar(nome, email, senha, fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function buscarPorEmail(email) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Verificando email duplicado: ", email);
+    var instrucaoSql = `
+        SELECT id FROM usuario WHERE email = '${email}';
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    buscarPorEmail
 };
