@@ -64,6 +64,8 @@ function cadastrar_func() {
     let email_func = ipt_email_func.value;
     let senha_cadastro = ipt_senha.value;
     let senha_confirmacao = ipt_c_senha.value;
+    let cpf_func = ipt_cpf_func.value;
+
 
     if (nome_func == "" || email_func == "" || senha_cadastro == "" || senha_confirmacao == "") {
         erro_senha.innerHTML = "Preencha todos os campos";
@@ -84,6 +86,9 @@ function cadastrar_func() {
             nomeServer: nome_func,
             emailServer: email_func,
             senhaServer: senha_cadastro,
+            cpfServer : cpf_func,
+
+
             idEmpresaVincularServer: idEmpresaVincular
         }),
     })
@@ -129,6 +134,7 @@ function logar() {
                 sessionStorage.EMAIL_USUARIO = json.email;
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.id;
+                sessionStorage.CPF_USUARIO = json.cpf;
                 
                 setTimeout(function () {
                     window.location = "dashboard.html";

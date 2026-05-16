@@ -27,6 +27,7 @@ function autenticar(req, res) {
                                         id: resultadoAutenticar[0].id,
                                         email: resultadoAutenticar[0].email,
                                         nome: resultadoAutenticar[0].nome,
+                                        cpf: resultadoAutenticar[0].cpf,
                                         senha: resultadoAutenticar[0].senha,
                                         aquarios: resultadoAquarios
                                     });
@@ -35,6 +36,7 @@ function autenticar(req, res) {
                                         id: resultadoAutenticar[0].id,
                                         email: resultadoAutenticar[0].email,
                                         nome: resultadoAutenticar[0].nome,
+                                        cpf: resultadoAutenticar[0].cpf,
                                         senha: resultadoAutenticar[0].senha,
                                         aquarios: []
                                     });
@@ -52,7 +54,7 @@ function autenticar(req, res) {
             ).catch(
                 function (erro) {
                     console.log(erro);
-                    console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+                    console.log("\Houve um erro ao realizar o login! Erro: ", erro.sqlMessage);
                     res.status(500).json(erro.sqlMessage);
                 }
             );
@@ -64,15 +66,19 @@ function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
+    var cpf = req.body.cpfServer;
     var fkEmpresa = req.body.idEmpresaVincularServer;
+    
 
-    // Valida campos obrigatórios
+    // Valida campos q obrigatórios
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
     } else if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
+    } else if (cpf == undefined) {
+        res.status(400).send("Seu CPF está undefined!");
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua empresa a vincular está undefined!");
     } else {
@@ -84,7 +90,7 @@ function cadastrar(req, res) {
                     res.status(409).send("Email já cadastrado.");
                 } else {
                     // n existe e continua  o cadastro
-                    usuarioModel.cadastrar(nome, email, senha, fkEmpresa)
+                    usuarioModel.cadastrar(nome, email, senha, cpf, fkEmpresa)
                         .then(function (resultado) {
                             res.json(resultado);
                         })
