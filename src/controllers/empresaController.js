@@ -24,19 +24,27 @@ function buscarPorId(req, res) {
 
 function cadastrar(req, res) {
   var cnpj = req.body.cnpj;
-  var razaoSocial = req.body.razaoSocial;
+  var nome = req.body.nome;
+  var telefone = req.body.telefone;
+  var email = req.body.email;
 
-  empresaModel.buscarPorCnpj(cnpj).then((resultado) => {
-    if (resultado.length > 0) {
-      res
-        .status(401)
-        .json({ mensagem: `a empresa com o cnpj ${cnpj} já existe` });
-    } else {
-      empresaModel.cadastrar(razaoSocial, cnpj).then((resultado) => {
-        res.status(201).json(resultado);
-      });
-    }
-  });
+  if (cnpj == undefined) {
+    res.status(400).send("Seu cnpj está undefined!");
+  } else if (nome == undefined) {
+    res.status(400).send("Sua razão social está undefined!");
+  } else {
+    empresaModel.buscarPorCnpj(cnpj).then((resultado) => {
+      if (resultado.length > 0) {
+        res
+          .status(401)
+          .json({ mensagem: `a empresa com o cnpj ${cnpj} já existe` });
+      } else {
+        empresaModel.cadastrar(nome, cnpj, telefone, email).then((resultado) => {
+          res.status(201).json(resultado);
+        });
+      }
+    });
+  }
 }
 
 module.exports = {
