@@ -1,0 +1,102 @@
+.primary {
+    padding: 14px 80px;
+    border-radius: 12px;
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #60da8d, #3d6805);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+}
+
+.primary:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.secondary {
+    padding: 14px 80px;
+    border-radius: 12px;
+    border: 2px solid #2ecc71;
+    font-size: 20px;
+    font-weight: 600;
+    background: white;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.secondary:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.page-center {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.form-card {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border: 2px solid #16a34a;
+    width: 30vw;
+}
+
+.form-card h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.form-card h3 {
+    font-size: 18px;
+    margin: 15px 0 5px;
+}
+
+.form-card input,
+.form-card select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.form-actions .primary,
+.form-actions .secondary {
+    padding: 14px;
+    width: 100%;
+}
+
+
+/*  UTILITÁRIOS  */
+
+#funcionario {
+    display: none;
+}
+
+.vermelho {
+    color: red;
+}
+
+.bold {
+    font-weight: bold;
+}

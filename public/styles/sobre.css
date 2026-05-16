@@ -1,0 +1,174 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+
+body {
+    background-color: #F9FDFB;
+    font-family: 'Poppins', sans-serif;
+    color: #1D2128;
+}
+
+.sobre-hero {
+    padding: 80px 0 40px;
+    text-align: center;
+}
+
+.sobre-hero h2 {
+    font-size: 44px;
+    font-weight: 800;
+    color: #1A1D23;
+    margin-bottom: 20px;
+}
+
+.sobre-hero h2 span {
+    color: #0CA554;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #555;
+    max-width: 750px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+}
+
+.hero-image-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.hero-image-wrapper img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    display: block;
+}
+
+/* MVV Section */
+.mvv-section {
+    padding: 60px 0;
+}
+
+.mvv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.mvv-card {
+    background-color: #0CA554;
+    color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(12, 165, 84, 0.25);
+    transition: transform 0.3s ease;
+    text-align: left;
+}
+
+.mvv-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.mvv-card .icon-box {
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-box {
+    transition: 0.7s;
+}
+.icon-box:hover {
+    transform: translateY(-1vh);
+
+}
+
+.mvv-card .icon-box svg {
+    width: 24px;
+    height: 24px;
+    stroke: white;
+}
+
+.mvv-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.mvv-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Valores em Ação Section */
+.valores-acao-section {
+    padding: 60px 0 100px;
+    text-align: center;
+}
+
+.valores-acao-section h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: #1A1D23;
+    margin-bottom: 20px;
+}
+
+.valores-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.valor-item {
+    text-align: center;
+}
+
+.valor-item .icon-box {
+    background-color: #0CA554;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.valor-item .icon-box svg {
+    width: 32px;
+    height: 32px;
+    stroke: white;
+}
+
+.valor-item h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1A1D23;
+    margin-bottom: 15px;
+}
+
+.valor-item p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}

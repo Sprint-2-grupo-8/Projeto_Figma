@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasControl</title>
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/global.css">
+
+
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+
+            <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">
+                <img src="assets/img/Frame.svg">
+                <h1>GasControl</h1>
+            </a>
+
+            <div class="header-right">
+                <nav>
+                    <ul>
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="sobre.html">Sobre o Projeto</a></li>
+                        <li><a href="simulador.html">Calculadora Financeira</a></li>
+                    </ul>
+                </nav>
+
+                <button class="btn-login" onclick="mudarJanela('./login.html')">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Login / Cadastro
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+
+            <div class="hero-text">
+                <span class="titulo">Tecnologia para agricultura moderna</span>
+
+                <h2>
+                    Controle Inteligente de CO₂ para <span class="destaque">estufas de morango</span>
+                </h2>
+
+                <p class="hero-description">
+                    O GasControl oferece uma solução completa para monitoramento de níveis de gás carbônico em ambientes hidropônicos, garantindo condições ideais para o crescimento das suas plantas e maximizando a produtividade.
+                </p>
+
+                <ul class="hero-checklist">
+                    <li>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <span><strong>Dados em Tempo Real:</strong> Acompanhe as variações de CO₂ instantaneamente</span>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <span><strong>Alertas Personalizados:</strong> Configure limites e receba notificações</span>
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <span><strong>Histórico Completo:</strong> Análise de tendências e relatórios detalhados</span>
+                    </li>
+                </ul>
+
+                <div class="hero-buttons">
+                    <button class="btn-saiba-mais" onclick="mudarJanela('./sobre.html')">Saiba Mais</button>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <img src="assets/img/homepage-morango.jfif" class="hero-photo" alt="Estufa de Morangos">
+
+                <!-- Balões Flutuantes -->
+                <div class="floating-balloon top-right">
+                    <div class="balloon-icon blue-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    </div>
+                    <div class="balloon-text">
+                        <strong>750 ppm</strong>
+                        <span>CO₂ Ideal</span>
+                    </div>
+                </div>
+
+                <div class="floating-balloon bottom-left">
+                    <div class="balloon-icon green-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                    </div>
+                    <div class="balloon-text">
+                        <strong>+35%</strong>
+                        <span>Produtividade</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="flowchart-section" id="como-funciona">
+        <div class="container">
+            <h2>Como Funciona</h2>
+            <p class="subtitle">Nosso sistema de monitoramento utiliza tecnologia de ponta para garantir o ambiente ideal para suas plantas</p>
+            
+            <div class="flowchart-container">
+                <!-- Passo 1 -->
+                <div class="flow-card">
+                    <div class="icon-wrapper icon-green">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 22l10-10"></path></svg>
+                    </div>
+                    <span class="step-label">Passo 1</span>
+                    <h3>Sensores na Estufa</h3>
+                    <p>Sensores de CO₂ instalados estrategicamente monitoram os níveis de gás em tempo real</p>
+                </div>
+
+        
+                <div class="flow-line"></div>
+
+                <div class="flow-card">
+                    <div class="icon-wrapper icon-blue">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"></circle><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"></path></svg>
+                    </div>
+                    <span class="step-label">Passo 2</span>
+                    <h3>Transmissão de Dados</h3>
+                    <p>Dados coletados são transmitidos continuamente para o sistema central</p>
+                </div>
+
+                
+                <div class="flow-line"></div>
+
+            
+                <div class="flow-card">
+                    <div class="icon-wrapper icon-purple">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    </div>
+                    <span class="step-label">Passo 3</span>
+                    <h3>Análise e Dashboard</h3>
+                    <p>Visualize gráficos, históricos e tendências dos níveis de CO₂ em uma interface intuitiva</p>
+                </div>
+
+               
+                <div class="flow-line"></div>
+
+              
+                <div class="flow-card">
+                    <div class="icon-wrapper icon-orange">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    </div>
+                    <span class="step-label">Passo 4</span>
+                    <h3>Alertas Inteligentes</h3>
+                    <p>Receba notificações quando os níveis estiverem fora dos parâmetros ideais</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="por-que-escolher" id="por-que-escolher">
+        <div class="container pq-container">
+            <div class="pq-image">
+                <img src="assets/img/estufa-homepage.jpg" alt="Estufa">
+            </div>
+            <div class="pq-text">
+                <h2>Por Que Escolher a GasControl?</h2>
+                <p class="pq-subtitle">Nossa solução oferece resultados comprovados e benefícios tangíveis para sua produção.</p>
+                <ul class="pq-checklist">
+                    <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Gestão baseada em dados reais</li>
+                    <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Alertas personalizados</li>
+                    <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Mais segurança para o seu negócio</li>
+                </ul>
+                <button class="btn-comecar" onclick="mudarJanela('./cadastro.html')">Quero ser cliente</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="simulador">
+        <div class="container">
+            <h2>Ainda em dúvida?</h2>
+            <p>Clique no botão abaixo e faça uma simulação sobre o que podemos <br>agregar ao seu negócio!</p>
+            <button onclick="mudarJanela('./simulador.html')">Simulador financeiro</button>
+        </div>
+    </section>
+
+   <footer class="site-footer-centered">
+        <div class="container">
+            <div class="footer-logo-centered">
+                <img src="assets/img/Frame.svg" alt="GasControl">
+                <h2>GasControl</h2>
+            </div>
+            
+            <div class="footer-nav-centered">
+                <a href="index.html">Home</a>
+                <a href="sobre.html">Sobre o Projeto</a>
+                <a href="simulador.html">Calculadora Financeira</a>
+                <a href="login.html">Login / Cadastro</a>
+            </div>
+
+            <div class="footer-contact-centered">
+                <span>contato@gascontrol.com</span>
+                <span>(11) 99999-9999</span>
+                <span>São Paulo, SP</span>
+            </div>
+
+            <div class="footer-bottom-centered">
+                <hr>
+                <p>&copy; 2026 GasControl. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+    <script src="js/janela.js"></script>
+</html>
