@@ -11,7 +11,8 @@ CREATE TABLE empresa (
     nome VARCHAR(45),
     cnpj CHAR(14) NOT NULL,
     telefone VARCHAR(20),
-    emailCorporativo VARCHAR(220)
+    emailCorporativo VARCHAR(220),
+    codigo_acesso VARCHAR(45)
 );
 
 CREATE TABLE setor (
@@ -68,9 +69,9 @@ CREATE TABLE registro (
         REFERENCES sensor (idSensor)
 );
 
-INSERT INTO empresa (nome, cnpj, telefone, emailCorporativo) VALUES
-('Red Berry Company', '45083604000187', '11975519892', 'redberrycompanyy@gmail.com'),
-('Berry House', '12345678000199', '11988887777', 'contato@berryhouse.com.br');
+INSERT INTO empresa (nome, cnpj, telefone, emailCorporativo, codigo_acesso) VALUES
+('Red Berry Company', '45083604000187', '11975519892', 'redberrycompanyy@gmail.com', 'rbc123'),
+('Berry House', '12345678000199', '11988887777', 'contato@berryhouse.com.br', 'bh123');
 
 INSERT INTO setor (identificador) VALUES
 ('Setor 1A RBC'),

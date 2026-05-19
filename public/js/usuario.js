@@ -1,52 +1,20 @@
-
-function obterEmpresas() {
-    fetch("/empresas/listar")
-        .then(function (resposta) {
-            if (resposta.ok) {
-                resposta.json().then(function (empresas) {
-                    let select = document.getElementById("slc_empresa");
-                    if (select) {
-                        select.innerHTML = '<option value="" disabled selected>Selecione sua empresa</option>';
-                        empresas.forEach(function (empresa) {
-                            let option = document.createElement("option");
-                            option.value = empresa.id;
-                            option.textContent = empresa.nome;
-                            select.appendChild(option);
-                        });
-                    }
-                });
-            } else {
-                console.error("Nenhuma empresa encontrada ou erro na requisição.");
-            }
-        })
-        .catch(function (erro) {
-            console.error("Erro ao obter empresas:", erro);
-        });
-}
-
-// Executa obterEmpresas quando a página carrega, se o dropdown estiver presente
-window.addEventListener("DOMContentLoaded", function () {
-    if (document.getElementById("slc_empresa")) {
-        obterEmpresas();
-    }
-});
-
 function cadastrar_func() {
     let nome_func = ipt_nome_func.value;
     let email_func = ipt_email_func.value;
     let senha_cadastro = ipt_senha.value;
     let senha_confirmacao = ipt_c_senha.value;
     let cpf_func = ipt_cpf_func.value;
-    let idEmpresaVincular = document.getElementById("slc_empresa") ? document.getElementById("slc_empresa").value : "";
+    let token_empresa = document.getElementById("ipt_token") ? ipt_token.value.trim() : "";
 
-
+    // Valida se todos os campos do formulário estão preenchidos
     if (nome_func == "" || email_func == "" || senha_cadastro == "" || senha_confirmacao == "" || cpf_func == "") {
         erro_senha.innerHTML = "Preencha todos os campos";
         return;
     }
 
-    if (idEmpresaVincular == "") {
-        erro_senha.innerHTML = "Selecione uma empresa";
+    // Valida preenchimento do token da empresa
+    if (token_empresa == "") {
+        erro_senha.innerHTML = "Digite o token da sua empresa";
         return;
     }
 
@@ -75,6 +43,7 @@ function cadastrar_func() {
         return;
     }
 
+    // Envia requisição de cadastro passando o token para vínculo com a empresa
     fetch("/usuarios/cadastrar", {
         method: "POST",
         headers: {
@@ -85,7 +54,7 @@ function cadastrar_func() {
             emailServer: email_func,
             senhaServer: senha_cadastro,
             cpfServer : cpf_func,
-            idEmpresaVincularServer: idEmpresaVincular
+            tokenEmpresaServer: token_empresa
         }),
     })
     .then(function (resposta) {

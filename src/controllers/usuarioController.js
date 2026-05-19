@@ -1,5 +1,6 @@
 var usuarioModel = require("../models/usuarioModel");
 var aquarioModel = require("../models/aquarioModel");
+var empresaModel = require("../models/empresaModel");
 
 function autenticar(req, res) {
     var email = req.body.emailServer;
@@ -62,15 +63,13 @@ function autenticar(req, res) {
 }
 
 function cadastrar(req, res) {
-    
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var cpf = req.body.cpfServer;
-    var fkEmpresa = req.body.idEmpresaVincularServer;
-    
+    var tokenEmpresa = req.body.tokenEmpresaServer;
 
-    // Valida campos obrigatórios e formatos
+    // Valida os campos obrigatórios do usuário
     if (nome == undefined || nome.length < 3) {
         res.status(400).send("Seu nome está inválido (mínimo 3 caracteres)!");
     } else if (email == undefined || email.indexOf("@") == -1 || email.indexOf(".") == -1) {
@@ -79,31 +78,44 @@ function cadastrar(req, res) {
         res.status(400).send("Sua senha está inválida (mínimo 6 caracteres)!");
     } else if (cpf == undefined || cpf.length !== 11 || isNaN(Number(cpf))) {
         res.status(400).send("Seu CPF está inválido (deve conter 11 dígitos numéricos)!");
-    } else if (fkEmpresa == undefined) {
-        res.status(400).send("Sua empresa a vincular está undefined!");
+    } else if (tokenEmpresa == undefined || tokenEmpresa === "") {
+        res.status(400).send("O token da empresa está inválido ou vazio!");
     } else {
-        //verifica se o email cadastro ja existe
-        usuarioModel.buscarPorEmail(email)
-            .then(function (resultadoBusca) {
-                if (resultadoBusca.length > 0) {
-                    
-                    res.status(409).send("Email já cadastrado.");
+        // Valida se o token de acesso pertence a alguma empresa cadastrada
+        empresaModel.buscarPorToken(tokenEmpresa)
+            .then(function (resultadoEmpresa) {
+                if (resultadoEmpresa.length === 0) {
+                    res.status(400).send("Token de empresa inválido!");
                 } else {
-                    // n existe e continua  o cadastro
-                    usuarioModel.cadastrar(nome, email, senha, cpf, fkEmpresa)
-                        .then(function (resultado) {
-                            res.json(resultado);
+                    var fkEmpresa = resultadoEmpresa[0].id;
+
+                    // Verifica se o email de usuário já está em uso
+                    usuarioModel.buscarPorEmail(email)
+                        .then(function (resultadoBusca) {
+                            if (resultadoBusca.length > 0) {
+                                res.status(409).send("Email já cadastrado.");
+                            } else {
+                                // Cria o novo usuário vinculando-o à empresa encontrada
+                                usuarioModel.cadastrar(nome, email, senha, cpf, fkEmpresa)
+                                    .then(function (resultado) {
+                                        res.json(resultado);
+                                    })
+                                    .catch(function (erro) {
+                                        console.log(erro);
+                                        console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+                                        res.status(500).json(erro.sqlMessage);
+                                    });
+                            }
                         })
                         .catch(function (erro) {
                             console.log(erro);
-                            console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
                             res.status(500).json(erro.sqlMessage);
                         });
                 }
             })
             .catch(function (erro) {
                 console.log(erro);
-                res.status(500).json(erro.sqlMessage);
+                res.status(500).json("Erro ao validar token da empresa.");
             });
     }
 }

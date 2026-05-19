@@ -24,4 +24,9 @@ function cadastrar(nome, cnpj, telefone, email) {
   return database.executar(instrucaoSql);
 }
 
-module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar };
+function buscarPorToken(token) {
+  var instrucaoSql = `SELECT idempresa as id, nome FROM empresa WHERE codigo_acesso = '${token}'`;
+  return database.executar(instrucaoSql);
+}
+
+module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar, buscarPorToken };
