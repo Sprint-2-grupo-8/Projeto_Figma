@@ -102,7 +102,7 @@ function logar() {
                 sessionStorage.CPF_USUARIO = json.cpf;
                 
                 setTimeout(function () {
-                    window.location = "dashboard.html";
+                    window.location = "painel.html";
                 }, 1000);
             });
         } else {

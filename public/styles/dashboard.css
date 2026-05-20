@@ -306,6 +306,15 @@ main {
     font-weight: 700;
 }
 
+.descricao a {
+    text-decoration: underline;
+    color: inherit;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.descricao a:hover {
+    color: burlywood;
+}
 .red {
     border: 1px solid rgb(225, 87, 87);
     background-color: #ffeaea;

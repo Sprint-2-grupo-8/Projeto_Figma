@@ -109,7 +109,7 @@ const line_data = {
         label: 'Concentração média do intervalo',
         backgroundColor: 'blue',
         borderColor: 'blue',
-        data: [550, 400, 500, 1000, 1200, 800],
+        data: [``],
     }
     ]
 };
