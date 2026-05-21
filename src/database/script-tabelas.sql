@@ -15,11 +15,6 @@ CREATE TABLE empresa (
     codigo_acesso VARCHAR(45)
 );
 
-CREATE TABLE setor (
-    idSetor INT PRIMARY KEY AUTO_INCREMENT,
-    identificador VARCHAR(45)
-);
-
 CREATE TABLE funcionario (
     idfuncionario INT PRIMARY KEY AUTO_INCREMENT,
     fkEmpresa INT,
