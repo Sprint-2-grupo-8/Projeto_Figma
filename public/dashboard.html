@@ -77,11 +77,11 @@
 
 
         <div class="indicadores-individual">
-            <div class="indicador indicador-danger">
+            <div id="id_concentracao" class="indicador">
                 <span class="title">Concentração de CO₂</span>
 
-                <span class="value" id="nivel_atual">305 ppm</span>
-                <span class="legenda legenda-danger">Faixa ideal: 600 a 900</span>
+                <span class="value" id="nivel_atual"></span>
+                <span id="id_ideal" class="legenda">Faixa ideal: 600 a 900</span>
             </div>
             <div class="indicador indicador-ok">
                 <span class="title">Nível de oscilação do CO₂</span>
@@ -171,10 +171,6 @@
     let proximaAtualizacao;
     async function obterDadosGrafico() {
 
-        if (proximaAtualizacao != undefined) {
-            clearTimeout(proximaAtualizacao);
-        }
-
         try {
             fetch('/medidas/ultimas/', { cache: 'no-store' }).then(function (response) {
                 if (response.ok) {
@@ -196,6 +192,19 @@
                         console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
                         plotarGraficoDistribuicao(resposta);
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            });
+
+            fetch('/medidas/concentracao', { cache: 'no-store' }).then(function
+                (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                        exibirConcentracao(resposta);
                     });
                 } else {
                     console.error('Nenhum dado encontrado ou erro na API');
@@ -267,8 +276,6 @@
             document.getElementById('indice_estufa_24h'),
             line_config
         );
-
-        setTimeout(() => atualizarGrafico(line_data, myChart), 2000);
     }
 
 
@@ -372,49 +379,81 @@
             document.getElementById('grafico_dispersao'),
             scatter_config
         );
+    }
+    let concentracao = 0;
 
-        setTimeout(() => atualizarGraficoDistribuicao(scatter_data, myChart), 2000);
+    function exibirConcentracao(resposta) {
+
+        concentracao = resposta[0].ppm;
+        console.log('concentracao: ',concentracao);
+        
+        if (concentracao < 400) {
+            document.getElementById("id_concentracao").classList.add('indicador-danger');
+            document.getElementById("id_ideal").classList.add('legenda-danger');
+        } else if (concentracao < 600) {
+            document.getElementById("id_concentracao").classList.add('indicador-attention');
+            document.getElementById("id_ideal").classList.add('legenda-attention');
+        } else if (concentracao < 900) {
+            document.getElementById("id_concentracao").classList.add('indicador-ok');
+            document.getElementById("id_ideal").classList.add('legenda-ok');
+        } else {
+            document.getElementById("id_concentracao").classList.add('indicador-danger');
+            document.getElementById("id_ideal").classList.add('legenda-danger');
+        }
+
+        document.getElementById("nivel_atual").innerHTML = concentracao;
+
+        atualizarConcentracao();
     }
 
-    // function atualizarGraficoDistribuicao(dados, myChart) {
 
+    function atualizarConcentracao() {
+        
+        fetch('/medidas/tempo-real/concentracao', { cache: 'no-store' }).then(function
+                (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
+                        var concentracaoAtual = resposta[0].ppm;
+                        if (concentracaoAtual != concentracao) {
+                            document.getElementById("id_concentracao").classList.remove('indicador-danger', 'indicador-attention', 'indicador-ok');
+                            document.getElementById("id_ideal").classList.remove('legenda-danger', 'legenda-attention', 'legenda-ok')
+                            if (concentracaoAtual < 400) {
+                                document.getElementById("id_concentracao").classList.add('indicador-danger');
+                                document.getElementById("id_ideal").classList.add('legenda-danger');
+                            } else if (concentracaoAtual < 600) {
+                                document.getElementById("id_concentracao").classList.add('indicador-attention');
+                                document.getElementById("id_ideal").classList.add('legenda-attention');
+                            } else if (concentracaoAtual < 900) {
+                                document.getElementById("id_concentracao").classList.add('indicador-ok');
+                                document.getElementById("id_ideal").classList.add('legenda-ok');
+                            } else {
+                                document.getElementById("id_concentracao").classList.add('indicador-danger');
+                                document.getElementById("id_ideal").classList.add('legenda-danger');
+                            }
 
-    //     fetch('/medidas/tempo-real/distribuicao', { cache: 'no-store' }).then(function (response) {
-    //         if (response.ok) {
-    //             response.json().then(function (novoRegistro) {
-    //                 // alertar(novoRegistro, idAquario);
-    //                 console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
-    //                 console.log(`Dados atuais do gráfico:`);
-    //                 console.log(dados);
+                            document.getElementById("nivel_atual").innerHTML = concentracaoAtual;
 
-    //                 var medida_atualizada = novoRegistro[0];
+                            setTimeout(atualizarConcentracao, 2000);
+                        } else {
+                            concentracao = concentracaoAtual;
+                            setTimeout(atualizarConcentracao, 2000);
+                        }
 
-    //                 if (medida_atualizada.momento_grafico == myChart.data.labels[myChart.data.labels.length - 1]) {
-    //                     myChart.data.datasets[0].data[myChart.data.datasets[0].data.length - 1] = medida_atualizada.media_ppm;
-    //                 } else {
-    //                     myChart.data.labels.shift();
-    //                     myChart.data.datasets[0].data.shift();
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                    setTimeout(atualizarConcentracao, 2000);
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                setTimeout(atualizarConcentracao, 2000);
+            });
 
-    //                     myChart.data.labels.push(medida_atualizada.momento_grafico)
-    //                     myChart.data.datasets[0].data.push(medida_atualizada.media_ppm);
-    //                 }
-
-    //                 myChart.update();
-
-    //                 proximaAtualizacao = setTimeout(() => atualizarGraficoDistribuicao(dados, myChart), 2000);
-    //             });
-    //         } else {
-    //             console.error('Nenhum dado encontrado ou erro na API');
-    //             // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
-    //             proximaAtualizacao = setTimeout(() => atualizarGraficoDistribuicao(dados, myChart), 2000);
-    //         }
-    //     })
-    //         .catch(function (error) {
-    //             console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-    //         });
-
-    // }
+            
+    }
 </script>
 
 </html>

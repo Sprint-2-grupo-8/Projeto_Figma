@@ -18,4 +18,12 @@ router.get("/distribuicao", function (req,res) {
 router.get("/tempo-real/distribuicao", function (req,res) {
     medidaController.buscarDistribuicaoTempoReal(req,res);
 })
+
+router.get("/concentracao", function (req,res) {
+    medidaController.buscarConcentracao(req,res);
+})
+
+router.get("/tempo-real/concentracao", function (req,res) {
+    medidaController.atualizarConcentracao(req,res);
+})
 module.exports = router;

@@ -76,10 +76,39 @@ function buscarDistribuicaoTempoReal() {
     FROM registro
     WHERE DATE(dtHrRegistro) = CURDATE()
         AND HOUR(dtHrRegistro) = HOUR(NOW());`
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarConcentracao() {
+    var instrucaoSql = `
+    SELECT
+        ROUND(ppm, 0) as ppm
+    FROM registro
+    ORDER BY dtHrRegistro DESC
+    LIMIT 1;`
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function atualizarConcentracao() {
+    var instrucaoSql = `
+    SELECT
+        ROUND(ppm, 0) as ppm
+    FROM registro
+    ORDER BY dtHrRegistro DESC
+    LIMIT 1;`
+
+    console.log("Executando a instrução de atualizarConcentracao SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 module.exports = {
     buscarUltimasMedidas,
     buscarMedidasEmTempoReal,
     buscarDistribuicao,
-    buscarDistribuicaoTempoReal
+    buscarDistribuicaoTempoReal,
+    buscarConcentracao,
+    atualizarConcentracao
 }
