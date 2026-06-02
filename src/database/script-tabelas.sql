@@ -22,12 +22,9 @@ CREATE TABLE funcionario (
     cpf CHAR(11),
     email VARCHAR(220),
     senha VARCHAR(255),
-    fkSetor INT,
+    cargo VARCHAR(45),
     CONSTRAINT cFkEmpresa_func FOREIGN KEY (fkEmpresa)
         REFERENCES empresa (idempresa),
-    CONSTRAINT cFkSetor_func FOREIGN KEY (fkSetor)
-        REFERENCES setor (idSetor),
-	cargo VARCHAR(45),
     CONSTRAINT ckcargo CHECK (cargo IN('Funcionário Comum', 'Administrador'))
 );
 
@@ -37,11 +34,8 @@ CREATE TABLE estufa (
     gasMinimo INT,
     gasMaximo INT,
     fkEmpresa INT,
-    fkSetor INT,
     CONSTRAINT cFkEmpresa_estuf FOREIGN KEY (fkEmpresa)
-        REFERENCES empresa (idempresa),
-    CONSTRAINT cFkSetor_estuf FOREIGN KEY (fkSetor)
-        REFERENCES setor (idSetor)
+        REFERENCES empresa (idempresa)
 );
 
 CREATE TABLE sensor (
@@ -68,26 +62,20 @@ INSERT INTO empresa (nome, cnpj, telefone, emailCorporativo, codigo_acesso) VALU
 ('Red Berry Company', '45083604000187', '11975519892', 'redberrycompanyy@gmail.com', 'rbc123'),
 ('Berry House', '12345678000199', '11988887777', 'contato@berryhouse.com.br', 'bh123');
 
-INSERT INTO setor (identificador) VALUES
-('Setor 1A RBC'),
-('Setor 1B RBC'),
-('Setor AA BH'),
-('Setor AB BH');
-
-INSERT INTO funcionario (fkEmpresa, nome, cpf, email, senha, fkSetor, cargo) VALUES
-(1, 'Arthur Lima Azevedo', 96255467802,'arthur.lazev@redberry.com.br', 'l4am0Pr@_01', 1, 'Administrador'),
-(1, 'Lucas Pereira Silva', '12345678901', 'lucas.silva@redberry.com.br', 'luc@S123', 2, 'Funcionário Comum'),
-(2, 'Mariana Costa Souza', '23456789012', 'mariana.souza@redberry.com.br', 'mar!2026', 3, 'Funcionário Comum'),
-(2, 'Carlos Eduardo Lima', '34567890123', 'carlos.lima@redberry.com.br', 'carl0s#adm', 4, 'Administrador');
+INSERT INTO funcionario (fkEmpresa, nome, cpf, email, senha, cargo) VALUES
+(1, 'Arthur Lima Azevedo', 96255467802,'arthur.lazev@redberry.com.br', 'l4am0Pr@_01', 'Administrador'),
+(1, 'Lucas Pereira Silva', '12345678901', 'lucas.silva@redberry.com.br', 'luc@S123', 'Funcionário Comum'),
+(2, 'Mariana Costa Souza', '23456789012', 'mariana.souza@redberry.com.br', 'mar!2026', 'Funcionário Comum'),
+(2, 'Carlos Eduardo Lima', '34567890123', 'carlos.lima@redberry.com.br', 'carl0s#adm', 'Administrador');
 
 
-INSERT INTO estufa (nome, fkEmpresa, fkSetor, gasMinimo, gasMaximo) VALUES
-('Estufa M01', 1, 1, 300, 900),
-('Estufa M02', 1, 2, 350, 850),
-('Estufa M03', 1, 2, 400, 800),
-('Estufa H01', 2, 1, 300, 900),
-('Estufa H01', 2, 2, 450, 850),
-('Estufa H01', 2, 1, 390, 880);
+INSERT INTO estufa (nome, fkEmpresa, gasMinimo, gasMaximo) VALUES
+('Estufa M01', 1, 300, 900),
+('Estufa M02', 1, 350, 850),
+('Estufa M03', 1, 400, 800),
+('Estufa H01', 2, 300, 900),
+('Estufa H01', 2, 450, 850),
+('Estufa H01', 2, 390, 880);
 
 INSERT INTO sensor (modelo, dtInstalacao, sensor_status, fkEstufa) VALUES
 ('Arduino MQ-2 UNO', '2026-04-22', 'Ativo', 1),

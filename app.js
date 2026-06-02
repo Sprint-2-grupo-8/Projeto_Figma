@@ -8,7 +8,7 @@ var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
 require("dotenv").config({ path: caminho_env });
 
 // Bob IA
-var bobRouter = require("./src/routes/bob");
+// var bobRouter = require("./src/routes/bob");
 
 var express = require("express");
 var cors = require("cors");
@@ -38,7 +38,7 @@ app.use("/avisos", avisosRouter);
 app.use("/medidas", medidasRouter);
 app.use("/aquarios", aquariosRouter);
 app.use("/empresas", empresasRouter);
-app.use("/bob", bobRouter);
+// app.use("/bob", bobRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

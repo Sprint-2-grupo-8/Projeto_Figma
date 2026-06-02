@@ -1,12 +1,3 @@
-const periodo_label = [
-    '00:00',
-    '04:00',
-    '08:00',
-    '12:00',
-    '16:00',
-    '20:00'
-];
-
 const percentual_label = [
     'Faixa ideal',
     'Faixa intermediária',
@@ -104,12 +95,12 @@ const scatter_config = {
 };
 
 const line_data = {
-    labels: periodo_label,
+    labels: [],
     datasets: [{
         label: 'Concentração média do intervalo',
         backgroundColor: 'blue',
         borderColor: 'blue',
-        data: [``],
+        data: [],
     }
     ]
 };
@@ -121,10 +112,13 @@ const line_config = {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
+            x: {
+                beginAtZero: false
+            },
             y: {
                 min: 0,
                 max: 1800,
-                beginAtZero: true
+                beginAtZero: false
             }
         },
         plugins: {
@@ -178,7 +172,7 @@ const doughnut_config = {
         maintainAspectRatio: false,
         plugins: {
             datalabels: {
-                color: '#000000',
+                color: '#121212',
                 font: {
                     weight: 'bold',
                     size: 14
@@ -229,10 +223,6 @@ const bar_config = {
 const variacao_co2 = new Chart(
     document.getElementById('grafico_dispersao'),
     scatter_config
-);
-const indice_estufa_24h = new Chart(
-    document.getElementById('indice_estufa_24h'),
-    line_config
 );
 const percentual_registros = new Chart(
     document.getElementById('percentual_registros'),
