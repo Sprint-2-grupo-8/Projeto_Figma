@@ -11,4 +11,11 @@ router.get("/tempo-real/", function (req, res) {
     medidaController.buscarMedidasEmTempoReal(req, res);
 })
 
+router.get("/distribuicao", function (req,res) {
+    medidaController.buscarDistribuicao(req,res);
+})
+
+router.get("/tempo-real/distribuicao", function (req,res) {
+    medidaController.buscarDistribuicaoTempoReal(req,res);
+})
 module.exports = router;

@@ -12,36 +12,12 @@ const estufas_label = [
 ];
 
 const scatter_data = {
+    labels: [],
     datasets: [{
-        label: 'Concentração de CO₂ (ppm)',
+        label: [],
         backgroundColor: '#10b981',
         pointRadius: 6,
-        data: [
-            { x: '00h', y: 550 },
-            { x: '01h', y: 600 },
-            { x: '02h', y: 800 },
-            { x: '03h', y: 400 },
-            { x: '04h', y: 500 },
-            { x: '05h', y: 650 },
-            { x: '06h', y: 700 },
-            { x: '07h', y: 750 },
-            { x: '08h', y: 820 },
-            { x: '09h', y: 900 },
-            { x: '10h', y: 1000 },
-            { x: '11h', y: 950 },
-            { x: '12h', y: 1100 },
-            { x: '13h', y: 1050 },
-            { x: '14h', y: 980 },
-            { x: '15h', y: 920 },
-            { x: '16h', y: 880 },
-            { x: '17h', y: 860 },
-            { x: '18h', y: 800 },
-            { x: '19h', y: 780 },
-            { x: '20h', y: 700 },
-            { x: '21h', y: 680 },
-            { x: '22h', y: 650 },
-            { x: '23h', y: 620 }
-        ]
+        data: [],
     }]
 };
 
@@ -55,10 +31,11 @@ const scatter_config = {
             y: {
                 min: 0,
                 max: 1800,
-                beginAtZero: true
+                beginAtZero: false
             },
             x: {
-                type: 'category'
+                type: 'category',
+                beginAtZero: false
             }
         },
         plugins: {
@@ -97,7 +74,7 @@ const scatter_config = {
 const line_data = {
     labels: [],
     datasets: [{
-        label: 'Concentração média do intervalo',
+        label: [],
         backgroundColor: 'blue',
         borderColor: 'blue',
         data: [],
@@ -219,11 +196,6 @@ const bar_config = {
 
 };
 
-
-const variacao_co2 = new Chart(
-    document.getElementById('grafico_dispersao'),
-    scatter_config
-);
 const percentual_registros = new Chart(
     document.getElementById('percentual_registros'),
     doughnut_config

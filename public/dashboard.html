@@ -16,7 +16,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="styles/dashboard.css">
-    
+
 </head>
 
 <body onload="obterDadosGrafico()">
@@ -169,33 +169,60 @@
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
     let proximaAtualizacao;
-    function obterDadosGrafico() {
+    async function obterDadosGrafico() {
 
         if (proximaAtualizacao != undefined) {
             clearTimeout(proximaAtualizacao);
         }
 
-        fetch('/medidas/ultimas/', { cache: 'no-store' }).then(function (response) {
-            if (response.ok) {
-                response.json().then(function (resposta) {
-                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+        try {
+            fetch('/medidas/ultimas/', { cache: 'no-store' }).then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-                    plotarGrafico(resposta);
+                        plotarGrafico(resposta);
 
-                });
-            } else {
-                console.error('Nenhum dado encontrado ou erro na API');
-            }
-        })
-            .catch(function (error) {
-                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
             });
+
+            fetch('/medidas/distribuicao', { cache: 'no-store' }).then(function
+                (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                        plotarGraficoDistribuicao(resposta);
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            });
+
+        } catch (error) {
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        };
     }
 
     // Esta função *plotarGrafico* usa os dados capturados na função anterior para criar o gráfico
     // Configura o gráfico (cores, tipo, etc), materializa-o na página e, 
     // A função *plotarGrafico* também invoca a função *atualizarGrafico*
     function plotarGrafico(resposta) {
+
+        // Pegar a data de ontem
+        let data_ontem = new Date();
+        data_ontem.setDate(data_ontem.getDate() - 1);
+
+        // Pegar o dia e o mês
+        let dia = String(data_ontem.getDate());
+        let mes = String(data_ontem.getMonth() + 1);
+
+        // Data formatada
+        let data_formatada = `${(dia < 10) ? '0' : ''}${dia}/${(mes < 10) ? '0' : ''}${mes}`;
+
 
         console.log('iniciando plotagem do gráfico...');
 
@@ -207,6 +234,8 @@
         console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
         console.log(resposta)
 
+
+
         // Inserindo valores recebidos em estrutura para plotar o gráfico
         for (i = 0; i < resposta.length; i++) {
             var medida = resposta[i];
@@ -214,8 +243,9 @@
             line_data.labels.push(medida.momento_grafico);
             line_data.datasets[0].data.push(medida.media_ppm);
         }
-
-
+        let label_line = `Concentração média do intervalo em ${data_formatada}`
+        line_data.datasets[0].label.push(label_line);
+    
         console.log('----------------------------------------------')
         console.log('O gráfico será plotado com os respectivos valores:')
         console.log('Labels:')
@@ -223,6 +253,8 @@
         console.log('Dados:')
         console.log(line_data.datasets[0])
         console.log('----------------------------------------------')
+
+        
 
         // Criando estrutura para plotar gráfico - config
         const config = {
@@ -245,45 +277,144 @@
 
     //     Se quiser alterar a busca, ajuste as regras de negócio em src/controllers
     //     Para ajustar o "select", ajuste o comando sql em src/models
-    function atualizarGrafico(dados, myChart) {
+    // function atualizarGrafico(dados, myChart) {
 
 
 
-        fetch('/medidas/tempo-real/', { cache: 'no-store' }).then(function (response) {
-            if (response.ok) {
-                response.json().then(function (novoRegistro) {
-                    // alertar(novoRegistro, idAquario);
-                    console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
-                    console.log(`Dados atuais do gráfico:`);
-                    console.log(dados);
-                         
-                        var medida_atualizada = novoRegistro[0];
+    //     fetch('/medidas/tempo-real/', { cache: 'no-store' }).then(function (response) {
+    //         if (response.ok) {
+    //             response.json().then(function (novoRegistro) {
+    //                 // alertar(novoRegistro, idAquario);
+    //                 console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+    //                 console.log(`Dados atuais do gráfico:`);
+    //                 console.log(dados);
 
-                        if (medida_atualizada.momento_grafico == myChart.data.labels[myChart.data.labels.length - 1]) {
-                            myChart.data.datasets[0].data[myChart.data.datasets[0].data.length - 1] = medida_atualizada.media_ppm;
-                        } else {
-                            myChart.data.labels.shift(); 
-                            myChart.data.datasets[0].data.shift();
+    //                 var medida_atualizada = novoRegistro[0];
 
-                            myChart.data.labels.push(medida_atualizada.momento_grafico)
-                            myChart.data.datasets[0].data.push(medida_atualizada.media_ppm);
-                        }   
+    //                 if (medida_atualizada.momento_grafico == myChart.data.labels[myChart.data.labels.length - 1]) {
+    //                     myChart.data.datasets[0].data[myChart.data.datasets[0].data.length - 1] = medida_atualizada.media_ppm;
+    //                 } else {
+    //                     myChart.data.labels.shift();
+    //                     myChart.data.datasets[0].data.shift();
 
-                        myChart.update();
+    //                     myChart.data.labels.push(medida_atualizada.momento_grafico)
+    //                     myChart.data.datasets[0].data.push(medida_atualizada.media_ppm);
+    //                 }
 
-                        proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 2000);
-                    });
-            } else {
-                console.error('Nenhum dado encontrado ou erro na API');
-                // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
-                proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 2000);
-            }
-        })
-            .catch(function (error) {
-                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-            });
+    //                 myChart.update();
 
+    //                 proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 2000);
+    //             });
+    //         } else {
+    //             console.error('Nenhum dado encontrado ou erro na API');
+    //             // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+    //             proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 2000);
+    //         }
+    //     })
+    //         .catch(function (error) {
+    //             console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    //         });
+
+    // }
+
+    
+
+    function plotarGraficoDistribuicao(resposta) {
+
+        // Pegar a data de ontem
+        let data_ontem = new Date();
+        data_ontem.setDate(data_ontem.getDate() - 1);
+
+        // Pegar o dia e o mês
+        let dia = String(data_ontem.getDate());
+        let mes = String(data_ontem.getMonth() + 1);
+
+        // Data formatada
+        let data_formatada = `${(dia < 10) ? '0' : ''}${dia}/${(mes < 10) ? '0' : ''}${mes}`;
+
+        console.log('iniciando plotagem do gráfico...');
+
+        // Criando estrutura para plotar gráfico - labels
+        let labels = [];
+
+        // Criando estrutura para plotar gráfico - dados
+        console.log('----------------------------------------------')
+        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+        console.log(resposta)
+
+        // Inserindo valores recebidos em estrutura para plotar o gráfico
+        for (i = 0; i < resposta.length; i++) {
+            var medida = resposta[i];
+            labels.push(medida.momento_grafico);
+            scatter_data.labels.push(medida.momento_grafico);
+            scatter_data.datasets[0].data.push(medida.media_ppm);
+        }
+
+
+        console.log('----------------------------------------------')
+        console.log('O gráfico será plotado com os respectivos valores:')
+        console.log('Labels:')
+        console.log(labels)
+        console.log('Dados:')
+        console.log(scatter_data.datasets[0])
+        console.log('----------------------------------------------')
+
+        let label_scatter = `Concentração de CO₂ (ppm) em ${data_formatada}`;
+        scatter_data.datasets[0].label.push(label_scatter);
+        // Criando estrutura para plotar gráfico - config
+        const config = {
+            type: 'scatter',
+            data: scatter_data
+        };
+
+        // Adicionando gráfico criado em div na tela
+        let myChart = new Chart(
+            document.getElementById('grafico_dispersao'),
+            scatter_config
+        );
+
+        setTimeout(() => atualizarGraficoDistribuicao(scatter_data, myChart), 2000);
     }
+
+    // function atualizarGraficoDistribuicao(dados, myChart) {
+
+
+
+    //     fetch('/medidas/tempo-real/distribuicao', { cache: 'no-store' }).then(function (response) {
+    //         if (response.ok) {
+    //             response.json().then(function (novoRegistro) {
+    //                 // alertar(novoRegistro, idAquario);
+    //                 console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+    //                 console.log(`Dados atuais do gráfico:`);
+    //                 console.log(dados);
+
+    //                 var medida_atualizada = novoRegistro[0];
+
+    //                 if (medida_atualizada.momento_grafico == myChart.data.labels[myChart.data.labels.length - 1]) {
+    //                     myChart.data.datasets[0].data[myChart.data.datasets[0].data.length - 1] = medida_atualizada.media_ppm;
+    //                 } else {
+    //                     myChart.data.labels.shift();
+    //                     myChart.data.datasets[0].data.shift();
+
+    //                     myChart.data.labels.push(medida_atualizada.momento_grafico)
+    //                     myChart.data.datasets[0].data.push(medida_atualizada.media_ppm);
+    //                 }
+
+    //                 myChart.update();
+
+    //                 proximaAtualizacao = setTimeout(() => atualizarGraficoDistribuicao(dados, myChart), 2000);
+    //             });
+    //         } else {
+    //             console.error('Nenhum dado encontrado ou erro na API');
+    //             // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+    //             proximaAtualizacao = setTimeout(() => atualizarGraficoDistribuicao(dados, myChart), 2000);
+    //         }
+    //     })
+    //         .catch(function (error) {
+    //             console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    //         });
+
+    // }
 </script>
 
 </html>
