@@ -19,7 +19,7 @@
 
 </head>
 
-<body onload="obterDadosGrafico()">
+<body onload="obterDadosGrafico(), buscarRegistros()">
     <div class="left-painel">
         <div class="logo">
             <img src="assets/img/logo branca.svg">
@@ -83,18 +83,18 @@
                 <span class="value" id="nivel_atual"></span>
                 <span id="id_ideal" class="legenda">Faixa ideal: 600 a 900</span>
             </div>
-            <div class="indicador indicador-ok">
+            <div id="div_oscilacao" class="indicador">
                 <span class="title">Nível de oscilação do CO₂</span>
 
-                <span class="value">50 ppm</span>
-                <span class="legenda legenda-ok">Oscilação ok</span>
+                <span id="id_oscilacao" class="value"></span>
+                <span id="legenda_oscilacao" class="legenda">Oscilação</span>
             </div>
-            <div class="indicador indicador-ok">
+            <div id="div_porcentagem" class="indicador">
                 <span class="title">Percentual em faixa ideal</span>
                 <img class="icon 4" src="" alt="">
 
-                <span class="value">91%</span>
-                <span class="legenda legenda-ok">Últimas 24h</span>
+                <span class="value" id="id_porcentagem_ideal"></span>
+                <span id="id_legenda_ideal" class="legenda">Últimas 24h</span>
             </div>
             <div class="indicador indicador-ok">
                 <span class="title">Total de alertas estabilizados</span>
@@ -284,45 +284,90 @@
 
     //     Se quiser alterar a busca, ajuste as regras de negócio em src/controllers
     //     Para ajustar o "select", ajuste o comando sql em src/models
-    // function atualizarGrafico(dados, myChart) {
+
+    let lista_ideal = [];
+    let lista_nao_ideal = [];
+    function buscarRegistros() {
+
+        fetch("/medidas/registros/", { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    
+                    for (let i = 0; i < resposta.length; i++) {
+                        if (resposta[i].ppm >= 600 && resposta[i].ppm <= 900) {
+                            lista_ideal.push(resposta[i].ppm);
+                        } else {
+                            lista_nao_ideal.push(resposta[i].ppm);
+                        }
+                        
+                    }
+
+                    let qtd_ideal = lista_ideal.length;
+                    let qtd_nao_ideal = lista_nao_ideal.length;
+
+                    let porcentagem_ideal = Number((qtd_ideal) / (qtd_ideal + qtd_nao_ideal) * 100).toFixed(1);
+
+                    if (porcentagem_ideal < 75) {
+                        document.getElementById("div_porcentagem").classList.add('indicador-danger');
+                        document.getElementById("id_legenda_ideal").classList.add('legenda-danger');
+
+                    } else if (porcentagem_ideal < 90) {
+                        document.getElementById("div_porcentagem").classList.add('indicador-attention');
+                        document.getElementById("id_legenda_ideal").classList.add('legenda-attention');
+                    } else {
+                        document.getElementById("div_porcentagem").classList.add('indicador-ok');
+                        document.getElementById("id_legenda_ideal").classList.add('legenda-ok');
+                    }
+
+
+                    document.getElementById("id_porcentagem_ideal").innerHTML = `${porcentagem_ideal}%`
 
 
 
-    //     fetch('/medidas/tempo-real/', { cache: 'no-store' }).then(function (response) {
-    //         if (response.ok) {
-    //             response.json().then(function (novoRegistro) {
-    //                 // alertar(novoRegistro, idAquario);
-    //                 console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
-    //                 console.log(`Dados atuais do gráfico:`);
-    //                 console.log(dados);
+                    let maior_ppm = resposta[0].ppm;
+                    for (let i = 0; i < resposta.length; i++) {
+                        if (maior_ppm < resposta[i].ppm) {
+                            maior_ppm = resposta[i].ppm
+                        }
+                        
+                    }
+                    let menor_ppm = resposta[0].ppm;
+                    for (let i = 0; i < resposta.length; i++) {
+                        if (menor_ppm > resposta[i].ppm) {
+                            menor_ppm = resposta[i].ppm;
+                        }
+                        
+                    }
 
-    //                 var medida_atualizada = novoRegistro[0];
+                    let oscilacao = Number(maior_ppm - menor_ppm);
 
-    //                 if (medida_atualizada.momento_grafico == myChart.data.labels[myChart.data.labels.length - 1]) {
-    //                     myChart.data.datasets[0].data[myChart.data.datasets[0].data.length - 1] = medida_atualizada.media_ppm;
-    //                 } else {
-    //                     myChart.data.labels.shift();
-    //                     myChart.data.datasets[0].data.shift();
+                    if (oscilacao > 700) {
+                        document.getElementById("div_oscilacao").classList.add('indicador-danger');
+                        document.getElementById("legenda_oscilacao").classList.add('legenda-danger');
+                        legenda_oscilacao.innerHTML += ' grave'
+                    } else if (oscilacao > 300) {
+                        document.getElementById("div_oscilacao").classList.add('indicador-attention');
+                        document.getElementById("legenda_oscilacao").classList.add('legenda-attention');
+                        legenda_oscilacao.innerHTML += ' moderada'
+                    } else {
+                        document.getElementById("div_oscilacao").classList.add('indicador-ok');
+                        document.getElementById("legenda_oscilacao").classList.add('legenda-ok');
+                        legenda_oscilacao.innerHTML += ' ok'
+                    }
 
-    //                     myChart.data.labels.push(medida_atualizada.momento_grafico)
-    //                     myChart.data.datasets[0].data.push(medida_atualizada.media_ppm);
-    //                 }
+                    document.getElementById("id_oscilacao").innerHTML = oscilacao;
 
-    //                 myChart.update();
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
 
-    //                 proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 2000);
-    //             });
-    //         } else {
-    //             console.error('Nenhum dado encontrado ou erro na API');
-    //             // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
-    //             proximaAtualizacao = setTimeout(() => atualizarGrafico(dados, myChart), 2000);
-    //         }
-    //     })
-    //         .catch(function (error) {
-    //             console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-    //         });
-
-    // }
+    }
 
     
 

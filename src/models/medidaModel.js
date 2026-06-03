@@ -26,26 +26,14 @@ function buscarUltimasMedidas() {
     return database.executar(instrucaoSql);
 }
 
-function buscarMedidasEmTempoReal() {
+function buscarRegistros() {
 
     var instrucaoSql = `
     SELECT
-        	ROUND(AVG(ppm), 2) AS media_ppm,
-	CASE 
-		WHEN FLOOR(HOUR(dtHrRegistro) / 4) * 4 < 10
-		THEN CONCAT('0', FLOOR(HOUR(dtHrRegistro) / 4) * 4, ':00')
-		ELSE CONCAT(FLOOR(HOUR(dtHrRegistro) / 4) * 4, ':00')
-	END AS momento_grafico   
+        ROUND(ppm, 0) ppm
     FROM registro
-    WHERE fkSensor = 1
-    GROUP BY DATE(dtHrRegistro), 
-	CASE 
-		WHEN FLOOR(HOUR(dtHrRegistro) / 4) * 4 < 10
-		THEN CONCAT('0', FLOOR(HOUR(dtHrRegistro) / 4) * 4, ':00')
-		ELSE CONCAT(FLOOR(HOUR(dtHrRegistro) / 4) * 4, ':00')
-	END
-    ORDER BY MIN(dtHrRegistro) DESC
-    LIMIT 1;`;
+    WHERE dtHrRegistro >= CURDATE() - INTERVAL 1 DAY
+	    AND dtHrRegistro < CURDATE()`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -106,7 +94,7 @@ function atualizarConcentracao() {
 }
 module.exports = {
     buscarUltimasMedidas,
-    buscarMedidasEmTempoReal,
+    buscarRegistros,
     buscarDistribuicao,
     buscarDistribuicaoTempoReal,
     buscarConcentracao,

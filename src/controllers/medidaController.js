@@ -19,11 +19,11 @@ function buscarUltimasMedidas(req, res) {
 }
 
 
-function buscarMedidasEmTempoReal(req, res) {
+function buscarRegistros(req, res) {
 
-    console.log(`Recuperando medidas em tempo real`);
+    console.log(`Recuperando todos registros de ontem`);
 
-    medidaModel.buscarMedidasEmTempoReal().then(function (resultado) {
+    medidaModel.buscarRegistros().then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -97,7 +97,7 @@ function atualizarConcentracao(req, res) {
 }
 module.exports = {
     buscarUltimasMedidas,
-    buscarMedidasEmTempoReal,
+    buscarRegistros,
     buscarDistribuicao,
     buscarDistribuicaoTempoReal,
     buscarConcentracao,
