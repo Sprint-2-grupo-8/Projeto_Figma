@@ -60,10 +60,10 @@
                 <div class="filtro">
                     <select id="filter">
                         <option value="geral" selected>Visão Geral</option>
-                        <option value="individual">Estufa 1</option>
-                        <option value="individual">Estufa 2</option>
-                        <option value="individual">Estufa 3</option>
-                        <option value="individual">Estufa 4</option>
+                        <option value="individual" data-estufa="1">Estufa 1</option>
+                        <option value="individual" data-estufa="2">Estufa 2</option>
+                        <option value="individual" data-estufa="3">Estufa 3</option>
+                        <option value="individual" data-estufa="4">Estufa 4</option>
                     </select>
 
                     <button onclick="filter()">Filtrar</button>
@@ -169,10 +169,10 @@
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
     let proximaAtualizacao;
-    async function obterDadosGrafico() {
-
+    async function obterDadosGrafico(estufa) {
+        let estufa_id = estufa ? estufa : '';
         try {
-            fetch('/medidas/ultimas/', { cache: 'no-store' }).then(function (response) {
+            fetch(`/medidas/ultimas/${estufa_id}`, { cache: 'no-store' }).then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
                         console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -185,7 +185,7 @@
                 }
             });
 
-            fetch('/medidas/distribuicao', { cache: 'no-store' }).then(function
+            fetch(`/medidas/distribuicao/${estufa_id}`, { cache: 'no-store' }).then(function
                 (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
@@ -198,7 +198,7 @@
                 }
             });
 
-            fetch('/medidas/concentracao', { cache: 'no-store' }).then(function
+            fetch(`/medidas/concentracao/${estufa_id}`, { cache: 'no-store' }).then(function
                 (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
@@ -243,8 +243,10 @@
         console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
         console.log(resposta)
 
-
-
+        // Limpando para não acumular dados de diferentes estufas
+        labels = [];
+        line_data.labels = [];
+        line_data.datasets[0].data = [];
         // Inserindo valores recebidos em estrutura para plotar o gráfico
         for (i = 0; i < resposta.length; i++) {
             var medida = resposta[i];
@@ -253,7 +255,7 @@
             line_data.datasets[0].data.push(medida.media_ppm);
         }
         let label_line = `Concentração média do intervalo em ${data_formatada}`
-        line_data.datasets[0].label.push(label_line);
+        line_data.datasets[0].label = label_line;
     
         console.log('----------------------------------------------')
         console.log('O gráfico será plotado com os respectivos valores:')
@@ -287,9 +289,10 @@
 
     let lista_ideal = [];
     let lista_nao_ideal = [];
-    function buscarRegistros() {
-
-        fetch("/medidas/registros/", { cache: 'no-store' }).then(function (response) {
+    function buscarRegistros(estufa) {
+        let estufa_id = estufa ? estufa : '';
+        
+        fetch(`/medidas/registros/${estufa_id}`, { cache: 'no-store' }).then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -341,7 +344,7 @@
                     }
 
                     let oscilacao = Number(maior_ppm - menor_ppm);
-
+                    legenda_oscilacao.innerHTML = 'Oscilação';
                     if (oscilacao > 700) {
                         document.getElementById("div_oscilacao").classList.add('indicador-danger');
                         document.getElementById("legenda_oscilacao").classList.add('legenda-danger');
@@ -366,7 +369,7 @@
             .catch(function (error) {
                 console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
             });
-
+            return estufa_id;
     }
 
     
@@ -394,6 +397,11 @@
         console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
         console.log(resposta)
 
+        // Limpando para não acumular os dados de outras estufas
+        labels = [];
+        scatter_data.labels = [];
+        scatter_data.datasets[0].data = [];
+
         // Inserindo valores recebidos em estrutura para plotar o gráfico
         for (i = 0; i < resposta.length; i++) {
             var medida = resposta[i];
@@ -412,7 +420,7 @@
         console.log('----------------------------------------------')
 
         let label_scatter = `Concentração de CO₂ (ppm) em ${data_formatada}`;
-        scatter_data.datasets[0].label.push(label_scatter);
+        scatter_data.datasets[0].label = label_scatter;
         // Criando estrutura para plotar gráfico - config
         const config = {
             type: 'scatter',
@@ -453,8 +461,8 @@
 
 
     function atualizarConcentracao() {
-        
-        fetch('/medidas/tempo-real/concentracao', { cache: 'no-store' }).then(function
+        let estufa_id = obterDadosGrafico();
+        fetch(`/medidas/tempo-real/concentracao/${estufa_id}`, { cache: 'no-store' }).then(function
                 (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {

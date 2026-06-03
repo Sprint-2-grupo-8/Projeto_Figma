@@ -10,7 +10,11 @@ const indicadores_gerais = document.querySelector('.indicadores');
 const indicadores_individuais = document.querySelector('.indicadores-individual');
 
 function filter() {
-    let tipo_dash = document.getElementById('filter');
+    const tipo_dash = document.getElementById('filter');
+    const escolha = tipo_dash.querySelector('option:checked');
+    const estufa_escolhida = escolha.dataset.estufa;
+    // se estufa_escolhida == undefined, signfica que nenhuma estufa individual foi escolhida
+    
 
     if (tipo_dash.value === 'geral') {
 
@@ -37,6 +41,9 @@ function filter() {
 
         indicadores_gerais.style.display = 'none';
         indicadores_individuais.style.display = 'flex';
+
+        obterDadosGrafico(estufa_escolhida);
+        buscarRegistros(estufa_escolhida);
     }
 }
 

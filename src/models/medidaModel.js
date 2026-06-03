@@ -1,6 +1,6 @@
 var database = require("../database/config");
 
-function buscarUltimasMedidas() {
+function buscarUltimasMedidas(idEstufa) {
 
     var instrucaoSql = `
         SELECT
@@ -11,9 +11,10 @@ function buscarUltimasMedidas() {
                 ELSE CONCAT(FLOOR(HOUR(dtHrRegistro) / 4) * 4, ':00')
             END AS momento_grafico   
         FROM registro
+        JOIN sensor ON fkSensor = idSensor
         WHERE dtHrRegistro >= CURDATE() - INTERVAL 1 DAY
 	    AND dtHrRegistro < CURDATE()
-            AND fkSensor = 1
+        AND fkEstufa = ${idEstufa}
         GROUP BY DATE(dtHrRegistro),
         CASE 
                 WHEN FLOOR(HOUR(dtHrRegistro) / 4) * 4 < 10
@@ -26,27 +27,31 @@ function buscarUltimasMedidas() {
     return database.executar(instrucaoSql);
 }
 
-function buscarRegistros() {
+function buscarRegistros(idEstufa) {
 
     var instrucaoSql = `
     SELECT
         ROUND(ppm, 0) ppm
     FROM registro
+    JOIN sensor ON fkSensor = idSensor
     WHERE dtHrRegistro >= CURDATE() - INTERVAL 1 DAY
-	    AND dtHrRegistro < CURDATE()`;
+	    AND dtHrRegistro < CURDATE()
+        AND fkEstufa = ${idEstufa}`;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL de buscarRegistros: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function buscarDistribuicao() {
+function buscarDistribuicao(idEstufa) {
     var instrucaoSql = `
     SELECT
 	    ROUND(AVG(ppm), 0) AS media_ppm,
 	    DATE_FORMAT(MIN(dtHrRegistro), '%H:00') AS momento_grafico
     FROM registro
-    WHERE dtHrRegistro >= CURDATE() - INTERVAL 1 DAY
+    JOIN sensor ON fkSensor = idSensor
+        WHERE dtHrRegistro >= CURDATE() - INTERVAL 1 DAY
 	    AND dtHrRegistro < CURDATE()
+        AND fkEstufa = ${idEstufa}
     GROUP BY
 	    DATE(dtHrRegistro),
 	    HOUR(dtHrRegistro)
@@ -69,11 +74,13 @@ function buscarDistribuicaoTempoReal() {
     return database.executar(instrucaoSql);
 }
 
-function buscarConcentracao() {
+function buscarConcentracao(idEstufa) {
     var instrucaoSql = `
     SELECT
         ROUND(ppm, 0) as ppm
     FROM registro
+    JOIN sensor ON fkSensor = idSensor
+    WHERE fkEstufa = ${idEstufa}
     ORDER BY dtHrRegistro DESC
     LIMIT 1;`
 
@@ -81,11 +88,13 @@ function buscarConcentracao() {
     return database.executar(instrucaoSql);
 }
 
-function atualizarConcentracao() {
+function atualizarConcentracao(idEstufa) {
     var instrucaoSql = `
     SELECT
         ROUND(ppm, 0) as ppm
     FROM registro
+    JOIN sensor ON fkSensor = idSensor
+    WHERE fkEstufa = ${idEstufa}
     ORDER BY dtHrRegistro DESC
     LIMIT 1;`
 

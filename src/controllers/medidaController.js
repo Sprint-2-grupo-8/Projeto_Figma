@@ -5,7 +5,7 @@ function buscarUltimasMedidas(req, res) {
 
     console.log(`Recuperando as ultimas medidas`);
 
-    medidaModel.buscarUltimasMedidas().then(function (resultado) {
+    medidaModel.buscarUltimasMedidas(req.params.id).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -23,7 +23,7 @@ function buscarRegistros(req, res) {
 
     console.log(`Recuperando todos registros de ontem`);
 
-    medidaModel.buscarRegistros().then(function (resultado) {
+    medidaModel.buscarRegistros(req.params.id).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -39,7 +39,7 @@ function buscarRegistros(req, res) {
 function buscarDistribuicao(req, res) {
     console.log(`Recuperando medidas em tempo real`);
 
-    medidaModel.buscarDistribuicao().then(function (resultado) {
+    medidaModel.buscarDistribuicao(req.params.id).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -69,7 +69,8 @@ function buscarDistribuicaoTempoReal(req,res) {
 }
 
 function buscarConcentracao(req,res) {
-    medidaModel.buscarConcentracao().then(function (resultado) {
+    
+    medidaModel.buscarConcentracao(req.params.id).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -83,7 +84,8 @@ function buscarConcentracao(req,res) {
 }
 
 function atualizarConcentracao(req, res) {
-    medidaModel.atualizarConcentracao().then(function (resultado) {
+
+    medidaModel.atualizarConcentracao(req.params.id).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
