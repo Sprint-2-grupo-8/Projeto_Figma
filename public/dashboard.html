@@ -219,8 +219,12 @@
     // Esta função *plotarGrafico* usa os dados capturados na função anterior para criar o gráfico
     // Configura o gráfico (cores, tipo, etc), materializa-o na página e, 
     // A função *plotarGrafico* também invoca a função *atualizarGrafico*
+    let myChart;
     function plotarGrafico(resposta) {
 
+        if (myChart) {
+            myChart.destroy();
+        }
         // Pegar a data de ontem
         let data_ontem = new Date();
         data_ontem.setDate(data_ontem.getDate() - 1);
@@ -274,7 +278,7 @@
         };
 
         // Adicionando gráfico criado em div na tela
-        let myChart = new Chart(
+        myChart = new Chart(
             document.getElementById('indice_estufa_24h'),
             line_config
         );
@@ -291,7 +295,7 @@
     let lista_nao_ideal = [];
     function buscarRegistros(estufa) {
         let estufa_id = estufa ? estufa : '';
-        
+
         fetch(`/medidas/registros/${estufa_id}`, { cache: 'no-store' }).then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
@@ -310,6 +314,9 @@
                     let qtd_nao_ideal = lista_nao_ideal.length;
 
                     let porcentagem_ideal = Number((qtd_ideal) / (qtd_ideal + qtd_nao_ideal) * 100).toFixed(1);
+
+                    document.getElementById("div_porcentagem").classList.remove('indicador-danger', 'indicador-attention', 'indicador-ok');
+                    document.getElementById("id_legenda_ideal").classList.remove('legenda-danger', 'legenda-attention', 'legenda-ok');
 
                     if (porcentagem_ideal < 75) {
                         document.getElementById("div_porcentagem").classList.add('indicador-danger');
@@ -342,9 +349,14 @@
                         }
                         
                     }
-
+                    console.log("maior: ", maior_ppm, "| menor: ", menor_ppm );
+                    
                     let oscilacao = Number(maior_ppm - menor_ppm);
                     legenda_oscilacao.innerHTML = 'Oscilação';
+
+                    document.getElementById("div_oscilacao").classList.remove('indicador-danger', 'indicador-attention', 'indicador-ok');
+                    document.getElementById("legenda_oscilacao").classList.remove('legenda-danger', 'legenda-attention', 'legenda-ok');
+
                     if (oscilacao > 700) {
                         document.getElementById("div_oscilacao").classList.add('indicador-danger');
                         document.getElementById("legenda_oscilacao").classList.add('legenda-danger');
@@ -437,6 +449,9 @@
 
     function exibirConcentracao(resposta) {
 
+        document.getElementById("id_concentracao").classList.remove('indicador-danger', 'indicador-attention', 'indicador-ok');
+        document.getElementById("id_ideal").classList.remove('legenda-danger', 'legenda-attention', 'legenda-ok')
+
         concentracao = resposta[0].ppm;
         console.log('concentracao: ',concentracao);
         
@@ -453,7 +468,7 @@
             document.getElementById("id_concentracao").classList.add('indicador-danger');
             document.getElementById("id_ideal").classList.add('legenda-danger');
         }
-
+        
         document.getElementById("nivel_atual").innerHTML = concentracao;
 
         atualizarConcentracao();
@@ -467,7 +482,7 @@
                 if (response.ok) {
                     response.json().then(function (resposta) {
                         console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-
+                        
                         var concentracaoAtual = resposta[0].ppm;
                         if (concentracaoAtual != concentracao) {
                             document.getElementById("id_concentracao").classList.remove('indicador-danger', 'indicador-attention', 'indicador-ok');
