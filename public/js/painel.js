@@ -55,6 +55,17 @@ function atualizarConfiguracoes() {
 }
 
 
+let estufas_alertas = JSON.parse(sessionStorage.getItem('ESTUFAS_ALERTAS')) || [
+    { "estufa": 1, "alertas": 0, "alertas_estabilizados": 0 },
+    { "estufa": 2, "alertas": 0, "alertas_estabilizados": 0 },
+    { "estufa": 3, "alertas": 0, "alertas_estabilizados": 0 },
+    { "estufa": 4, "alertas": 0, "alertas_estabilizados": 0 }
+]; 
+
+let alertas_totais = 0;
+estufas_alertas.forEach(e => {
+    alertas_totais += e.alertas;
+});
 // Busca as leituras mais recentes de cada estufa e verifica
 // se os valores estão dentro da faixa configurada.
 // Quando um valor ultrapassa os limites definidos, uma
@@ -65,6 +76,10 @@ async function atualizarAlertas() {
     if (!areaNotificacoes) return;
 
     areaNotificacoes.innerHTML = '';
+
+    estufas_alertas.forEach(estufa => {
+        estufa.alertas = 0;
+    });
 
     const estufas = [1, 2, 3, 4];
 
@@ -106,6 +121,10 @@ async function atualizarAlertas() {
                 }
 
                 if (classeStatus !== 'green') {
+                    estufas_alertas[Number(idEstufa - 1)].alertas++; // Incrementa a quantidade total de alertas naquela estufa
+                    
+                    sessionStorage.setItem('ESTUFAS_ALERTAS', JSON.stringify(estufas_alertas));
+                    
                     const alerta = document.createElement('div');
 
                     alerta.className = `notificacao ${classeStatus}`;

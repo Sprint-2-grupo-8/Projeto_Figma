@@ -90,3 +90,4 @@ INSERT INTO sensor (modelo, dtInstalacao, sensor_status, fkEstufa) VALUES
 ('Arduino MQ-2 UNO', '2026-04-26', 'Ativo', 5),
 ('Arduino MQ-2 UNO', '2026-04-27', 'Inativo', 6),
 ('Arduino MQ-2 UNO', '2026-04-27', 'Inativo', 6);
+
