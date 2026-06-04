@@ -99,7 +99,7 @@ function criarCardAlerta(alertaInfo) {
 
     card.classList.add(alertaInfo.classeStatus);
 
-    card.querySelector('.estufa').textContent = `${alertaInfo.textoStatus}: Estufa ${alertaInfo.idEstufa} - ${alertaInfo.ppm} ppm`;
+    card.querySelector('.estufa').textContent = `${alertaInfo.textoStatus}: Estufa ${alertaInfo.idEstufa} - ${alertaInfo.ppm} ppm ${alertaInfo.tendencia || ''}`;
 
     const btnVerificar = card.querySelector('.btn-verificar');
     btnVerificar.addEventListener('click', () => irParaDashboard(alertaInfo.idEstufa));
@@ -162,7 +162,19 @@ async function atualizarAlertas() {
 
             console.log('Dados recebidos da estufa', idEstufa, registros);
 
-            registros.forEach(registro => {
+            // Determina a tendência com base nas duas leituras mais recentes
+            const calcularTendencia = (data) => {
+                if (!data || data.length < 2) return '';
+                const ultimo = Number(data[data.length - 1].ppm);
+                const penultimo = Number(data[data.length - 2].ppm);
+                if (isNaN(ultimo) || isNaN(penultimo)) return '';
+                if (ultimo > penultimo) return '↑ Subindo';
+                if (ultimo < penultimo) return '↓ Descendo';
+                return '→ Estável';
+            };
+            const tendenciaEstufa = calcularTendencia(registros);
+
+            registros.forEach((registro, idx) => {
                 const ppm = Number(registro.ppm);
                 if (isNaN(ppm)) return;
 
@@ -184,7 +196,8 @@ async function atualizarAlertas() {
                     }
                 }
 
-                todosAlertas.push({ idEstufa, ppm, classeStatus, textoStatus, isResolvido, originalStatus: statusOriginal });
+                const tendencia = tendenciaEstufa;
+                todosAlertas.push({ idEstufa, ppm, classeStatus, textoStatus, isResolvido, originalStatus: statusOriginal, tendencia });
             });
 
         } catch (erro) {
@@ -226,10 +239,9 @@ function atualizarHorario() {
     }
 }
 function iniciarAtualizacaoAutomatica() {
-    // primeira chamada imediata
     atualizarAlertas();
     atualizarHorario();
-    // agendar atualizações a cada 10 segundos
+    // agenda atualizações a cada 10 segundos
     intervaloAtualizacao = setInterval(() => {
         atualizarAlertas();
         atualizarHorario();
