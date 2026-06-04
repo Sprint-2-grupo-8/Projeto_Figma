@@ -83,6 +83,7 @@ async function atualizarAlertas() {
     });
 
     const estufas = [1, 2, 3, 4];
+    const todosAlertas = [];
 
     for (const idEstufa of estufas) {
         try {
@@ -138,26 +139,45 @@ async function atualizarAlertas() {
                     estufas_alertas[Number(idEstufa - 1)].alertas++; 
                 }
 
-                const alerta = document.createElement('div');
-                alerta.className = `notificacao ${classeStatus}`;
-
-                alerta.innerHTML = `
-                    <div class="descricao">
-                        <span class="estufa">${textoStatus}: Estufa ${idEstufa} - ${ppm} ppm</span>
-                        <span class="horario">Agora</span>
-                        <button onclick="irParaDash(${idEstufa})"><i class="fa-solid fa-right-to-bracket"></i> Verificar a estufa</button>
-                    </div>
-                    <div class="buttons">
-                        <button><img src="assets/img/check.svg" alt=""/></button>
-                    </div>`;
-
-                areaNotificacoes.appendChild(alerta);
+                todosAlertas.push({
+                    idEstufa,
+                    ppm,
+                    classeStatus,
+                    textoStatus
+                });
             });
 
         } catch (erro) {
             console.error('Erro ao buscar registros da estufa', idEstufa, erro);
         }
     }
+
+    // Ordena os alertas por prioridade: vermelho > amarelo > verde
+    const prioridades = {
+        'red': 1,
+        'yellow': 2,
+        'green': 3
+    };
+
+    todosAlertas.sort((a, b) => prioridades[a.classeStatus] - prioridades[b.classeStatus]);
+
+    // Renderizar os alertas ordenados
+    todosAlertas.forEach(alertaInfo => {
+        const alerta = document.createElement('div');
+        alerta.className = `notificacao ${alertaInfo.classeStatus}`;
+
+        alerta.innerHTML = `
+            <div class="descricao">
+                <span class="estufa">${alertaInfo.textoStatus}: Estufa ${alertaInfo.idEstufa} - ${alertaInfo.ppm} ppm</span>
+                <span class="horario">Agora</span>
+                <button onclick="irParaDash(${alertaInfo.idEstufa})"><i class="fa-solid fa-right-to-bracket"></i> Verificar a estufa</button>
+            </div>
+            <div class="buttons">
+                <button><img src="assets/img/check.svg" alt=""/></button>
+            </div>`;
+
+        areaNotificacoes.appendChild(alerta);
+    });
 
     // Salva o estado atualizado no sessionStorage
     sessionStorage.setItem('ESTUFAS_ALERTAS', JSON.stringify(estufas_alertas));
