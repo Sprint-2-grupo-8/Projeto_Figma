@@ -5,13 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/bobia.js"></script>
-    <title>Document</title>
+    <title>Bob IA - V1</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        .container_bob{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .item_bob{
+            display: flex;
+            width: 80px;
+            height: 80px;
+            background-color: lightgreen;
+            border-radius: 50%;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+            transition: 1s ease;
+        }
+
+        .item_bob:hover{
+            background-color: green;
+        }
+    </style>
 </head>
 
 <body>
-    <input type="text" id="ipt_pergunta">
-    <button onclick="perguntarIA()">Perguntar</button>
-    <div id="div_resposta"></div>
+    <div class="container_bob">
+        <button class="item_bob" onclick="enviar()">
+            oi
+        </button>
+    </div>
 </body>
 
 </html>
