@@ -149,6 +149,28 @@ function buscarMenorConcentracaoGeral() {
     return database.executar(instrucaoSql);
 }
 
+function buscarEstufasEmAlerta() {
+
+    var instrucaoSql = `
+        SELECT
+            COUNT(DISTINCT e.idestufa) AS qtd_estufas_alerta
+        FROM registro r
+        JOIN sensor s
+            ON r.fkSensor = s.idSensor
+        JOIN estufa e
+            ON s.fkEstufa = e.idestufa
+        WHERE r.dtHrRegistro = (
+            SELECT MAX(r2.dtHrRegistro)
+            FROM registro r2
+            WHERE r2.fkSensor = r.fkSensor
+        )
+        AND (r.ppm < e.gasMinimo OR r.ppm > e.gasMaximo);
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarRegistros,
@@ -157,5 +179,6 @@ module.exports = {
     buscarConcentracao,
     atualizarConcentracao,
     buscarMaiorConcentracaoGeral,
-    buscarMenorConcentracaoGeral
+    buscarMenorConcentracaoGeral,
+    buscarEstufasEmAlerta
 }
