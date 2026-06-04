@@ -41,13 +41,17 @@
 
         .chat_bob, .btn_bob{
             height: 350px;
+            
         }
 
         .chat_bob{
             display: flex;
-            width: 40%;
+            width: 0%;
+            opacity: 0;
             background-color: white;
             flex-direction: column;
+            transition: all 0.5s ease-in-out;
+            overflow: hidden;
         }
 
         .chat_titulo{
@@ -102,7 +106,8 @@
         }
 
         .chat_bob_ativo{
-
+            width: 40%;
+            opacity: 1;
         }
 
     </style>
@@ -110,10 +115,10 @@
 
 <body>
     <div class="container_bob">
-        <button class="btn_bob" onclick="aparecer()">
+        <button class="btn_bob" id="btn_bob" onclick="aparecer()">
             ←
         </button>
-        <div class="chat_bob">
+        <div class="chat_bob" id="Chat_Bob">
             <div class="chat_titulo">
                 <p>BobIA</p>
             </div>
@@ -127,5 +132,12 @@
         </div>
     </div>
 </body>
+<script>
+    const Chat = document.getElementById('Chat_Bob');
+    const btn = document.getElementById('btn_bob');
 
+    btn.addEventListener('click', () => {
+        Chat.classList.toggle('chat_bob_ativo')
+    })
+</script>
 </html>
