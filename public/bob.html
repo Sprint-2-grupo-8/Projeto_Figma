@@ -14,17 +14,18 @@
 
         .container_bob{
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-end;
+            align-items: flex-end;
             min-height: 100vh;
+            
         }
 
-        .item_bob{
+        .btn_bob{
             display: flex;
-            width: 80px;
-            height: 80px;
+            width: 30px;
+            height: 350px;
             background-color: lightgreen;
-            border-radius: 50%;
+            border-top-left-radius: 20px;
             justify-content: center;
             align-items: center;
             border: none;
@@ -32,17 +33,23 @@
             transition: 1s ease;
         }
 
-        .item_bob:hover{
+        .btn_bob:hover{
             background-color: green;
+            color: white;
         }
+
+        
     </style>
 </head>
 
 <body>
     <div class="container_bob">
-        <button class="item_bob" onclick="enviar()">
-            oi
+        <button class="btn_bob" onclick="enviar()">
+            ←
         </button>
+        <div class="chat_bob">
+            
+        </div>
     </div>
 </body>
 
