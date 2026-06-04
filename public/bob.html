@@ -10,6 +10,7 @@
         *{
             margin: 0;
             padding: 0;
+            font-family: sans-serif;
         }
 
         .container_bob{
@@ -60,6 +61,30 @@
             padding: 10px;
             color: #8b8b8b;
         }
+
+        .mensagem_bob{
+            display: flex;
+            flex-direction: column;
+            margin: 5px;
+            gap: 10px;
+        }
+
+        .bob_ia{
+            background-color: #d3d3d3;
+            width: fit-content;
+            height: fit-content;
+            border-radius: 20px;
+            padding: 2%;
+        }
+        .eu{
+            background-color: #60d860;
+            border-radius: 20px;
+            padding: 2%;
+            width: fit-content;
+            height: fit-content;
+            text-align: end;
+            align-self: flex-end;
+        }
     </style>
 </head>
 
@@ -72,8 +97,11 @@
             <div class="chat_titulo">
                 <p>BobIA</p>
             </div>
-            <p>Oi, como posso ajudar</p>
-            <p>Com nada</p>
+            <div class="mensagem_bob">
+                <p class="bob_ia">Oi, como posso ajudar?</p>
+                <p class="eu">Nada</p>
+            </div>
+            
         </div>
     </div>
 </body>
