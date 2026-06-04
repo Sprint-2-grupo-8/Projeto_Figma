@@ -33,9 +33,12 @@
                 <img src="assets/img/dashboard.svg" alt="">
                 <a href="dashboard.html">Dashboard</a>
             </li>
-            <li>
+            <li class="active">
                 <img src="assets/img/alerta.svg" alt="">
-                <a href="">Alertas (<span id="id_qtd_alertas"></span>)</a>
+                <a href="painel.html">
+                    <span class="nav-label">Alertas</span>
+                    <span id="id_qtd_alertas"></span>
+                </a>
             </li>
         </ul>
 
@@ -51,7 +54,7 @@
             </li>
         </ul>
     </div>
-    <main>
+    <main class="painel-main">
 
         <div class="painel-container">
             <!-- <div class="filtros">
@@ -70,42 +73,76 @@
                 </div>
             </div> -->
             <div class="painel-alertas">
-                <div class="titulo-painel">
-                    <div class="texto-painel">
-                        <span>Painel de alertas</span>
-                        <p>Você será alertado quando: CO2 abaixo de 400 ppm ou acima de 1100 ppm</p>
-                        <p>Obs: você pode alterar esses valores clicando na engrenagem ao lado</p>
+                <section class="painel-hero">
+                    <div class="painel-hero__content">
+                        <span class="eyebrow">Monitoramento de CO2</span>
+                        <h1>Painel de alertas</h1>
+                        <p>Alertas gerados quando as leituras ficam fora da faixa configurada para as estufas.</p>
                     </div>
-                    <p id="last_update" class="ultimo-atualizacao"></p>
-                    <div class="texto-painel">
-    <div id="limites_display" class="limites-atual"></div>
-                            <button id="update_ancora" onclick="atualizarAncora()"><img src="assets/img/engrenagem.svg" alt=""></button>
-                        </div>
+
+                </section>
+
+                <section class="resumo-alertas">
+                    <div class="resumo-alertas__icone" aria-hidden="true">
+                        <i class="fa-regular fa-bell"></i>
                     </div>
-    <div class="filtros-alertas">
-    <label for="filter_alertas">Filtrar:</label>
-    <select id="filter_alertas">
-        <option value="todos">Todos</option>
-        <option value="perigo">Perigo</option>
-        <option value="atencao">Atenção</option>
-        <option value="resolvidos">Resolvidos</option>
-    </select>
-</div>
-                </div>
-                <div class="notificacoes"></div>
+
+                    <div class="resumo-alertas__grupo">
+                        <span>Última atualização</span>
+                        <p id="last_update" class="ultimo-atualizacao"></p>
+                    </div>
+
+                    <div class="resumo-alertas__divisor"></div>
+
+                    <div class="resumo-alertas__grupo resumo-alertas__grupo--limites">
+                        <span>Faixa configurada</span>
+                        <div id="limites_display" class="limites-atual"></div>
+                    </div>
+
+                    <button id="update_ancora" onclick="atualizarAncora()" title="Alterar limites"
+                        aria-label="Alterar limites de alerta">
+                        <img src="assets/img/engrenagem.svg" alt="">
+                    </button>
+                </section>
+
+                <section class="filtros-alertas">
+                    <div class="filtros-alertas__texto">
+                        <span>Alertas recentes</span>
+                        <label for="filter_alertas">Filtrar alertas</label>
+                    </div>
+                    <select id="filter_alertas">
+                        <option value="todos">Todos</option>
+                        <option value="perigo">Perigo</option>
+                        <option value="atencao">Atenção</option>
+                        <option value="resolvidos">Resolvidos</option>
+                    </select>
+                </section>
+
+                <div class="notificacoes" aria-live="polite"></div>
             </div>
         </div>
 
        
         <template id="template-alerta">
             <div class="notificacao">
-                <div class="descricao">
-                    <span class="estufa"></span>
-                    <span class="horario">Agora</span>
-                    <button class="btn-verificar"><i class="fa-solid fa-right-to-bracket"></i> Verificar a estufa</button>
+                <div class="alerta-conteudo">
+                    <div class="alerta-linha-principal">
+                        <span class="status-chip"></span>
+                        <span class="estufa"></span>
+                        <span class="ppm"></span>
+                        <span class="tendencia"></span>
+                    </div>
+                    <div class="alerta-meta">
+                        <span class="horario">Agora</span>
+                        <button class="btn-verificar">
+                            <i class="fa-solid fa-wrench"></i>
+                            <span>Verificar a estufa</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="buttons">
-                    <button class="btn-resolver"><img src="assets/img/check.svg" alt="Resolver"></button>
+                    <button class="btn-resolver"><img src="assets/img/check.svg" alt=""></button>
+                    <span class="resolver-label">Resolver</span>
                 </div>
             </div>
         </template>
@@ -162,6 +199,6 @@
     window.addEventListener('beforeunload', () => {
         if (intervaloAtualizacao) clearInterval(intervaloAtualizacao);
     });
-    
+
 </script>
 </html>

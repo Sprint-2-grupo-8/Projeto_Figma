@@ -31,7 +31,7 @@ if (salvo) {
 function atualizarDisplayLimites() {
     const display = document.getElementById('limites_display');
     if (display) {
-        display.textContent = `Limites definidos: ${limiteMinimo} ppm (mínimo) – ${limiteMaximo} ppm (máximo)`;
+        display.innerHTML = `Limites definidos: <strong>${limiteMinimo} ppm</strong> (mínimo) - <strong>${limiteMaximo} ppm</strong> (máximo)`;
     }
 }
 // Atualiza logo ao carregar a página
@@ -99,26 +99,45 @@ function criarCardAlerta(alertaInfo) {
     const card = template.content.cloneNode(true).querySelector('.notificacao');
 
     card.classList.add(alertaInfo.classeStatus);
+    if (alertaInfo.isResolvido) {
+        card.classList.add('is-resolvido');
+    }
    
     // Store status, original status and resolution info for filtering
     card.dataset.status = alertaInfo.classeStatus;
     card.dataset.original = alertaInfo.originalStatus;
     card.dataset.resolvido = alertaInfo.isResolvido ? 'true' : 'false';
 
-    card.querySelector('.estufa').textContent = `${alertaInfo.textoStatus}: Estufa ${alertaInfo.idEstufa} - ${alertaInfo.ppm} ppm ${alertaInfo.tendencia || ''}`;
+    const chip = card.querySelector('.status-chip');
+    const statusTexto = alertaInfo.isResolvido
+        ? 'Resolvido'
+        : alertaInfo.textoStatus.replace('Resolvido - ', '');
+
+    chip.textContent = statusTexto;
+    card.querySelector('.estufa').textContent = `Estufa ${alertaInfo.idEstufa}`;
+    card.querySelector('.ppm').textContent = `- ${alertaInfo.ppm} ppm`;
+    card.querySelector('.tendencia').textContent = (alertaInfo.tendencia || '')
+        .replace('↑', '↗')
+        .replace('↓', '↘');
 
     const btnVerificar = card.querySelector('.btn-verificar');
     btnVerificar.addEventListener('click', () => irParaDashboard(alertaInfo.idEstufa));
 
     const btnResolver = card.querySelector('.btn-resolver');
+    const resolverLabel = card.querySelector('.resolver-label');
 
     if (alertaInfo.originalStatus === 'green') {
         
         btnResolver.classList.add('btn-resolver--inativo');
+        btnResolver.disabled = true;
+        btnResolver.title = 'Leitura dentro da faixa ideal';
     } else if (alertaInfo.isResolvido) {
         
         btnResolver.classList.add('btn-resolver--resolvido');
         btnResolver.title = 'Marcado como resolvido';
+        resolverLabel.textContent = 'Resolvido';
+        btnVerificar.querySelector('span').textContent = 'Alerta resolvido';
+        btnVerificar.querySelector('i').className = 'fa-regular fa-circle-check';
         btnResolver.addEventListener('click', () => desfazerResolucao(alertaInfo.idEstufa, alertaInfo.ppm));
     } else {
       
@@ -243,7 +262,7 @@ function atualizarHorario() {
     const el = document.getElementById('last_update');
     if (el) {
         const now = new Date();
-        el.textContent = `Última atualização: ${now.toLocaleTimeString()}`;
+        el.textContent = now.toLocaleTimeString('pt-BR');
     }
 }
 // Filtra os cards de alerta de acordo com a seleção do usuário
@@ -274,16 +293,13 @@ function filtrarAlertas() {
     // Atualiza contagem no label do filtro
     const label = document.querySelector('label[for="filter_alertas"]');
     if (label) {
-        label.textContent = `Filtrar (${filtro.charAt(0).toUpperCase() + filtro.slice(1)}): ${exibidos}`;
+        label.innerHTML = `Filtrar (<strong>${filtro.charAt(0).toUpperCase() + filtro.slice(1)}</strong>): <strong>${exibidos}</strong>`;
     }
     // Mensagem quando nenhum alerta encontrado
     let msgVazia = document.getElementById('msg_vazia');
     if (!msgVazia) {
         msgVazia = document.createElement('div');
         msgVazia.id = 'msg_vazia';
-        msgVazia.style.textAlign = 'center';
-        msgVazia.style.padding = '1rem';
-        msgVazia.style.color = '#777';
         document.querySelector('.notificacoes').appendChild(msgVazia);
     }
     if (exibidos === 0) {
