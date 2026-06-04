@@ -22,15 +22,14 @@
 
         .btn_bob{
             display: flex;
-            width: 30px;
-            height: 350px;
+            width: 40px;
             background-color: lightgreen;
             border-top-left-radius: 20px;
             justify-content: center;
             align-items: center;
             border: none;
             cursor: pointer;
-            transition: 1s ease;
+            transition: 0.4s ease-in-out;
         }
 
         .btn_bob:hover{
@@ -38,17 +37,43 @@
             color: white;
         }
 
-        
+        .chat_bob, .btn_bob{
+            height: 350px;
+        }
+
+        .chat_bob{
+            display: flex;
+            width: 40%;
+            background-color: white;
+            flex-direction: column;
+        }
+
+        .chat_titulo{
+            display: flex;
+            justify-content: center;
+        }
+
+        .chat_titulo> p{
+            background-color: whitesmoke;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            color: #8b8b8b;
+        }
     </style>
 </head>
 
 <body>
     <div class="container_bob">
-        <button class="btn_bob" onclick="enviar()">
+        <button class="btn_bob" onclick="aparecer()">
             ←
         </button>
         <div class="chat_bob">
-            
+            <div class="chat_titulo">
+                <p>BobIA</p>
+            </div>
+            <p>Oi, como posso ajudar</p>
+            <p>Com nada</p>
         </div>
     </div>
 </body>
