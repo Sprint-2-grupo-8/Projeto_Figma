@@ -4,8 +4,8 @@ const janelaConfiguracao = document.getElementById('popup');
 // com os limites que estão atualmente salvos (que o cliente digitou)
 function atualizarAncora() {
     janelaConfiguracao.style.display = 'flex';
-    document.getElementById('lowerInput').value = limiteInferior;
-    document.getElementById('upperInput').value = limiteSuperior;
+    document.getElementById('lowerInput').value = limiteMinimo;
+    document.getElementById('upperInput').value = limiteMaximo;
 }
 
 function fecharPopup() {
@@ -13,14 +13,14 @@ function fecharPopup() {
 }
 
 
-let limiteInferior = 0;
-let limiteSuperior = 900;
+let limiteMinimo = 0;
+let limiteMaximo = 900;
 const salvo = localStorage.getItem('limites');
 if (salvo) {
     try {
         const limitesSalvos = JSON.parse(salvo);
-        if (!isNaN(limitesSalvos.inferior)) limiteInferior = Number(limitesSalvos.inferior);
-        if (!isNaN(limitesSalvos.superior)) limiteSuperior = Number(limitesSalvos.superior);
+        if (!isNaN(limitesSalvos.inferior)) limiteMinimo = Number(limitesSalvos.inferior);
+        if (!isNaN(limitesSalvos.superior)) limiteMaximo = Number(limitesSalvos.superior);
     } catch (erro) {
         console.error('Erro ao ler limites salvos', erro);
     }
@@ -30,7 +30,7 @@ if (salvo) {
 function atualizarDisplayLimites() {
     const display = document.getElementById('limites_display');
     if (display) {
-        display.textContent = `Limites definidos: ${limiteInferior} ppm (mínimo) – ${limiteSuperior} ppm (máximo)`;
+        display.textContent = `Limites definidos: ${limiteMinimo} ppm (mínimo) – ${limiteMaximo} ppm (máximo)`;
     }
 }
 // Atualiza logo ao carregar a página
@@ -39,22 +39,22 @@ atualizarDisplayLimites();
 
 
 function atualizarConfiguracoes() {
-    const limiteMinimo = document.getElementById('lowerInput').value;
-    const limiteMaximo = document.getElementById('upperInput').value;
+    const novoMinimo = document.getElementById('lowerInput').value;
+    const novoMaximo = document.getElementById('upperInput').value;
 
-    if (limiteMinimo !== '' && !isNaN(limiteMinimo)) {
-        limiteInferior = Number(limiteMinimo);
+    if (novoMinimo !== '' && !isNaN(novoMinimo)) {
+        limiteMinimo = Number(novoMinimo);
     }
 
-    if (limiteMaximo !== '' && !isNaN(limiteMaximo)) {
-        limiteSuperior = Number(limiteMaximo);
+    if (novoMaximo !== '' && !isNaN(novoMaximo)) {
+        limiteMaximo = Number(novoMaximo);
     }
 
     localStorage.setItem(
         'limites',
         JSON.stringify({
-            inferior: limiteInferior,
-            superior: limiteSuperior
+            inferior: limiteMinimo,
+            superior: limiteMaximo
         })
     );
 
@@ -64,7 +64,7 @@ function atualizarConfiguracoes() {
 }
 
 
-let estufas_alertas = JSON.parse(sessionStorage.getItem('ESTUFAS_ALERTAS')) || [
+let estufasAlertas = JSON.parse(sessionStorage.getItem('ESTUFAS_ALERTAS')) || [
     { "estufa": 1, "alertas": 0, "alertas_estabilizados": 0 },
     { "estufa": 2, "alertas": 0, "alertas_estabilizados": 0 },
     { "estufa": 3, "alertas": 0, "alertas_estabilizados": 0 },
@@ -72,25 +72,22 @@ let estufas_alertas = JSON.parse(sessionStorage.getItem('ESTUFAS_ALERTAS')) || [
 ];
 
 // Faz a soma de todos os alertas pendentes no JSON
-let alertas_totais = 0;
-estufas_alertas.forEach(e => {
-    alertas_totais += Math.max(0, e.alertas - (e.alertas_estabilizados || 0));
-});
+// Removed obsolete total alerts calculation; handled in atualizarAlertas
 
 
 function classificarPpm(ppm) {
-    const faixaAlerta = limiteSuperior > limiteInferior
-        ? (limiteSuperior - limiteInferior) * 0.1
+    const faixaAlerta = limiteMaximo > limiteMinimo
+        ? (limiteMaximo - limiteMinimo) * 0.1
         : 50;
 
-    if (ppm < limiteInferior)  
-     return { status: 'red',    texto: 'Perigo (Abaixo)' };
-    if (ppm > limiteSuperior)                     
-         return { status: 'red',    texto: 'Perigo (Acima)' };
-    if (ppm <= limiteInferior + faixaAlerta)       
+    if (ppm < limiteMinimo)  
+        return { status: 'red',    texto: 'Perigo (Abaixo)' };
+    if (ppm > limiteMaximo)                     
+        return { status: 'red',    texto: 'Perigo (Acima)' };
+    if (ppm <= limiteMinimo + faixaAlerta)       
         return { status: 'yellow', texto: 'Atenção (Próximo ao Mínimo)' };
-    if (ppm >= limiteSuperior - faixaAlerta)      
-         return { status: 'yellow', texto: 'Atenção (Próximo ao Máximo)' };
+    if (ppm >= limiteMaximo - faixaAlerta)      
+        return { status: 'yellow', texto: 'Atenção (Próximo ao Máximo)' };
     return    { status: 'green',  texto: 'Ideal' };
 
 }
@@ -105,7 +102,7 @@ function criarCardAlerta(alertaInfo) {
     card.querySelector('.estufa').textContent = `${alertaInfo.textoStatus}: Estufa ${alertaInfo.idEstufa} - ${alertaInfo.ppm} ppm`;
 
     const btnVerificar = card.querySelector('.btn-verificar');
-    btnVerificar.addEventListener('click', () => irParaDash(alertaInfo.idEstufa));
+    btnVerificar.addEventListener('click', () => irParaDashboard(alertaInfo.idEstufa));
 
     const btnResolver = card.querySelector('.btn-resolver');
 
@@ -120,7 +117,7 @@ function criarCardAlerta(alertaInfo) {
     } else {
       
         btnResolver.title = 'Marcar como resolvido';
-        btnResolver.addEventListener('click', () => resolverAlerta(alertaInfo.idEstufa, alertaInfo.ppm));
+        btnResolver.addEventListener('click', () => marcarAlertaResolvido(alertaInfo.idEstufa, alertaInfo.ppm));
     }
 
     return card;
@@ -139,7 +136,7 @@ async function atualizarAlertas() {
     const resolvidos = JSON.parse(sessionStorage.getItem('ALERTAS_RESOLVIDOS')) || [];
 
     // Reseta os alertas para não acumular para sempre
-    estufas_alertas.forEach(estufa => {
+    estufasAlertas.forEach(estufa => {
         estufa.alertas = 0;
         estufa.alertas_estabilizados = 0;
     });
@@ -177,13 +174,13 @@ async function atualizarAlertas() {
                 let isResolvido = false;
 
                 if (statusOriginal === 'red' || statusOriginal === 'yellow') {
-                    estufas_alertas[Number(idEstufa - 1)].alertas++;
+                    estufasAlertas[Number(idEstufa - 1)].alertas++;
 
                     if (foiResolvido) {
                         classeStatus = 'green';
                         textoStatus = `Resolvido - ${textoOriginal}`;
                         isResolvido = true;
-                        estufas_alertas[Number(idEstufa - 1)].alertas_estabilizados++;
+                        estufasAlertas[Number(idEstufa - 1)].alertas_estabilizados++;
                     }
                 }
 
@@ -205,37 +202,57 @@ async function atualizarAlertas() {
     });
 
    
-    sessionStorage.setItem('ESTUFAS_ALERTAS', JSON.stringify(estufas_alertas));
+    sessionStorage.setItem('ESTUFAS_ALERTAS', JSON.stringify(estufasAlertas));
 
     // Atualiza dinamicamente o contador
-    let alertas_totais_atualizados = 0;
-    estufas_alertas.forEach(e => {
-        alertas_totais_atualizados += Math.max(0, e.alertas - e.alertas_estabilizados);
+    let totalAlertasAtualizado = 0;
+    estufasAlertas.forEach(e => {
+        totalAlertasAtualizado += Math.max(0, e.alertas - e.alertas_estabilizados);
     });
     const elQtdAlertas = document.getElementById('id_qtd_alertas');
     if (elQtdAlertas) {
-        elQtdAlertas.innerHTML = alertas_totais_atualizados;
+        elQtdAlertas.innerHTML = totalAlertasAtualizado;
     }
 }
 
 
 
-window.addEventListener('load', atualizarAlertas);
+let intervaloAtualizacao;
+function atualizarHorario() {
+    const el = document.getElementById('last_update');
+    if (el) {
+        const now = new Date();
+        el.textContent = `Última atualização: ${now.toLocaleTimeString()}`;
+    }
+}
+function iniciarAtualizacaoAutomatica() {
+    // primeira chamada imediata
+    atualizarAlertas();
+    atualizarHorario();
+    // agendar atualizações a cada 10 segundos
+    intervaloAtualizacao = setInterval(() => {
+        atualizarAlertas();
+        atualizarHorario();
+    }, 10000);
+}
+window.addEventListener('load', iniciarAtualizacaoAutomatica);
+window.addEventListener('beforeunload', () => {
+    if (intervaloAtualizacao) clearInterval(intervaloAtualizacao);
+});
 
-function irParaDash(idEstufa) {
+function irParaDashboard(idEstufa) {
     sessionStorage.setItem('ID_ESTUFA_FILTER', idEstufa);
     console.log("estufa clicada", idEstufa);
     window.location = "dashboard.html";
 }
 
 // Marca um alerta como resolvido
-function resolverAlerta(idEstufa, ppm) {
+function marcarAlertaResolvido(idEstufa, ppm) {
     const resolvidos = JSON.parse(sessionStorage.getItem('ALERTAS_RESOLVIDOS')) || [];
     resolvidos.push({ estufa: idEstufa, ppm: ppm });
     sessionStorage.setItem('ALERTAS_RESOLVIDOS', JSON.stringify(resolvidos));
     atualizarAlertas();
 }
-
 // Desfaz a resolução de um alerta
 function desfazerResolucao(idEstufa, ppm) {
     let resolvidos = JSON.parse(sessionStorage.getItem('ALERTAS_RESOLVIDOS')) || [];
