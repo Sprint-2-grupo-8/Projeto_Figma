@@ -94,6 +94,8 @@
         }
         .caixa_texto{
             width: 100%;
+            display: flex;
+            flex-direction: row;
         }
         .ipt_texto{
             width: 100%;
@@ -110,13 +112,34 @@
             opacity: 1;
         }
 
+        .seta {
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .seta_ativa{
+            transform: rotate(180deg);
+        }
+
+        .Conversar{
+            width: 50px;
+            background-color: #d3d3d3;
+            border: none;
+            border-top: 1px #9c9c9c solid;
+            border-left: 1px #9c9c9c solid;
+            transition: 0.5s ease-in-out;
+        }
+
+        .Conversar:hover{
+            background-color: #a8a8a8;
+        }
+
     </style>
 </head>
 
 <body>
     <div class="container_bob">
-        <button class="btn_bob" id="btn_bob" onclick="aparecer()">
-            ←
+        <button class="btn_bob" id="btn_bob">
+            <p class="seta" id="setaChat">←</p>
         </button>
         <div class="chat_bob" id="Chat_Bob">
             <div class="chat_titulo">
@@ -128,6 +151,7 @@
             </div>
             <div class="caixa_texto">
                 <input type="text" class="ipt_texto" placeholder="Pergunte algo ....">
+                <button class="Conversar" onclick="conversar()">+</button>
             </div>
         </div>
     </div>
@@ -135,9 +159,11 @@
 <script>
     const Chat = document.getElementById('Chat_Bob');
     const btn = document.getElementById('btn_bob');
+    const Seta = document.getElementById('setaChat');
 
     btn.addEventListener('click', () => {
         Chat.classList.toggle('chat_bob_ativo')
+        Seta.classList.toggle('seta_ativa')
     })
 </script>
 </html>
