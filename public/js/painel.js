@@ -1,3 +1,4 @@
+// Painel de controle de alertas - funções de configuração, filtragem e atualização automática
 const janelaConfiguracao = document.getElementById('popup');
 
 // Abre a janela de configuração (escolher o nivel de PPM que o cliente quer) e preenche os campos
@@ -74,7 +75,7 @@ let estufasAlertas = JSON.parse(sessionStorage.getItem('ESTUFAS_ALERTAS')) || [
 // Faz a soma de todos os alertas pendentes no JSON
 // Removed obsolete total alerts calculation; handled in atualizarAlertas
 
-
+// Classifica o valor de PPM em status e texto descritivo
 function classificarPpm(ppm) {
     const faixaAlerta = limiteMaximo > limiteMinimo
         ? (limiteMaximo - limiteMinimo) * 0.1
@@ -91,13 +92,18 @@ function classificarPpm(ppm) {
     return    { status: 'green',  texto: 'Ideal' };
 
 }
-
+// Cria um card de alerta com informações e botões de ação
 
 function criarCardAlerta(alertaInfo) {
     const template = document.getElementById('template-alerta');
     const card = template.content.cloneNode(true).querySelector('.notificacao');
 
     card.classList.add(alertaInfo.classeStatus);
+   
+    // Store status, original status and resolution info for filtering
+    card.dataset.status = alertaInfo.classeStatus;
+    card.dataset.original = alertaInfo.originalStatus;
+    card.dataset.resolvido = alertaInfo.isResolvido ? 'true' : 'false';
 
     card.querySelector('.estufa').textContent = `${alertaInfo.textoStatus}: Estufa ${alertaInfo.idEstufa} - ${alertaInfo.ppm} ppm ${alertaInfo.tendencia || ''}`;
 
@@ -110,7 +116,7 @@ function criarCardAlerta(alertaInfo) {
         
         btnResolver.classList.add('btn-resolver--inativo');
     } else if (alertaInfo.isResolvido) {
-     
+        
         btnResolver.classList.add('btn-resolver--resolvido');
         btnResolver.title = 'Marcado como resolvido';
         btnResolver.addEventListener('click', () => desfazerResolucao(alertaInfo.idEstufa, alertaInfo.ppm));
@@ -213,6 +219,8 @@ async function atualizarAlertas() {
     todosAlertas.forEach(alertaInfo => {
         areaNotificacoes.appendChild(criarCardAlerta(alertaInfo));
     });
+    // Apply current filter
+    filtrarAlertas();
 
    
     sessionStorage.setItem('ESTUFAS_ALERTAS', JSON.stringify(estufasAlertas));
@@ -229,7 +237,7 @@ async function atualizarAlertas() {
 }
 
 
-
+// Atualiza o horário da última atualização exibido na interface
 let intervaloAtualizacao;
 function atualizarHorario() {
     const el = document.getElementById('last_update');
@@ -237,6 +245,69 @@ function atualizarHorario() {
         const now = new Date();
         el.textContent = `Última atualização: ${now.toLocaleTimeString()}`;
     }
+}
+// Filtra os cards de alerta de acordo com a seleção do usuário
+// Função de filtragem de alertas
+function filtrarAlertas() {
+    const select = document.getElementById('filter_alertas');
+    if (!select) return;
+    const filtro = select.value;
+    const cards = document.querySelectorAll('.notificacao');
+    let exibidos = 0;
+    cards.forEach(card => {
+        const status = card.dataset.status; // red, yellow, green
+        const original = card.dataset.original; // status original antes da resolução
+        // Para o filtro "resolvidos" queremos mostrar todos os alertas verdes (resolvidos ou ideal)
+        let mostrar = false;
+        if (filtro === 'todos') {
+            mostrar = true;
+        } else if (filtro === 'perigo') {
+            mostrar = (original === 'red' || status === 'red');
+        } else if (filtro === 'atencao') {
+            mostrar = (original === 'yellow' || status === 'yellow');
+        } else if (filtro === 'resolvidos') {
+            mostrar = (status === 'green');
+        }
+        card.style.display = mostrar ? '' : 'none';
+        if (mostrar) exibidos++;
+    });
+    // Atualiza contagem no label do filtro
+    const label = document.querySelector('label[for="filter_alertas"]');
+    if (label) {
+        label.textContent = `Filtrar (${filtro.charAt(0).toUpperCase() + filtro.slice(1)}): ${exibidos}`;
+    }
+    // Mensagem quando nenhum alerta encontrado
+    let msgVazia = document.getElementById('msg_vazia');
+    if (!msgVazia) {
+        msgVazia = document.createElement('div');
+        msgVazia.id = 'msg_vazia';
+        msgVazia.style.textAlign = 'center';
+        msgVazia.style.padding = '1rem';
+        msgVazia.style.color = '#777';
+        document.querySelector('.notificacoes').appendChild(msgVazia);
+    }
+    if (exibidos === 0) {
+        let texto;
+        if (filtro === 'perigo') texto = 'Nenhum alerta de perigo encontrado.';
+        else if (filtro === 'atencao') texto = 'Nenhum alerta de atenção encontrado.';
+        else if (filtro === 'resolvidos') texto = 'Nenhum alerta resolvido encontrado.';
+        else texto = 'Nenhum alerta encontrado.';
+        msgVazia.textContent = texto;
+        msgVazia.style.display = '';
+    } else {
+        msgVazia.style.display = 'none';
+    }
+    // Salva filtro selecionado
+    localStorage.setItem('alert_filter', filtro);
+}
+
+// Configura evento de mudança no filtro e carrega filtro salvo
+const filtroSelect = document.getElementById('filter_alertas');
+if (filtroSelect) {
+    filtroSelect.addEventListener('change', filtrarAlertas);
+    const filtroSalvo = localStorage.getItem('alert_filter') || 'todos';
+    filtroSelect.value = filtroSalvo;
+    filtrarAlertas();
 }
 function iniciarAtualizacaoAutomatica() {
     atualizarAlertas();
@@ -246,11 +317,10 @@ function iniciarAtualizacaoAutomatica() {
         atualizarAlertas();
         atualizarHorario();
     }, 10000);
+    // aplica filtro após primeira carga
+    filtrarAlertas();
 }
-window.addEventListener('load', iniciarAtualizacaoAutomatica);
-window.addEventListener('beforeunload', () => {
-    if (intervaloAtualizacao) clearInterval(intervaloAtualizacao);
-});
+
 
 function irParaDashboard(idEstufa) {
     sessionStorage.setItem('ID_ESTUFA_FILTER', idEstufa);
