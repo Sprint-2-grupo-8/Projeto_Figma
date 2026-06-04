@@ -34,7 +34,7 @@
             </li>
             <li>
                 <img src="assets/img/alerta.svg" alt="">
-                <a href="">Alertas (3)</a>
+                <a href="">Alertas (<span id="id_qtd_alertas"></span>)</a>
             </li>
         </ul>
 
@@ -196,5 +196,7 @@
 </body>
 <script src="js/painel.js"></script>
 <script src="js/dashboard.js"></script>
-
+<script>
+    id_qtd_alertas.innerHTML = `${alertas_totais}`;
+</script>
 </html>

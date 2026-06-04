@@ -34,7 +34,7 @@
             </li>
             <li>
                 <img src="assets/img/alerta.svg" alt="">
-                <a href="painel.html">Alertas (3)</a>
+                <a href="painel.html">Alertas (<span id="id_qtd_alertas"></span>)</a>
             </li>
         </ul>
 
@@ -96,11 +96,11 @@
                 <span class="value" id="id_porcentagem_ideal"></span>
                 <span id="id_legenda_ideal" class="legenda">Últimas 24h</span>
             </div>
-            <div class="indicador indicador-ok">
+            <div class="indicador" id="div_estabilizado">
                 <span class="title">Total de alertas estabilizados</span>
 
-                <span class="value">1/1 alertas</span>
-                <span class="legenda legenda-ok">100% foram estabilizados</span>
+                <span class="value"><span id="id_estabilizados"></span>/<span id="id_alertas"></span> alertas</span>
+                <span id="span_porcentagem" class="legenda"><span id="id_alerta_porcentagem"></span>% foram estabilizados</span>
 
             </div>
         </div>
@@ -164,13 +164,42 @@
 </body>
 <script src="js/graficos.js"></script>
 <script src="js/dashboard.js"></script>
-
+<script src="js/painel.js"></script>
 <script>
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-
+    id_qtd_alertas.innerHTML = `${alertas_totais}`;
+    
     let proximaAtualizacao;
     async function obterDadosGrafico(estufa) {
         let estufa_id = estufa ? estufa : '';
+
+        // Buscar os alertas no vetor estufas_alertas
+        let qtd_alertas = estufas_alertas[Number(estufa_id - 1)].alertas;
+
+        let qtd_estabilizados = estufas_alertas[(estufa_id - 1)].alertas_estabilizados;
+        
+        let porcentagem_establ = qtd_alertas > 0 && qtd_estabilizados > 0 ? Number((qtd_estabilizados / qtd_alertas) * 100) : 0;
+
+        // CSS de acordo com os dos dados
+        document.getElementById("div_estabilizado").classList.remove('indicador-danger', 'indicador-ok');
+        document.getElementById("span_porcentagem").classList.remove('legenda-danger', 'legenda-ok');
+
+        if (qtd_estabilizados < qtd_alertas) {
+            document.getElementById("div_estabilizado").classList.add('indicador-danger');
+            document.getElementById("span_porcentagem").classList.add('legenda-danger');
+        } else {
+            document.getElementById("div_estabilizado").classList.add('indicador-ok');
+            document.getElementById("span_porcentagem").classList.add('legenda-ok');
+        }   
+
+        // Inserir no HTML
+        document.getElementById("id_alertas").innerHTML = qtd_alertas;
+        document.getElementById("id_estabilizados").innerHTML = qtd_estabilizados;
+        document.getElementById("id_alerta_porcentagem").innerHTML = porcentagem_establ;
+
+        
+        
+
         try {
             fetch(`/medidas/ultimas/${estufa_id}`, { cache: 'no-store' }).then(function (response) {
                 if (response.ok) {
@@ -214,6 +243,13 @@
         } catch (error) {
             console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
         };
+    }
+
+    let estufa_SS = sessionStorage.getItem('ID_ESTUFA_FILTER');
+
+    if (estufa_SS) {
+        filter(Number(estufa_SS));
+        sessionStorage.removeItem('ID_ESTUFA_FILTER');
     }
 
     // Esta função *plotarGrafico* usa os dados capturados na função anterior para criar o gráfico

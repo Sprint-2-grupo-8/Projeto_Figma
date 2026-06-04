@@ -19,10 +19,11 @@ router.get("/tempo-real/distribuicao", function (req,res) {
     medidaController.buscarDistribuicaoTempoReal(req,res);
 })
 
+router.get("/concentracao/:id", function (req,res) {
+    medidaController.buscarConcentracao(req,res);
+})
 
-
-
-
-
-
+router.get("/tempo-real/concentracao:id", function (req,res) {
+    medidaController.atualizarConcentracao(req,res);
+})
 module.exports = router;

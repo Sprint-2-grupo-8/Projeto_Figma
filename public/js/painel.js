@@ -55,6 +55,18 @@ function atualizarConfiguracoes() {
 }
 
 
+let estufas_alertas = JSON.parse(sessionStorage.getItem('ESTUFAS_ALERTAS')) || [
+    { "estufa": 1, "alertas": 0, "alertas_estabilizados": 0 },
+    { "estufa": 2, "alertas": 0, "alertas_estabilizados": 0 },
+    { "estufa": 3, "alertas": 0, "alertas_estabilizados": 0 },
+    { "estufa": 4, "alertas": 0, "alertas_estabilizados": 0 }
+]; 
+
+// Faz a soma de todos os alertas no JSON
+let alertas_totais = 0;
+estufas_alertas.forEach(e => {
+    alertas_totais += e.alertas;
+});
 // Busca as leituras mais recentes de cada estufa e verifica
 // se os valores estão dentro da faixa configurada.
 // Quando um valor ultrapassa os limites definidos, uma
@@ -65,6 +77,11 @@ async function atualizarAlertas() {
     if (!areaNotificacoes) return;
 
     areaNotificacoes.innerHTML = '';
+
+    // Reseta os alertas para nâo acumular infinitamente
+    estufas_alertas.forEach(estufa => {
+        estufa.alertas = 0;
+    });
 
     const estufas = [1, 2, 3, 4];
 
@@ -106,6 +123,10 @@ async function atualizarAlertas() {
                 }
 
                 if (classeStatus !== 'green') {
+                    estufas_alertas[Number(idEstufa - 1)].alertas++; // Incrementa a quantidade total de alertas naquela estufa
+                    
+                    sessionStorage.setItem('ESTUFAS_ALERTAS', JSON.stringify(estufas_alertas));
+                    
                     const alerta = document.createElement('div');
 
                     alerta.className = `notificacao ${classeStatus}`;
@@ -114,7 +135,7 @@ async function atualizarAlertas() {
                         <div class="descricao">
                             <span class="estufa">${textoStatus}: Estufa ${idEstufa} - ${ppm} ppm</span>
                             <span class="horario">Agora</span>
-                            <a href="dashboard.html"><i class="fa-solid fa-right-to-bracket"></i> Verificar a estufa</a>
+                            <button onclick="irParaDash(${idEstufa})"><i class="fa-solid fa-right-to-bracket"></i> Verificar a estufa</button>
                         </div>
                         <div class="buttons">
                             <button><img src="assets/img/check.svg" alt=""/></button>
@@ -133,3 +154,10 @@ async function atualizarAlertas() {
 
 // As notificações de alerta são geradas automaticamente, se baseia na leitutra mais recente de cada estufa e nos limites configurados;
 window.addEventListener('load', atualizarAlertas);
+
+function irParaDash(idEstufa) {
+    sessionStorage.setItem('ID_ESTUFA_FILTER', idEstufa);
+    console.log("estufa clicada", idEstufa);
+
+    window.location="dashboard.html";
+}

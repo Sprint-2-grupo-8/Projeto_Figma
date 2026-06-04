@@ -5,13 +5,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/bobia.js"></script>
-    <title>Document</title>
+    <title>Bob IA - V1</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+
+        .container_bob{
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            min-height: 100vh;
+            
+        }
+
+        .btn_bob{
+            display: flex;
+            width: 40px;
+            background-color: lightgreen;
+            border-top-left-radius: 20px;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+            transition: 0.4s ease-in-out;
+        }
+
+        .btn_bob:hover{
+            background-color: green;
+            color: white;
+        }
+
+        .chat_bob, .btn_bob{
+            height: 350px;
+            
+        }
+
+        .chat_bob{
+            display: flex;
+            width: 0%;
+            opacity: 0;
+            background-color: white;
+            flex-direction: column;
+            transition: all 0.5s ease-in-out;
+            overflow: hidden;
+        }
+
+        .chat_titulo{
+            display: flex;
+            justify-content: center;
+        }
+
+        .chat_titulo> p{
+            background-color: whitesmoke;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            color: #8b8b8b;
+        }
+
+        .mensagem_bob{
+            display: flex;
+            flex-direction: column;
+            margin: 5px;
+            gap: 10px;
+            overflow-y: auto;
+            height: 100%;
+        }
+
+        .bob_ia{
+            background-color: #d3d3d3;
+            width: fit-content;
+            height: fit-content;
+            border-radius: 20px;
+            padding: 2%;
+        }
+        .eu{
+            background-color: #60d860;
+            border-radius: 20px;
+            padding: 2%;
+            width: fit-content;
+            height: fit-content;
+            text-align: end;
+            align-self: flex-end;
+        }
+        .caixa_texto{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+        .ipt_texto{
+            width: 100%;
+            border: none;
+            border-top: 1px #9c9c9c solid;
+            background-color: #d3d3d3;
+            text-align: left;
+            padding: 10px;
+            outline: none;
+        }
+
+        .chat_bob_ativo{
+            width: 40%;
+            opacity: 1;
+        }
+
+        .seta {
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .seta_ativa{
+            transform: rotate(180deg);
+        }
+
+        .Conversar{
+            width: 50px;
+            background-color: #d3d3d3;
+            border: none;
+            border-top: 1px #9c9c9c solid;
+            border-left: 1px #9c9c9c solid;
+            transition: 0.5s ease-in-out;
+        }
+
+        .Conversar:hover{
+            background-color: #a8a8a8;
+        }
+
+    </style>
 </head>
 
 <body>
-    <input type="text" id="ipt_pergunta">
-    <button onclick="perguntarIA()">Perguntar</button>
-    <div id="div_resposta"></div>
+    <div class="container_bob">
+        <button class="btn_bob" id="btn_bob">
+            <p class="seta" id="setaChat">←</p>
+        </button>
+        <div class="chat_bob" id="Chat_Bob">
+            <div class="chat_titulo">
+                <p>BobIA</p>
+            </div>
+            <div class="mensagem_bob">
+                <p class="bob_ia">Oi, como posso ajudar?</p>
+                <p class="eu">Nada</p>
+            </div>
+            <div class="caixa_texto">
+                <input type="text" class="ipt_texto" placeholder="Pergunte algo ....">
+                <button class="Conversar" onclick="conversar()">+</button>
+            </div>
+        </div>
+    </div>
 </body>
+<script>
+    const Chat = document.getElementById('Chat_Bob');
+    const btn = document.getElementById('btn_bob');
+    const Seta = document.getElementById('setaChat');
 
+    btn.addEventListener('click', () => {
+        Chat.classList.toggle('chat_bob_ativo')
+        Seta.classList.toggle('seta_ativa')
+    })
+</script>
 </html>
