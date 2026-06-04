@@ -100,11 +100,37 @@ function atualizarConcentracao(idEstufa) {
     console.log("atualizarConcentracao SQL" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+
+function buscarMaiorConcentracaoGeral() {
+
+    var instrucaoSql = `
+        SELECT
+            e.nome,
+            ROUND(r.ppm, 0) AS ppm
+        FROM registro r
+        JOIN sensor s
+            ON r.fkSensor = s.idSensor
+        JOIN estufa e
+            ON s.fkEstufa = e.idestufa
+        WHERE r.dtHrRegistro = (
+            SELECT MAX(r2.dtHrRegistro)
+            FROM registro r2
+            WHERE r2.fkSensor = r.fkSensor
+        )
+        ORDER BY r.ppm DESC
+        LIMIT 1;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarRegistros,
     buscarDistribuicao,
     buscarDistribuicaoTempoReal,
     buscarConcentracao,
-    atualizarConcentracao
+    atualizarConcentracao,
+    buscarMaiorConcentracaoGeral
 }
