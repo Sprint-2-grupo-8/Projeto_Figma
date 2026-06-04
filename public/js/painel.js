@@ -1,8 +1,8 @@
 const janelaConfiguracao = document.getElementById('popup');
 
 
-// Abre a janela de configuração e preenche os campos
-// com os limites que estão atualmente salvos
+// Abre a janela de configuração (escolher o nivel de PPM que o cliente quer) e preenche os campos
+// com os limites que estão atualmente salvos (que o cliente digitou)
 function atualizarAncora() {
     janelaConfiguracao.style.display = 'flex';
     document.getElementById('lowerInput').value = limiteInferior;
@@ -67,10 +67,9 @@ let alertas_totais = 0;
 estufas_alertas.forEach(e => {
     alertas_totais += e.alertas;
 });
-// Busca as leituras mais recentes de cada estufa e verifica
-// se os valores estão dentro da faixa configurada.
-// Quando um valor ultrapassa os limites definidos, uma
-// notificação de alerta é criada e exibida ao usuário.
+
+// Verifica os valores <ATUAIS> de cada estufa. Se alguma estiver com o PPM fora do limite definido,
+// um aviso é mostrado na tela.
 async function atualizarAlertas() {
     const areaNotificacoes = document.querySelector('.notificacoes');
 
@@ -78,7 +77,7 @@ async function atualizarAlertas() {
 
     areaNotificacoes.innerHTML = '';
 
-    // Reseta os alertas para nâo acumular infinitamente
+    // Reseta os alertas para não acumular para sempre
     estufas_alertas.forEach(estufa => {
         estufa.alertas = 0;
     });
@@ -99,7 +98,7 @@ async function atualizarAlertas() {
                 continue;
             }
 
-            const registros = await resposta.json(); // [{ ppm }]
+            const registros = await resposta.json(); //ppm
 
             console.log('Dados recebidos da estufa', idEstufa, registros);
 
@@ -109,50 +108,73 @@ async function atualizarAlertas() {
                 if (isNaN(ppm)) return;
 
                 let classeStatus = 'green';
-                let textoStatus = 'Normal';
+                let textoStatus = 'Ideal';
+
+                // Define uma faixa de alerta (amarelo) de 10% do intervalo
+                let faixaAlerta = 50; // valor padrão caso o cálculo seja inválido
+                if (limiteSuperior > limiteInferior) {
+                    faixaAlerta = (limiteSuperior - limiteInferior) * 0.1;
+                }
 
                 if (ppm < limiteInferior) {
                     classeStatus = 'red';
-                    textoStatus = 'Perigo (abaixo)';
+                    textoStatus = 'Perigo (Abaixo)';
                 } else if (ppm > limiteSuperior) {
                     classeStatus = 'red';
-                    textoStatus = 'Perigo (acima)';
+                    textoStatus = 'Perigo (Acima)';
+                } else if (ppm <= limiteInferior + faixaAlerta) {
+                    classeStatus = 'yellow';
+                    textoStatus = 'Atenção (Próximo ao Mínimo)';
+                } else if (ppm >= limiteSuperior - faixaAlerta) {
+                    classeStatus = 'yellow';
+                    textoStatus = 'Atenção (Próximo ao Máximo)';
                 } else {
                     classeStatus = 'green';
-                    textoStatus = 'Normal';
+                    textoStatus = 'Ideal';
                 }
 
-                if (classeStatus !== 'green') {
-                    estufas_alertas[Number(idEstufa - 1)].alertas++; // Incrementa a quantidade total de alertas naquela estufa
-                    
-                    sessionStorage.setItem('ESTUFAS_ALERTAS', JSON.stringify(estufas_alertas));
-                    
-                    const alerta = document.createElement('div');
-
-                    alerta.className = `notificacao ${classeStatus}`;
-
-                    alerta.innerHTML = `
-                        <div class="descricao">
-                            <span class="estufa">${textoStatus}: Estufa ${idEstufa} - ${ppm} ppm</span>
-                            <span class="horario">Agora</span>
-                            <button onclick="irParaDash(${idEstufa})"><i class="fa-solid fa-right-to-bracket"></i> Verificar a estufa</button>
-                        </div>
-                        <div class="buttons">
-                            <button><img src="assets/img/check.svg" alt=""/></button>
-                        </div>`;
-
-                    areaNotificacoes.appendChild(alerta);
+                // Apenas alertas Amarelo e Vermelho vão somar no contador de alertas
+                if (classeStatus === 'red' || classeStatus === 'yellow') {
+                    estufas_alertas[Number(idEstufa - 1)].alertas++; 
                 }
+
+                const alerta = document.createElement('div');
+                alerta.className = `notificacao ${classeStatus}`;
+
+                alerta.innerHTML = `
+                    <div class="descricao">
+                        <span class="estufa">${textoStatus}: Estufa ${idEstufa} - ${ppm} ppm</span>
+                        <span class="horario">Agora</span>
+                        <button onclick="irParaDash(${idEstufa})"><i class="fa-solid fa-right-to-bracket"></i> Verificar a estufa</button>
+                    </div>
+                    <div class="buttons">
+                        <button><img src="assets/img/check.svg" alt=""/></button>
+                    </div>`;
+
+                areaNotificacoes.appendChild(alerta);
             });
 
         } catch (erro) {
             console.error('Erro ao buscar registros da estufa', idEstufa, erro);
         }
     }
+
+    // Salva o estado atualizado no sessionStorage
+    sessionStorage.setItem('ESTUFAS_ALERTAS', JSON.stringify(estufas_alertas));
+
+   
+    let alertas_totais_atualizados = 0;
+    estufas_alertas.forEach(e => {
+        alertas_totais_atualizados += e.alertas;
+    });
+    const elQtdAlertas = document.getElementById('id_qtd_alertas');
+    if (elQtdAlertas) {
+        elQtdAlertas.innerHTML = alertas_totais_atualizados;
+    }
 }
 
 
-// As notificações de alerta são geradas automaticamente, se baseia na leitutra mais recente de cada estufa e nos limites configurados;
+// Alertas são gerados automaticamente.
 window.addEventListener('load', atualizarAlertas);
 
 function irParaDash(idEstufa) {
