@@ -23,7 +23,7 @@ function buscarUltimasMedidas(idEstufa) {
         END
         ORDER BY MIN(dtHrRegistro) ASC;
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executar  SQL:" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
@@ -34,11 +34,10 @@ function buscarRegistros(idEstufa) {
         ROUND(ppm, 0) ppm
     FROM registro
     JOIN sensor ON fkSensor = idSensor
-    WHERE dtHrRegistro >= CURDATE() - INTERVAL 1 DAY
-	    AND dtHrRegistro < CURDATE()
+    WHERE dtHrRegistro >= NOW() - INTERVAL 1 DAY
         AND fkEstufa = ${idEstufa}`;
 
-    console.log("Executando a instrução SQL de buscarRegistros: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL de buscarRegistros:" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
@@ -57,7 +56,7 @@ function buscarDistribuicao(idEstufa) {
 	    HOUR(dtHrRegistro)
     ORDER BY MIN(dtHrRegistro);`
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando o SQL" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
@@ -70,7 +69,7 @@ function buscarDistribuicaoTempoReal() {
     WHERE DATE(dtHrRegistro) = CURDATE()
         AND HOUR(dtHrRegistro) = HOUR(NOW());`
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando o SQL:" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
@@ -84,7 +83,7 @@ function buscarConcentracao(idEstufa) {
     ORDER BY dtHrRegistro DESC
     LIMIT 1;`
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando o SQL:" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
@@ -98,7 +97,7 @@ function atualizarConcentracao(idEstufa) {
     ORDER BY dtHrRegistro DESC
     LIMIT 1;`
 
-    console.log("Executando a instrução de atualizarConcentracao SQL: \n" + instrucaoSql);
+    console.log("atualizarConcentracao SQL" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 module.exports = {
