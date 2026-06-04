@@ -35,4 +35,8 @@ router.get("/menor-concentracao-geral", function (req, res) {
     medidaController.buscarMenorConcentracaoGeral(req, res);
 });
 
+router.get("/estufas-em-alerta", function (req, res) {
+    medidaController.buscarEstufasEmAlerta(req, res);
+});
+
 module.exports = router;
