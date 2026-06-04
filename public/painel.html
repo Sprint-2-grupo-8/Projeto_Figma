@@ -17,6 +17,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="styles/painel.css">
 </head>
 
 <body>
@@ -77,86 +78,27 @@
                     </div>
                     <div class="texto-painel">
                         <div class="config-button">
-                            <button id="update_ancora" onclick="atualizarAncora()"><img src="assets/img/engrenagem.svg"
-                                    alt=""></button>
+                            <button id="update_ancora" onclick="atualizarAncora()"><img src="assets/img/engrenagem.svg" alt=""></button>
                         </div>
                     </div>
                 </div>
-                <div class="notificacoes">
-                    <div class="notificacao red">
-                        <div class="descricao">
-                            <span class="estufa">Perigo: estufa 2 abaixo do limite</span>
-                            <span class="horario">Há 2 horas</span>
-                            <a href="dashboard.html">Verificar a estufa
-                                <i class="fa-solid fa-right-to-bracket"></i>
-                            </a>
-                        </div>
-                        <div class="buttons">
-                            <button><img src="assets/img/check.svg" alt=""></button>
-                            <!-- <button><img src="assets/img/delete.svg" alt=""></button> -->
-
-                        </div>
-                    </div>
-                    <div class="notificacao red">
-                        <div class="descricao">
-                            <span class="estufa">Perigo: estufa 3 abaixo do limite</span>
-                            <span class="horario">Há 20 minutos</span>
-                            <a href="dashboard.html">Verificar a estufa
-                            <i class="fa-solid fa-right-to-bracket"></i>
-                            </a>
-                        </div>
-                        
-                        <div class="buttons">
-                            <button><img src="assets/img/check.svg" alt=""></button>
-                            <!-- <button><img src="assets/img/delete.svg" alt=""></button> -->
-
-                        </div>
-                    </div>
-                    <div class="notificacao green">
-                        <div class="descricao">
-                            <span class="estufa">Estufa 1 normalizada</span>
-                            <span class="horario">Há 7 horas</span>
-                            <a href="dashboard.html">Verificar a estufa
-                            <i class="fa-solid fa-right-to-bracket"></i>
-                            </a>
-                        </div>
-                        <div class="buttons">
-                            <button><img src="assets/img/check.svg" alt=""></button>
-                            <!-- <button><img src="assets/img/delete.svg" alt=""></button> -->
-
-                        </div>
-                    </div>
-                    <div class="notificacao green">
-                        <div class="descricao">
-                            <span class="estufa">Estufa 4 normalizada</span>
-                            <span class="horario">Há 5 minutos</span>
-                            <a href="dashboard.html">Verificar a estufa
-                            <i class="fa-solid fa-right-to-bracket"></i>
-                            </a>
-                        </div>
-                        <div class="buttons">
-                            <button><img src="assets/img/check.svg" alt=""></button>
-                            <!-- <button><img src="assets/img/delete.svg" alt=""></button> -->
-
-                        </div>
-                    </div>
-                    <div class="notificacao yellow">
-                        <div class="descricao">
-                            <span class="estufa">Atenção: Estufa 1 próxima do limite</span>
-                            <span class="horario">Há 18 minutos</span>
-                            <a href="dashboard.html">Verificar a estufa
-                            <i class="fa-solid fa-right-to-bracket"></i>
-                            </a>
-                        </div>
-                        <div class="buttons">
-                            <button><img src="assets/img/check.svg" alt=""></button>
-                            <!-- <button><img src="assets/img/delete.svg" alt=""></button> -->
-
-                        </div>
-                    </div>
-                </div>
+                <div class="notificacoes"></div>
             </div>
         </div>
+
+       
+        <template id="template-alerta">
+            <div class="notificacao">
+                <div class="descricao">
+                    <span class="estufa"></span>
+                    <span class="horario">Agora</span>
+                    <button class="btn-verificar"><i class="fa-solid fa-right-to-bracket"></i> Verificar a estufa</button>
+                </div>
+                <div class="buttons">
+                    <button class="btn-resolver"><img src="assets/img/check.svg" alt="Resolver"></button>
+                </div>
+            </div>
+        </template>
 
         <div class="ancora-popup" id="popup">
             <div class="content">

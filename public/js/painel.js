@@ -1,6 +1,5 @@
 const janelaConfiguracao = document.getElementById('popup');
 
-
 // Abre a janela de configuração (escolher o nivel de PPM que o cliente quer) e preenche os campos
 // com os limites que estão atualmente salvos (que o cliente digitou)
 function atualizarAncora() {
@@ -60,13 +59,62 @@ let estufas_alertas = JSON.parse(sessionStorage.getItem('ESTUFAS_ALERTAS')) || [
     { "estufa": 2, "alertas": 0, "alertas_estabilizados": 0 },
     { "estufa": 3, "alertas": 0, "alertas_estabilizados": 0 },
     { "estufa": 4, "alertas": 0, "alertas_estabilizados": 0 }
-]; 
+];
 
-// Faz a soma de todos os alertas no JSON
+// Faz a soma de todos os alertas pendentes no JSON
 let alertas_totais = 0;
 estufas_alertas.forEach(e => {
-    alertas_totais += e.alertas;
+    alertas_totais += Math.max(0, e.alertas - (e.alertas_estabilizados || 0));
 });
+
+
+function classificarPpm(ppm) {
+    const faixaAlerta = limiteSuperior > limiteInferior
+        ? (limiteSuperior - limiteInferior) * 0.1
+        : 50;
+
+    if (ppm < limiteInferior)  
+     return { status: 'red',    texto: 'Perigo (Abaixo)' };
+    if (ppm > limiteSuperior)                     
+         return { status: 'red',    texto: 'Perigo (Acima)' };
+    if (ppm <= limiteInferior + faixaAlerta)       
+        return { status: 'yellow', texto: 'Atenção (Próximo ao Mínimo)' };
+    if (ppm >= limiteSuperior - faixaAlerta)      
+         return { status: 'yellow', texto: 'Atenção (Próximo ao Máximo)' };
+    return    { status: 'green',  texto: 'Ideal' };
+
+}
+
+
+function criarCardAlerta(alertaInfo) {
+    const template = document.getElementById('template-alerta');
+    const card = template.content.cloneNode(true).querySelector('.notificacao');
+
+    card.classList.add(alertaInfo.classeStatus);
+
+    card.querySelector('.estufa').textContent = `${alertaInfo.textoStatus}: Estufa ${alertaInfo.idEstufa} - ${alertaInfo.ppm} ppm`;
+
+    const btnVerificar = card.querySelector('.btn-verificar');
+    btnVerificar.addEventListener('click', () => irParaDash(alertaInfo.idEstufa));
+
+    const btnResolver = card.querySelector('.btn-resolver');
+
+    if (alertaInfo.originalStatus === 'green') {
+        
+        btnResolver.classList.add('btn-resolver--inativo');
+    } else if (alertaInfo.isResolvido) {
+     
+        btnResolver.classList.add('btn-resolver--resolvido');
+        btnResolver.title = 'Marcado como resolvido';
+        btnResolver.addEventListener('click', () => desfazerResolucao(alertaInfo.idEstufa, alertaInfo.ppm));
+    } else {
+      
+        btnResolver.title = 'Marcar como resolvido';
+        btnResolver.addEventListener('click', () => resolverAlerta(alertaInfo.idEstufa, alertaInfo.ppm));
+    }
+
+    return card;
+}
 
 // Verifica os valores <ATUAIS> de cada estufa. Se alguma estiver com o PPM fora do limite definido,
 // um aviso é mostrado na tela.
@@ -77,9 +125,13 @@ async function atualizarAlertas() {
 
     areaNotificacoes.innerHTML = '';
 
+    // Carrega os alertas resolvidos do sessionStorage
+    const resolvidos = JSON.parse(sessionStorage.getItem('ALERTAS_RESOLVIDOS')) || [];
+
     // Reseta os alertas para não acumular para sempre
     estufas_alertas.forEach(estufa => {
         estufa.alertas = 0;
+        estufa.alertas_estabilizados = 0;
     });
 
     const estufas = [1, 2, 3, 4];
@@ -105,46 +157,27 @@ async function atualizarAlertas() {
 
             registros.forEach(registro => {
                 const ppm = Number(registro.ppm);
-
                 if (isNaN(ppm)) return;
 
-                let classeStatus = 'green';
-                let textoStatus = 'Ideal';
+                const { status: statusOriginal, texto: textoOriginal } = classificarPpm(ppm);
+                const foiResolvido = resolvidos.some(r => r.estufa === idEstufa && r.ppm === ppm);
 
-                // Define uma faixa de alerta (amarelo) de 10% do intervalo
-                let faixaAlerta = 50; // valor padrão caso o cálculo seja inválido
-                if (limiteSuperior > limiteInferior) {
-                    faixaAlerta = (limiteSuperior - limiteInferior) * 0.1;
+                let classeStatus = statusOriginal;
+                let textoStatus = textoOriginal;
+                let isResolvido = false;
+
+                if (statusOriginal === 'red' || statusOriginal === 'yellow') {
+                    estufas_alertas[Number(idEstufa - 1)].alertas++;
+
+                    if (foiResolvido) {
+                        classeStatus = 'green';
+                        textoStatus = `Resolvido - ${textoOriginal}`;
+                        isResolvido = true;
+                        estufas_alertas[Number(idEstufa - 1)].alertas_estabilizados++;
+                    }
                 }
 
-                if (ppm < limiteInferior) {
-                    classeStatus = 'red';
-                    textoStatus = 'Perigo (Abaixo)';
-                } else if (ppm > limiteSuperior) {
-                    classeStatus = 'red';
-                    textoStatus = 'Perigo (Acima)';
-                } else if (ppm <= limiteInferior + faixaAlerta) {
-                    classeStatus = 'yellow';
-                    textoStatus = 'Atenção (Próximo ao Mínimo)';
-                } else if (ppm >= limiteSuperior - faixaAlerta) {
-                    classeStatus = 'yellow';
-                    textoStatus = 'Atenção (Próximo ao Máximo)';
-                } else {
-                    classeStatus = 'green';
-                    textoStatus = 'Ideal';
-                }
-
-                // Apenas alertas Amarelo e Vermelho vão somar no contador de alertas
-                if (classeStatus === 'red' || classeStatus === 'yellow') {
-                    estufas_alertas[Number(idEstufa - 1)].alertas++; 
-                }
-
-                todosAlertas.push({
-                    idEstufa,
-                    ppm,
-                    classeStatus,
-                    textoStatus
-                });
+                todosAlertas.push({ idEstufa, ppm, classeStatus, textoStatus, isResolvido, originalStatus: statusOriginal });
             });
 
         } catch (erro) {
@@ -152,40 +185,22 @@ async function atualizarAlertas() {
         }
     }
 
-    // Ordena os alertas por prioridade: vermelho > amarelo > verde
-    const prioridades = {
-        'red': 1,
-        'yellow': 2,
-        'green': 3
-    };
-
+    
+    const prioridades = { 'red': 1, 'yellow': 2, 'green': 3 };
     todosAlertas.sort((a, b) => prioridades[a.classeStatus] - prioridades[b.classeStatus]);
 
-    // Renderizar os alertas ordenados
+    
     todosAlertas.forEach(alertaInfo => {
-        const alerta = document.createElement('div');
-        alerta.className = `notificacao ${alertaInfo.classeStatus}`;
-
-        alerta.innerHTML = `
-            <div class="descricao">
-                <span class="estufa">${alertaInfo.textoStatus}: Estufa ${alertaInfo.idEstufa} - ${alertaInfo.ppm} ppm</span>
-                <span class="horario">Agora</span>
-                <button onclick="irParaDash(${alertaInfo.idEstufa})"><i class="fa-solid fa-right-to-bracket"></i> Verificar a estufa</button>
-            </div>
-            <div class="buttons">
-                <button><img src="assets/img/check.svg" alt=""/></button>
-            </div>`;
-
-        areaNotificacoes.appendChild(alerta);
+        areaNotificacoes.appendChild(criarCardAlerta(alertaInfo));
     });
 
-    // Salva o estado atualizado no sessionStorage
+   
     sessionStorage.setItem('ESTUFAS_ALERTAS', JSON.stringify(estufas_alertas));
 
-   
+    // Atualiza dinamicamente o contador
     let alertas_totais_atualizados = 0;
     estufas_alertas.forEach(e => {
-        alertas_totais_atualizados += e.alertas;
+        alertas_totais_atualizados += Math.max(0, e.alertas - e.alertas_estabilizados);
     });
     const elQtdAlertas = document.getElementById('id_qtd_alertas');
     if (elQtdAlertas) {
@@ -194,12 +209,27 @@ async function atualizarAlertas() {
 }
 
 
-// Alertas são gerados automaticamente.
+
 window.addEventListener('load', atualizarAlertas);
 
 function irParaDash(idEstufa) {
     sessionStorage.setItem('ID_ESTUFA_FILTER', idEstufa);
     console.log("estufa clicada", idEstufa);
+    window.location = "dashboard.html";
+}
 
-    window.location="dashboard.html";
+// Marca um alerta como resolvido
+function resolverAlerta(idEstufa, ppm) {
+    const resolvidos = JSON.parse(sessionStorage.getItem('ALERTAS_RESOLVIDOS')) || [];
+    resolvidos.push({ estufa: idEstufa, ppm: ppm });
+    sessionStorage.setItem('ALERTAS_RESOLVIDOS', JSON.stringify(resolvidos));
+    atualizarAlertas();
+}
+
+// Desfaz a resolução de um alerta
+function desfazerResolucao(idEstufa, ppm) {
+    let resolvidos = JSON.parse(sessionStorage.getItem('ALERTAS_RESOLVIDOS')) || [];
+    resolvidos = resolvidos.filter(r => !(r.estufa === idEstufa && r.ppm === ppm));
+    sessionStorage.setItem('ALERTAS_RESOLVIDOS', JSON.stringify(resolvidos));
+    atualizarAlertas();
 }
