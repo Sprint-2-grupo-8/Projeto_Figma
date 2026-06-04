@@ -26,7 +26,16 @@ if (salvo) {
     }
 }
 
-console.log('Limites carregados -> Inferior:', limiteInferior, 'Superior:', limiteSuperior);
+// Atualiza a visualização dos limites de PPM na UI
+function atualizarDisplayLimites() {
+    const display = document.getElementById('limites_display');
+    if (display) {
+        display.textContent = `Limites definidos: ${limiteInferior} ppm (mínimo) – ${limiteSuperior} ppm (máximo)`;
+    }
+}
+// Atualiza logo ao carregar a página
+atualizarDisplayLimites();
+
 
 
 function atualizarConfiguracoes() {
@@ -50,6 +59,7 @@ function atualizarConfiguracoes() {
     );
 
     fecharPopup();
+    atualizarDisplayLimites();
     atualizarAlertas();
 }
 
