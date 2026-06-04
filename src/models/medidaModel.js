@@ -125,6 +125,30 @@ function buscarMaiorConcentracaoGeral() {
     return database.executar(instrucaoSql);
 }
 
+function buscarMenorConcentracaoGeral() {
+
+    var instrucaoSql = `
+        SELECT
+            e.nome,
+            ROUND(r.ppm, 0) AS ppm
+        FROM registro r
+        JOIN sensor s
+            ON r.fkSensor = s.idSensor
+        JOIN estufa e
+            ON s.fkEstufa = e.idestufa
+        WHERE r.dtHrRegistro = (
+            SELECT MAX(r2.dtHrRegistro)
+            FROM registro r2
+            WHERE r2.fkSensor = r.fkSensor
+        )
+        ORDER BY r.ppm ASC
+        LIMIT 1;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarRegistros,
@@ -132,5 +156,6 @@ module.exports = {
     buscarDistribuicaoTempoReal,
     buscarConcentracao,
     atualizarConcentracao,
-    buscarMaiorConcentracaoGeral
+    buscarMaiorConcentracaoGeral,
+    buscarMenorConcentracaoGeral
 }
