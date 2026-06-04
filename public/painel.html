@@ -176,18 +176,17 @@
                     </select>
                 </div>
 
-                <div class="input">
+                <div class="input" id="lowerDiv">
                     <p>Nível abaixo de:</p>
-                    <input type="number" placeholder="Ex: 400 ppm">
+                    <input type="number" placeholder="Ex: 400 ppm" id="lowerInput">
                 </div>
-                <div class="input">
+                <div class="input" id="upperDiv">
                     <p>Nível acima de:</p>
-                    <input type="number" placeholder="Ex: 1200 ppm">
+                    <input type="number" placeholder="Ex: 1200 ppm" id="upperInput">
                 </div>
 
                 <div class="btn-update">
-                    <button onclick="fecharPopup()">Atualizar</button>
-
+                    <button onclick="atualizarConfiguracoes()">Atualizar</button>
                 </div>
             </div>
         </div>

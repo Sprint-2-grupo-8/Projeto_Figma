@@ -1,7 +1,10 @@
 let data_atual = new Date();
 let data_formatada = data_atual.toLocaleDateString('pt-BR');
 
-document.getElementById('data_atual').innerText = data_formatada;
+const dataAtualElement = document.getElementById('data_atual');
+if (dataAtualElement) {
+    dataAtualElement.innerText = data_formatada;
+}
 
 //o querySelectorAll retorna uma lista de todos os elementos que possuem a determinada classe
 const grafico_geral = document.querySelectorAll('.geral');
