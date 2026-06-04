@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             font-family: sans-serif;
+            box-sizing: border-box;
         }
 
         .container_bob{
@@ -67,6 +68,8 @@
             flex-direction: column;
             margin: 5px;
             gap: 10px;
+            overflow-y: auto;
+            height: 100%;
         }
 
         .bob_ia{
@@ -85,6 +88,23 @@
             text-align: end;
             align-self: flex-end;
         }
+        .caixa_texto{
+            width: 100%;
+        }
+        .ipt_texto{
+            width: 100%;
+            border: none;
+            border-top: 1px #9c9c9c solid;
+            background-color: #d3d3d3;
+            text-align: left;
+            padding: 10px;
+            outline: none;
+        }
+
+        .chat_bob_ativo{
+
+        }
+
     </style>
 </head>
 
@@ -101,7 +121,9 @@
                 <p class="bob_ia">Oi, como posso ajudar?</p>
                 <p class="eu">Nada</p>
             </div>
-            
+            <div class="caixa_texto">
+                <input type="text" class="ipt_texto" placeholder="Pergunte algo ....">
+            </div>
         </div>
     </div>
 </body>
