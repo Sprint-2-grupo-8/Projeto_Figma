@@ -26,4 +26,9 @@ router.get("/concentracao/:id", function (req,res) {
 router.get("/tempo-real/concentracao:id", function (req,res) {
     medidaController.atualizarConcentracao(req,res);
 })
+
+router.get("/maior-concentracao-geral", function (req, res) {
+    medidaController.buscarMaiorConcentracaoGeral(req, res);
+});
+
 module.exports = router;
