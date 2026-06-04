@@ -31,4 +31,8 @@ router.get("/maior-concentracao-geral", function (req, res) {
     medidaController.buscarMaiorConcentracaoGeral(req, res);
 });
 
+router.get("/menor-concentracao-geral", function (req, res) {
+    medidaController.buscarMenorConcentracaoGeral(req, res);
+});
+
 module.exports = router;
