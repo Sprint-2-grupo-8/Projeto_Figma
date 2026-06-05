@@ -171,6 +171,27 @@ function buscarEstufasEmAlerta() {
     return database.executar(instrucaoSql);
 }
 
+function buscarRankingAlertas() {
+
+    var instrucaoSql = `
+        SELECT
+            e.nome,
+            COUNT(r.idRegistro) AS qtd_alertas
+        FROM registro r
+        JOIN sensor s
+            ON r.fkSensor = s.idSensor
+        JOIN estufa e
+            ON s.fkEstufa = e.idestufa
+        WHERE r.dtHrRegistro >= NOW() - INTERVAL 7 DAY
+        AND (r.ppm < e.gasMinimo OR r.ppm > e.gasMaximo)
+        GROUP BY e.idestufa, e.nome
+        ORDER BY qtd_alertas DESC;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarRegistros,
@@ -180,5 +201,6 @@ module.exports = {
     atualizarConcentracao,
     buscarMaiorConcentracaoGeral,
     buscarMenorConcentracaoGeral,
-    buscarEstufasEmAlerta
+    buscarEstufasEmAlerta,
+    buscarRankingAlertas
 }
