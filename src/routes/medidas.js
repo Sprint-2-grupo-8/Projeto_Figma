@@ -39,4 +39,8 @@ router.get("/estufas-em-alerta", function (req, res) {
     medidaController.buscarEstufasEmAlerta(req, res);
 });
 
+router.get("/ranking-alertas", function (req, res) {
+    medidaController.buscarRankingAlertas(req, res);
+});
+
 module.exports = router;
