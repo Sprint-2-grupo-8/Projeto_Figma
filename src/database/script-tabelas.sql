@@ -72,9 +72,10 @@ INSERT INTO funcionario (nome, cpf, email, senha, cargo, fkEmpresa) VALUES
 ('Mariana Costa Souza', '23456789012', 'mariana.souza@redberry.com.br', 'mar!2026', 'Funcionário Comum', 2),
 ('Carlos Eduardo Lima', '34567890123', 'carlos.lima@redberry.com.br', 'carl0s#adm', 'Administrador', 2);
 
-INSERT INTO suporte (email, senha, fkEmpresa) VALUES
-()
-    
+-- INSERT INTO suporte (email, senha, fkEmpresa) VALUES
+-- ('redberry.suporte@gmail.com', 'R3d_8Erry', '1'),
+-- ('suporte.Bhouse@gmail.com', 'B3Rry.H0us3', '2');
+
 INSERT INTO estufa (nome, fkEmpresa, gasMinimo, gasMaximo) VALUES
 ('Estufa M01', 1, 300, 900),
 ('Estufa M02', 1, 350, 850),
