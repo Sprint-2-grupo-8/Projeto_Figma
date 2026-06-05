@@ -19,7 +19,7 @@
 
 </head>
 
-<body onload="obterDadosGrafico(), buscarRegistros()">
+<body onload="filter()">
     <div class="left-painel">
         <div class="logo">
             <img src="assets/img/logo branca.svg">
@@ -168,7 +168,9 @@
 <script src="js/painel.js"></script>
 <script>
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-    id_qtd_alertas.innerHTML = `${alertas_totais}`;
+    if (typeof alertas_totais !== "undefined") {
+        id_qtd_alertas.innerHTML = `${alertas_totais}`;
+    }
 
     let proximaAtualizacao;
     async function obterDadosGrafico(estufa) {
