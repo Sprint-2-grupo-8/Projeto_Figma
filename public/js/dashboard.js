@@ -64,3 +64,34 @@ function filter(idEstufa) {
     }
 }
 
+function buscarKpisGerais() {
+    fetch("/medidas/menor-concentracao-geral", { cache: "no-store" })
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    menor_estufa.innerHTML = resposta[0].nome;
+                    menor_ppm.innerHTML = resposta[0].ppm + " ppm";
+                });
+            }
+        });
+
+    fetch("/medidas/maior-concentracao-geral", { cache: "no-store" })
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    maior_estufa.innerHTML = resposta[0].nome;
+                    maior_ppm.innerHTML = resposta[0].ppm + " ppm";
+                });
+            }
+        });
+
+    fetch("/medidas/estufas-em-alerta", { cache: "no-store" })
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    qtd_estufas_alerta.innerHTML = resposta[0].qtd_estufas_alerta + " estufas";
+                });
+            }
+        });
+}
+
