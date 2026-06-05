@@ -34,6 +34,8 @@ function filter(idEstufa) {
 
     if (tipo_dash.value === 'geral' || !(idEstufa || estufa_escolhida)) {
 
+        buscarKpisGerais();
+
         for (let i = 0; i < grafico_geral.length; i++) {
             grafico_geral[i].style.display = 'flex';
         }
