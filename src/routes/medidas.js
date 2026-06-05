@@ -43,4 +43,8 @@ router.get("/ranking-alertas", function (req, res) {
     medidaController.buscarRankingAlertas(req, res);
 });
 
+router.get("/percentual-registros-faixa", function (req, res) {
+    medidaController.buscarPercentualRegistrosPorFaixa(req, res);
+});
+
 module.exports = router;
