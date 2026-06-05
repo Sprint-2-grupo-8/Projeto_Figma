@@ -36,6 +36,7 @@ function filter(idEstufa) {
 
         buscarKpisGerais();
         buscarRankingAlertas();
+        buscarPercentualRegistrosPorFaixa();
 
         for (let i = 0; i < grafico_geral.length; i++) {
             grafico_geral[i].style.display = 'flex';
@@ -172,5 +173,12 @@ function buscarPercentualRegistrosPorFaixa() {
             console.log(erro);
         });
 
+}
+
+function atualizarGraficoPercentual(dados) {
+
+    doughnut_data.datasets[0].data = dados;
+
+    percentual_registros.update();
 }
 
