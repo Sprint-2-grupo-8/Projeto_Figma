@@ -139,3 +139,38 @@ function atualizarGraficoRanking(labels, dados) {
     ranking_estufas.update();
 }
 
+function buscarPercentualRegistrosPorFaixa() {
+
+    fetch("/medidas/percentual-registros-faixa", { cache: "no-store" })
+        .then(function (response) {
+
+            if (response.status == 204) {
+                console.log("Nenhum registro encontrado para o percentual por faixa");
+                return;
+            }
+
+            if (response.ok) {
+
+                response.json().then(function (resposta) {
+
+                    let dados = [
+                        resposta[0].ideal,
+                        resposta[0].intermediaria,
+                        resposta[0].critica
+                    ];
+
+                    atualizarGraficoPercentual(dados);
+
+                });
+
+            } else {
+                console.error("Erro ao buscar percentual por faixa");
+            }
+
+        })
+        .catch(function (erro) {
+            console.log(erro);
+        });
+
+}
+
