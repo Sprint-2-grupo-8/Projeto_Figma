@@ -35,6 +35,7 @@ function filter(idEstufa) {
     if (tipo_dash.value === 'geral' || !(idEstufa || estufa_escolhida)) {
 
         buscarKpisGerais();
+        buscarRankingAlertas();
 
         for (let i = 0; i < grafico_geral.length; i++) {
             grafico_geral[i].style.display = 'flex';
@@ -129,5 +130,13 @@ function buscarRankingAlertas() {
             console.log(erro);
         });
 
+}
+
+function atualizarGraficoRanking(labels, dados) {
+
+    bar_data.labels = labels;
+    bar_data.datasets[0].data = dados;
+
+    ranking_estufas.update();
 }
 
