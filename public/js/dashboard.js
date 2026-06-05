@@ -97,3 +97,37 @@ function buscarKpisGerais() {
         });
 }
 
+function buscarRankingAlertas() {
+
+    fetch("/medidas/ranking-alertas", { cache: "no-store" })
+        .then(function (response) {
+
+            if (response.ok) {
+
+                response.json().then(function (resposta) {
+
+                    let labels = [];
+                    let dados = [];
+
+                    for (let i = 0; i < resposta.length; i++) {
+
+                        labels.push(resposta[i].nome);
+                        dados.push(resposta[i].qtd_alertas);
+
+                    }
+
+                    atualizarGraficoRanking(labels, dados);
+
+                });
+
+            } else {
+                console.error("Nenhum dado encontrado");
+            }
+
+        })
+        .catch(function (erro) {
+            console.log(erro);
+        });
+
+}
+
