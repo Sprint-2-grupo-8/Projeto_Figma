@@ -1,8 +1,3 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
-
-
 CREATE DATABASE PI;
 USE PI;
 
@@ -58,17 +53,28 @@ CREATE TABLE registro (
         REFERENCES sensor (idSensor)
 );
 
+-- CREATE TABLE suporte (
+--     idsuporte INT PRIMARY KEY AUTO_INCREMENT,
+--     email VARCHAR(220),
+--     senha VARCHAR(255),
+--     fkEmpresa INT,
+--     CONSTRAINT cFkEmpresa_sup FOREIGN KEY (fkEmpresa)
+--         REFERENCES empresa (idempresa)
+-- );
+
 INSERT INTO empresa (nome, cnpj, telefone, emailCorporativo, codigo_acesso) VALUES
 ('Red Berry Company', '45083604000187', '11975519892', 'redberrycompanyy@gmail.com', 'rbc123'),
 ('Berry House', '12345678000199', '11988887777', 'contato@berryhouse.com.br', 'bh123');
 
-INSERT INTO funcionario (fkEmpresa, nome, cpf, email, senha, cargo) VALUES
-(1, 'Arthur Lima Azevedo', 96255467802,'arthur.lazev@redberry.com.br', 'l4am0Pr@_01', 'Administrador'),
-(1, 'Lucas Pereira Silva', '12345678901', 'lucas.silva@redberry.com.br', 'luc@S123', 'Funcionário Comum'),
-(2, 'Mariana Costa Souza', '23456789012', 'mariana.souza@redberry.com.br', 'mar!2026', 'Funcionário Comum'),
-(2, 'Carlos Eduardo Lima', '34567890123', 'carlos.lima@redberry.com.br', 'carl0s#adm', 'Administrador');
+INSERT INTO funcionario (nome, cpf, email, senha, cargo, fkEmpresa) VALUES
+('Arthur Lima Azevedo', 96255467802,'arthur.lazev@redberry.com.br', 'l4am0Pr@_01', 'Administrador', 1),
+('Lucas Pereira Silva', '12345678901', 'lucas.silva@redberry.com.br', 'luc@S123', 'Funcionário Comum', 1),
+('Mariana Costa Souza', '23456789012', 'mariana.souza@redberry.com.br', 'mar!2026', 'Funcionário Comum', 2),
+('Carlos Eduardo Lima', '34567890123', 'carlos.lima@redberry.com.br', 'carl0s#adm', 'Administrador', 2);
 
-
+INSERT INTO suporte (email, senha, fkEmpresa) VALUES
+()
+    
 INSERT INTO estufa (nome, fkEmpresa, gasMinimo, gasMaximo) VALUES
 ('Estufa M01', 1, 300, 900),
 ('Estufa M02', 1, 350, 850),
@@ -90,4 +96,5 @@ INSERT INTO sensor (modelo, dtInstalacao, sensor_status, fkEstufa) VALUES
 ('Arduino MQ-2 UNO', '2026-04-26', 'Ativo', 5),
 ('Arduino MQ-2 UNO', '2026-04-27', 'Inativo', 6),
 ('Arduino MQ-2 UNO', '2026-04-27', 'Inativo', 6);
+
 
