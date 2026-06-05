@@ -158,6 +158,21 @@ function buscarRankingAlertas(req, res) {
     });
 }
 
+function buscarPercentualRegistrosPorFaixa(req, res) {
+
+    medidaModel.buscarPercentualRegistrosPorFaixa().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar o percentual de registros por faixa.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarRegistros,
@@ -168,5 +183,6 @@ module.exports = {
     buscarMaiorConcentracaoGeral,
     buscarMenorConcentracaoGeral,
     buscarEstufasEmAlerta,
-    buscarRankingAlertas
+    buscarRankingAlertas,
+    buscarPercentualRegistrosPorFaixa
 }
