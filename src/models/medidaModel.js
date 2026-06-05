@@ -192,6 +192,33 @@ function buscarRankingAlertas() {
     return database.executar(instrucaoSql);
 }
 
+function buscarPercentualRegistrosPorFaixa() {
+
+    var instrucaoSql = `
+        SELECT
+            SUM(CASE WHEN r.ppm BETWEEN e.gasMinimo AND e.gasMaximo THEN 1 ELSE 0 END) AS ideal,
+            SUM(CASE WHEN 
+                (r.ppm >= e.gasMinimo - 100 AND r.ppm < e.gasMinimo)
+                OR
+                (r.ppm > e.gasMaximo AND r.ppm <= e.gasMaximo + 100)
+            THEN 1 ELSE 0 END) AS intermediaria,
+            SUM(CASE WHEN 
+                r.ppm < e.gasMinimo - 100
+                OR
+                r.ppm > e.gasMaximo + 100
+            THEN 1 ELSE 0 END) AS critica
+        FROM registro r
+        JOIN sensor s
+            ON r.fkSensor = s.idSensor
+        JOIN estufa e
+            ON s.fkEstufa = e.idestufa
+        WHERE r.dtHrRegistro >= NOW() - INTERVAL 7 DAY;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarUltimasMedidas,
     buscarRegistros,
@@ -202,5 +229,6 @@ module.exports = {
     buscarMaiorConcentracaoGeral,
     buscarMenorConcentracaoGeral,
     buscarEstufasEmAlerta,
-    buscarRankingAlertas
+    buscarRankingAlertas,
+    buscarPercentualRegistrosPorFaixa
 }
