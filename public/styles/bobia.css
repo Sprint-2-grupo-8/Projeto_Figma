@@ -1,0 +1,304 @@
+.container_bob {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: flex-end;
+    z-index: 999;
+}
+
+.btn_bob {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 40px;
+    height: 350px;
+    background-color: var(--verde-original, #059669);
+    border-top-left-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: -3px 0 12px rgba(0,0,0,0.12);
+}
+
+.btn_bob:hover {
+    background-color: #047857;
+}
+
+.seta {
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: transform 0.4s ease-in-out;
+}
+
+.seta_ativa {
+    transform: rotate(180deg);
+}
+
+.bob-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    color: rgba(255,255,255,0.8);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: sans-serif;
+}
+
+.chat_bob {
+    display: flex;
+    width: 0;
+    opacity: 0;
+    height: 350px;
+    background-color: white;
+    flex-direction: column;
+    transition: all 0.5s ease-in-out;
+    overflow: hidden;
+    border-top-left-radius: 14px;
+    box-shadow: -4px -4px 18px rgba(0,0,0,0.1);
+}
+
+.chat_bob_ativo {
+    width: 40%;
+    opacity: 1;
+}
+
+.chat_titulo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--verde-original, #059669);
+    padding: 10px 14px;
+}
+
+.chat_titulo p {
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    font-family: sans-serif;
+}
+
+.chat_titulo .dot {
+    width: 8px;
+    height: 8px;
+    background: #a7f3d0;
+    border-radius: 50%;
+    animation: pisca 1.8s infinite;
+}
+
+@keyframes pisca {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.mensagem_bob {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    flex: 1;
+    background: #f8fafc;
+}
+
+.bob_ia {
+    background-color: #d3d3d3;
+    width: fit-content;
+    max-width: 80%;
+    border-radius: 16px 16px 16px 4px;
+    padding: 8px 12px;
+    font-size: 0.84rem;
+    font-family: sans-serif;
+}
+
+.eu {
+    background-color: var(--verde-original, #059669);
+    color: white;
+    border-radius: 16px 16px 4px 16px;
+    padding: 8px 12px;
+    font-size: 0.84rem;
+    width: fit-content;
+    max-width: 80%;
+    align-self: flex-end;
+    font-family: sans-serif;
+}
+
+.caixa_texto {
+    display: flex;
+    border-top: 1px solid #e2e8f0;
+}
+
+.ipt_texto {
+    flex: 1;
+    border: none;
+    background-color: #f1f5f9;
+    padding: 10px 14px;
+    font-size: 0.84rem;
+    outline: none;
+    font-family: sans-serif;
+}
+
+.Conversar {
+    width: 46px;
+    background-color: var(--verde-original, #059669);
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.Conversar:hover {
+    background-color: #047857;
+}
+
+.n3-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.n3-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 28px 26px;
+    background: #ffffff;
+    border: 1px solid var(--borda-card);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.n3-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(15,23,42,0.11);
+}
+
+.n3-card__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.n3-card__icone {
+    display: flex;
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    background: var(--verde-original);
+    border-radius: var(--raio);
+    box-shadow: 0 9px 20px rgba(5,150,105,0.22);
+    font-size: 1.35rem;
+}
+
+.n3-card__titulo span {
+    color: #6b7485;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.n3-card__titulo h3 {
+    color: var(--texto-principal);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.n3-card__desc {
+    color: var(--texto-suave);
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.n3-card__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 22px;
+    background-color: var(--verde-original);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--raio);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+    width: fit-content;
+    font-family: sans-serif;
+}
+
+.n3-card__btn:hover {
+    background-color: #047857;
+    transform: translateY(-1px);
+}
+
+.badge-n3 {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 14px;
+    background: var(--verde-original);
+    color: #ffffff;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+.n3-banner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 24px;
+    background: #ddfaed;
+    border: 1px solid #c7f6df;
+    border-left: 4px solid var(--verde-original);
+    border-radius: var(--raio);
+}
+
+.n3-banner i {
+    font-size: 1.3rem;
+    color: var(--verde-original);
+    flex-shrink: 0;
+}
+
+.n3-banner p {
+    color: #065f46;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.n3-banner p span {
+    font-weight: 800;
+}
+
+.jira-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--texto-suave);
+    font-weight: 600;
+}
+
+.jira-row .jira-tag {
+    background: #eef2ff;
+    color: #4f46e5;
+    border: 1px solid #c7d2fe;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    font-family: monospace;
+}

@@ -104,7 +104,7 @@ function logar() {
                 
                 if (email_login == "gascontrol.suporte@gmail.com" && senha_login == "G45.Control") {
                      setTimeout(function () {
-                    window.location = "bob.html";
+                    window.location = "bobia.html";
                 }, 1000);
                 }
                 else {

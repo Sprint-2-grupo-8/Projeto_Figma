@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasControl | Suporte N3</title>
+    <link rel="stylesheet" href="styles/bobia.css">
+    <link rel="stylesheet" href="styles/painel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="left-painel">
+        <div class="logo">
+            <img src="assets/img/logo branca.svg">
+            <a href="index.html"><span>GasControl</span></a>
+        </div>
+
+        <span>MENU</span>
+        <ul>
+            <li>
+                <img src="assets/img/dashboard.svg" alt="">
+                <a href="dashboard.html">Dashboard</a>
+            </li>
+            <li>
+                <img src="assets/img/alerta.svg" alt="">
+                <a href="painel.html">
+                    <span class="nav-label">Alertas</span>
+                    <span id="id_qtd_alertas"></span>
+                </a>
+            </li>
+        </ul>
+
+        <span>GERAL</span>
+        <ul>
+            <li class="active">
+                <img src="assets/img/admin.svg" alt="">
+                <a href="suporte_n3.html">Suporte N3</a>
+            </li>
+            <li>
+                <img src="assets/img/logout.svg" alt="">
+                <a href="index.html">Logout</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="painel-main">
+        <div class="painel-container">
+            <div class="painel-alertas">
+
+                <section class="painel-hero">
+                    <div class="painel-hero__content">
+                        <span class="eyebrow">Acesso Exclusivo</span>
+                        <h1>
+                            Suporte N3
+                            <span class="badge-n3" style="vertical-align: middle; margin-left: 12px;">
+                                <i class="fa-solid fa-shield-halved" style="font-size:0.85rem;"></i>
+                                Nível Máximo
+                            </span>
+                        </h1>
+                        <p>
+                            Área restrita ao time de Suporte N3 — o maior nível de atendimento da GasControl.
+                            Aqui você tem acesso à documentação técnica completa do sistema e ao painel de chamados.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Banner -->
+                <div class="n3-banner">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <p>
+                        <span>Acesso N3 ativo.</span>
+                        Você está autenticado no nível máximo de suporte. Utilize as ferramentas abaixo
+                        para diagnósticos avançados e resolução de chamados escalados.
+                    </p>
+                </div>
+
+                <!-- Cards -->
+                <div class="n3-grid">
+
+                    <!-- PDF -->
+                    <div class="n3-card">
+                        <div class="n3-card__header">
+                            <div class="n3-card__icone" style="background:#2563EB; box-shadow:0 9px 20px rgba(37,99,235,0.22);">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </div>
+                            <div class="n3-card__titulo">
+                                <span>Documentação Técnica</span>
+                                <h3>Manual de Instalação</h3>
+                            </div>
+                        </div>
+                        <p class="n3-card__desc">
+                            Acesse o manual técnico completo da plataforma: arquitetura do sistema,
+                            parâmetros de configuração, tabelas de referência de CO₂ e procedimentos
+                            de escalada para N3.
+                        </p>
+                        <a class="n3-card__btn" href="assets/manual_gascontrol.pdf" target="_blank"
+                            style="background-color:#2563EB;">
+                            <i class="fa-solid fa-file-arrow-down"></i>
+                            Abrir PDF
+                        </a>
+                    </div>
+
+                    <!-- Jira -->
+                    <div class="n3-card">
+                        <div class="n3-card__header">
+                            <div class="n3-card__icone" style="background:#4f46e5; box-shadow:0 9px 20px rgba(79,70,229,0.22);">
+                                <i class="fa-brands fa-jira"></i>
+                            </div>
+                            <div class="n3-card__titulo">
+                                <span>Gestão de Chamados</span>
+                                <h3>Painel Jira</h3>
+                            </div>
+                        </div>
+                        <p class="n3-card__desc">
+                            Acompanhe os tickets escalados para N3, monitore o SLA dos chamados
+                            em aberto e registre as soluções aplicadas.
+                        </p>
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            <div class="jira-row">
+                                Jira: <span class="jira-tag">gascontrol.atlassian.net</span>
+                            </div>
+                            <a class="n3-card__btn" href="https://gascontrol.atlassian.net" target="_blank"
+                                style="background-color:#4f46e5;">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                Abrir Jira
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Contexto adicional -->
+                <div class="resumo-alertas">
+                    <div class="resumo-alertas__icone" aria-hidden="true">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+
+                    <div class="resumo-alertas__grupo">
+                        <span>Nível de acesso</span>
+                        <p class="ultimo-atualizacao">N3 — Crítico</p>
+                    </div>
+
+                    <div class="resumo-alertas__divisor"></div>
+
+                    <div class="resumo-alertas__grupo">
+                        <span>Prioridade de atendimento</span>
+                        <p class="limites-atual"><strong>Máxima</strong> — SLA de 1h</p>
+                    </div>
+
+                    <div class="resumo-alertas__divisor"></div>
+
+                    <div class="resumo-alertas__grupo resumo-alertas__grupo--limites">
+                        <span>Ferramentas disponíveis</span>
+                        <p class="limites-atual">BobIA · Manual de Instalação · Jira</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- BOBIA FLUTUANTE -->
+    <div class="container_bob">
+        <button class="btn_bob" id="btn_bob">
+            <span class="seta" id="setaChat">←</span>
+            <span class="bob-vertical">BobIA</span>
+        </button>
+        <div class="chat_bob" id="Chat_Bob">
+            <div class="chat_titulo">
+                <div class="dot"></div>
+                <p>BobIA</p>
+            </div>
+            <div class="mensagem_bob" id="mensagens_bob">
+                <p class="bob_ia">Oi, como posso ajudar?</p>
+            </div>
+            <div class="caixa_texto">
+                <input type="text" class="ipt_texto" id="ipt_bob" placeholder="Pergunte algo...">
+                <button class="Conversar" onclick="conversar()">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    // Toggle chat
+    const Chat = document.getElementById('Chat_Bob');
+    const btn  = document.getElementById('btn_bob');
+    const Seta = document.getElementById('setaChat');
+
+    btn.addEventListener('click', () => {
+        Chat.classList.toggle('chat_bob_ativo');
+        Seta.classList.toggle('seta_ativa');
+    });
+
+    // Enter para enviar
+    document.getElementById('ipt_bob').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') conversar();
+    });
+
+    function conversar() {
+        const input = document.getElementById('ipt_bob');
+        const msgs  = document.getElementById('mensagens_bob');
+        const texto = input.value.trim();
+        if (!texto) return;
+
+        const eu = document.createElement('p');
+        eu.classList.add('eu');
+        eu.textContent = texto;
+        msgs.appendChild(eu);
+        msgs.scrollTop = msgs.scrollHeight;
+        input.value = '';
+
+        setTimeout(() => {
+            const resp = document.createElement('p');
+            resp.classList.add('bob_ia');
+            resp.textContent = 'Analisando... Consulte o Manual de Instalação ou abra um ticket no Jira se necessário.';
+            msgs.appendChild(resp);
+            msgs.scrollTop = msgs.scrollHeight;
+        }, 700);
+    }
+</script>
+
+</html>
