@@ -67,14 +67,12 @@ INSERT INTO empresa (nome, cnpj, telefone, emailCorporativo, codigo_acesso) VALU
 ('Berry House', '12345678000199', '11988887777', 'contato@berryhouse.com.br', 'bh123');
 
 INSERT INTO funcionario (nome, cpf, email, senha, cargo, fkEmpresa) VALUES
-('Arthur Lima Azevedo', 96255467802,'arthur.lazev@redberry.com.br', 'l4am0Pr@_01', 'Administrador', 1),
-('Lucas Pereira Silva', '12345678901', 'lucas.silva@redberry.com.br', 'luc@S123', 'Funcionário Comum', 1),
-('Mariana Costa Souza', '23456789012', 'mariana.souza@redberry.com.br', 'mar!2026', 'Funcionário Comum', 2),
-('Carlos Eduardo Lima', '34567890123', 'carlos.lima@redberry.com.br', 'carl0s#adm', 'Administrador', 2);
+('Arthur Lima Azevedo', '96255467802','arthur.lazev@redberry.com', 'l4am0Pr@_01', 'Administrador', 1),
+('Lucas Pereira Silva', '12345678901', 'lucas.silva@redberry.com', 'luc@S123', 'Funcionário Comum', 1),
+('Mariana Costa Souza', '23456789012', 'mariana.souza@redberry.com', 'mar!2026', 'Funcionário Comum', 2),
+('Carlos Eduardo Lima', '34567890123', 'carlos.lima@redberry.com', 'carl0s#adm', 'Administrador', 2);
+('Suporte', '00000000000', 'gascontrol.suporte@gmail.com','G45.Control','Administrador', NULL);
 
--- INSERT INTO suporte (email, senha, fkEmpresa) VALUES
--- ('redberry.suporte@gmail.com', 'R3d_8Erry', '1'),
--- ('suporte.Bhouse@gmail.com', 'B3Rry.H0us3', '2');
 
 INSERT INTO estufa (nome, fkEmpresa, gasMinimo, gasMaximo) VALUES
 ('Estufa M01', 1, 300, 900),
@@ -97,5 +95,8 @@ INSERT INTO sensor (modelo, dtInstalacao, sensor_status, fkEstufa) VALUES
 ('Arduino MQ-2 UNO', '2026-04-26', 'Ativo', 5),
 ('Arduino MQ-2 UNO', '2026-04-27', 'Inativo', 6),
 ('Arduino MQ-2 UNO', '2026-04-27', 'Inativo', 6);
+
+-- INSERT INTO suporte (email, senha) VALUES
+-- ('gascontrol.suporte@gmail.com', 'G45.Control'),
 
 

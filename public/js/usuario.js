@@ -61,7 +61,8 @@ function cadastrar_func() {
         if (resposta.ok) {
             alert("Usuário cadastrado com sucesso!");
             window.location = "login.html";
-        } else {
+        } 
+        else {
             resposta.text().then(texto => {
                 console.error(texto);
                 erro_senha.innerHTML = texto;
@@ -101,11 +102,23 @@ function logar() {
                 sessionStorage.ID_USUARIO = json.id;
                 sessionStorage.CPF_USUARIO = json.cpf;
                 
-                setTimeout(function () {
-                    window.location = "painel.html";
+                if (email_login == "gascontrol.suporte@gmail.com" && senha_login == "G45.Control") {
+                     setTimeout(function () {
+                    window.location = "bob.html";
                 }, 1000);
+                }
+                else {
+                    setTimeout(function () {
+                        window.location = "painel.html";
+                    }, 1000);
+                }
+
             });
-        } else {
+
+        }         
+
+        
+        else {
             resposta.text().then(texto => {
                 console.error(texto);
                 confirmacao_login.innerHTML = texto;
@@ -120,6 +133,7 @@ function logar() {
 function ir_login() {
     window.location.href = "./login.html"
 }
+
 function ir_cadastro() {
     window.location.href = "./cadastro.html"
 }
