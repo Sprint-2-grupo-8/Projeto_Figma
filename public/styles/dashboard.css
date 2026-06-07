@@ -75,7 +75,6 @@ body {
 }
 
 main {
-    margin: 1%;
     display: flex;
     flex-direction: column;
 }
@@ -161,27 +160,8 @@ body {
     font-weight: 600;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .top-painel {
+    margin: 1%;
     display: flex;
     padding: 20px;
     border: 0.5px solid gray;
@@ -294,25 +274,20 @@ body {
 }
 
 .graficos {
-    margin-top: 2vh;
     display: flex;
     flex-wrap: wrap; /* Permite quebrar linha em telas menores */
     justify-content: center;
-    gap: 80px;
-    padding: 20px;
+    gap: 20px;
+    width: 100%;
 }
 
 .grafico {
-    width: 45%; 
-    min-width: 350px;
-    height: 50vh; 
-    background-color: rgb(248, 248, 248);
-    border-radius: 10px;
-    padding: 15px;
-    box-sizing: border-box; 
+    flex: 1;
+    min-width: 400px; 
+    padding: 24px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column; 
-    align-items: center; 
 }
 
 .grafico p {
