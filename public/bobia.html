@@ -208,26 +208,51 @@
     });
 
     function conversar() {
-        const input = document.getElementById('ipt_bob');
-        const msgs  = document.getElementById('mensagens_bob');
-        const texto = input.value.trim();
-        if (!texto) return;
+    const input = document.getElementById('ipt_bob');
+    const msgs  = document.getElementById('mensagens_bob');
+    const texto = input.value.trim();
+    if (!texto) return;
 
-        const eu = document.createElement('p');
-        eu.classList.add('eu');
-        eu.textContent = texto;
-        msgs.appendChild(eu);
+    // Mensagem do usuário
+    const eu = document.createElement('p');
+    eu.classList.add('eu');
+    eu.textContent = texto;
+    msgs.appendChild(eu);
+    msgs.scrollTop = msgs.scrollHeight;
+    input.value = '';
+
+    // Loading enquanto aguarda o Gemini
+    const loading = document.createElement('p');
+    loading.classList.add('bob_ia', 'bob-loading');
+    loading.textContent = 'Digitando...';
+    msgs.appendChild(loading);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    fetch('/bob/perguntar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pergunta: texto })
+    }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (dados) {
+                loading.classList.remove('bob-loading');
+                loading.textContent = dados.resposta;
+                msgs.scrollTop = msgs.scrollHeight;
+            });
+        } else {
+            response.json().then(function (dados) {
+                loading.classList.remove('bob-loading');
+                loading.textContent = dados.erro;
+                msgs.scrollTop = msgs.scrollHeight;
+            });
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        loading.classList.remove('bob-loading');
+        loading.textContent = 'Erro de conexão. Tente novamente.';
         msgs.scrollTop = msgs.scrollHeight;
-        input.value = '';
-
-        setTimeout(() => {
-            const resp = document.createElement('p');
-            resp.classList.add('bob_ia');
-            resp.textContent = 'Analisando... Consulte o Manual de Instalação ou abra um ticket no Jira se necessário.';
-            msgs.appendChild(resp);
-            msgs.scrollTop = msgs.scrollHeight;
-        }, 700);
-    }
+    });
+}
 </script>
 
 </html>
