@@ -22,7 +22,7 @@
          if (erro.message && (erro.message.includes("429") || erro.message.includes("Quota") || erro.message.includes("quota"))) {
              mensagem = "Ops! O limite de perguntas ao Bob IA foi atingido por hoje.";
          } else if (erro.message && (erro.message.includes("API key") || erro.message.includes("credentials"))) {
-             mensagemAmigavel = "Ops! Ocorreu um problema de configuração na chave de API da IA. Contate o administrador.";
+             mensagem = "Ops! Ocorreu um problema de configuração na chave de API da IA. Contate o administrador.";
          }
 
          res.status(500).json({

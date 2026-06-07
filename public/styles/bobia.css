@@ -1,3 +1,12 @@
+:root {
+    --verde-original:  #059669;
+    --borda-card:      #e2e8f0;
+    --raio:            12px;
+    --sombra-card:     0 4px 16px rgba(15, 23, 42, 0.07);
+    --texto-principal: #0f172a;
+    --texto-suave:     #64748b;
+}
+
 .container_bob {
     position: fixed;
     bottom: 0;
@@ -21,6 +30,11 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: -3px 0 12px rgba(0,0,0,0.12);
+}
+
+.bob-loading {
+    opacity: 0.6;
+    font-style: italic;
 }
 
 .btn_bob:hover {
@@ -301,4 +315,24 @@
     font-size: 0.76rem;
     font-weight: 700;
     font-family: monospace;
+}
+
+
+/*  CORREÇÕES DE LAYOUT  */
+body {
+    display: flex;
+}
+
+.left-painel {
+    min-height: 100vh;
+}
+
+.left-painel ul {
+    list-style: none;
+    padding: 0;
+}
+
+.left-painel ul li {
+    display: flex;
+    align-items: center;
 }
