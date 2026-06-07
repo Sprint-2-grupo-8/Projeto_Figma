@@ -155,12 +155,12 @@ async function atualizarAlertas() {
 
     if (!areaNotificacoes) return;
 
-    areaNotificacoes.innerHTML = '';
+    // Guarda a posição atual da página
+    const posicaoScroll = window.scrollY;
 
-    // Carrega os alertas resolvidos do sessionStorage
-    const resolvidos = JSON.parse(sessionStorage.getItem('ALERTAS_RESOLVIDOS')) || [];
+    const resolvidos =
+        JSON.parse(sessionStorage.getItem('ALERTAS_RESOLVIDOS')) || [];
 
-    // Reseta os alertas para não acumular para sempre
     estufasAlertas.forEach(estufa => {
         estufa.alertas = 0;
         estufa.alertas_estabilizados = 0;
@@ -174,90 +174,184 @@ async function atualizarAlertas() {
             const resposta = await fetch(`/medidas/registros/${idEstufa}`);
 
             if (resposta.status === 204) {
-                console.log('Sem registros recentes para a estufa', idEstufa);
+                console.log(
+                    'Sem registros recentes para a estufa',
+                    idEstufa
+                );
                 continue;
             }
 
             if (!resposta.ok) {
-                console.error('Erro na requisição para a estufa', idEstufa, resposta.statusText);
+                console.error(
+                    'Erro na requisição para a estufa',
+                    idEstufa,
+                    resposta.statusText
+                );
                 continue;
             }
 
-            const registros = await resposta.json(); //ppm
+            const registros = await resposta.json();
 
-            console.log('Dados recebidos da estufa', idEstufa, registros);
+            const calcularTendencia = (dados) => {
+                if (!dados || dados.length < 2) return '';
 
-            // Determina a tendência com base nas duas leituras mais recentes
-            const calcularTendencia = (data) => {
-                if (!data || data.length < 2) return '';
-                const ultimo = Number(data[data.length - 1].ppm);
-                const penultimo = Number(data[data.length - 2].ppm);
-                if (isNaN(ultimo) || isNaN(penultimo)) return '';
-                if (ultimo > penultimo) return '↑ Subindo';
-                if (ultimo < penultimo) return '↓ Descendo';
+                const ultimo = Number(
+                    dados[dados.length - 1].ppm
+                );
+
+                const penultimo = Number(
+                    dados[dados.length - 2].ppm
+                );
+
+                if (isNaN(ultimo) || isNaN(penultimo))
+                    return '';
+
+                if (ultimo > penultimo)
+                    return '↑ Subindo';
+
+                if (ultimo < penultimo)
+                    return '↓ Descendo';
+
                 return '→ Estável';
             };
-            const tendenciaEstufa = calcularTendencia(registros);
 
-            registros.forEach((registro, idx) => {
+            const tendenciaEstufa =
+                calcularTendencia(registros);
+
+            registros.forEach(registro => {
                 const ppm = Number(registro.ppm);
+
                 if (isNaN(ppm)) return;
 
-                const { status: statusOriginal, texto: textoOriginal } = classificarPpm(ppm);
-                const foiResolvido = resolvidos.some(r => r.estufa === idEstufa && r.ppm === ppm);
+                const {
+                    status: statusOriginal,
+                    texto: textoOriginal
+                } = classificarPpm(ppm);
+
+                const foiResolvido =
+                    resolvidos.some(
+                        r =>
+                            r.estufa === idEstufa &&
+                            r.ppm === ppm
+                    );
 
                 let classeStatus = statusOriginal;
                 let textoStatus = textoOriginal;
                 let isResolvido = false;
 
-                if (statusOriginal === 'red' || statusOriginal === 'yellow') {
-                    estufasAlertas[Number(idEstufa - 1)].alertas++;
+                if (
+                    statusOriginal === 'red' ||
+                    statusOriginal === 'yellow'
+                ) {
+                    estufasAlertas[
+                        idEstufa - 1
+                    ].alertas++;
 
                     if (foiResolvido) {
                         classeStatus = 'green';
-                        textoStatus = `Resolvido - ${textoOriginal}`;
+                        textoStatus =
+                            `Resolvido - ${textoOriginal}`;
+
                         isResolvido = true;
-                        estufasAlertas[Number(idEstufa - 1)].alertas_estabilizados++;
+
+                        estufasAlertas[
+                            idEstufa - 1
+                        ].alertas_estabilizados++;
                     }
                 }
 
-                const tendencia = tendenciaEstufa;
-                todosAlertas.push({ idEstufa, ppm, classeStatus, textoStatus, isResolvido, originalStatus: statusOriginal, tendencia });
+                todosAlertas.push({
+                    idEstufa,
+                    ppm,
+                    classeStatus,
+                    textoStatus,
+                    isResolvido,
+                    originalStatus: statusOriginal,
+                    tendencia: tendenciaEstufa
+                });
             });
 
         } catch (erro) {
-            console.error('Erro ao buscar registros da estufa', idEstufa, erro);
+            console.error(
+                'Erro ao buscar registros da estufa',
+                idEstufa,
+                erro
+            );
         }
     }
 
-    
-    const prioridades = { 'red': 1, 'yellow': 2, 'green': 3 };
-    todosAlertas.sort((a, b) => prioridades[a.classeStatus] - prioridades[b.classeStatus]);
+    const prioridades = {
+        red: 1,
+        yellow: 2,
+        green: 3
+    };
 
-    
-    todosAlertas.forEach(alertaInfo => {
-        areaNotificacoes.appendChild(criarCardAlerta(alertaInfo));
-    });
-    // Apply current filter
-    filtrarAlertas();
+    todosAlertas.sort(
+        (a, b) =>
+            prioridades[a.classeStatus] -
+            prioridades[b.classeStatus]
+    );
 
-   
-    sessionStorage.setItem('ESTUFAS_ALERTAS', JSON.stringify(estufasAlertas));
+    const novoConteudo =
+        JSON.stringify(todosAlertas);
 
-    // Atualiza dinamicamente o contador
+    // Só atualiza a tela se houver alteração
+    if (novoConteudo !== ultimoConteudoAlertas) {
+
+        ultimoConteudoAlertas = novoConteudo;
+
+        const fragmento =
+            document.createDocumentFragment();
+
+        todosAlertas.forEach(alertaInfo => {
+            fragmento.appendChild(
+                criarCardAlerta(alertaInfo)
+            );
+        });
+
+        areaNotificacoes.replaceChildren(
+            fragmento
+        );
+
+        filtrarAlertas();
+
+        // Mantém o usuário na mesma posição
+        window.scrollTo(
+            0,
+            posicaoScroll
+        );
+    }
+
+    sessionStorage.setItem(
+        'ESTUFAS_ALERTAS',
+        JSON.stringify(estufasAlertas)
+    );
+
     let totalAlertasAtualizado = 0;
-    estufasAlertas.forEach(e => {
-        totalAlertasAtualizado += Math.max(0, e.alertas - e.alertas_estabilizados);
+
+    estufasAlertas.forEach(estufa => {
+        totalAlertasAtualizado += Math.max(
+            0,
+            estufa.alertas -
+            estufa.alertas_estabilizados
+        );
     });
-    const elQtdAlertas = document.getElementById('id_qtd_alertas');
-    if (elQtdAlertas) {
-        elQtdAlertas.innerHTML = totalAlertasAtualizado;
+
+    const quantidadeAlertas =
+        document.getElementById(
+            'id_qtd_alertas'
+        );
+
+    if (quantidadeAlertas) {
+        quantidadeAlertas.innerHTML =
+            totalAlertasAtualizado;
     }
 }
 
 
 // Atualiza o horário da última atualização exibido na interface
 let intervaloAtualizacao;
+let ultimoConteudoAlertas = '';
 function atualizarHorario() {
     const el = document.getElementById('last_update');
     if (el) {
