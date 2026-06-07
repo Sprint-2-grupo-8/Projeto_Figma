@@ -9,11 +9,40 @@ if (dataAtualElement) {
     dataAtualElement.innerText = data_formatada;
 }
 
+function atualizarContadorAlertas() {
+
+    const estufasAlertas =
+        JSON.parse(
+            sessionStorage.getItem('ESTUFAS_ALERTAS')
+        ) || [];
+
+    let totalAlertas = 0;
+
+    estufasAlertas.forEach(estufa => {
+
+        totalAlertas += Math.max(
+            0,
+            estufa.alertas -
+            estufa.alertas_estabilizados
+        );
+
+    });
+
+    const contador =
+        document.getElementById('id_qtd_alertas');
+
+    if (contador) {
+        contador.innerHTML = totalAlertas;
+    }
+}
+
 //o querySelectorAll retorna uma lista de todos os elementos que possuem a determinada classe
 const grafico_geral = document.querySelectorAll('.geral');
 const grafico_individual = document.querySelectorAll('.individual');
 const indicadores_gerais = document.querySelector('.indicadores');
 const indicadores_individuais = document.querySelector('.indicadores-individual');
+
+atualizarContadorAlertas();
 
 function filter(idEstufa) {
     console.log('filter chamado com:', idEstufa);
@@ -181,4 +210,8 @@ function atualizarGraficoPercentual(dados) {
 
     percentual_registros.update();
 }
+
+setInterval(() => {
+    atualizarContadorAlertas();
+}, 10000);
 
