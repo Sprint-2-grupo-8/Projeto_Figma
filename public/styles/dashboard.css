@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+:root {
+    --verde-original: #059669;
+    --texto-principal: #071833;
+    --texto-suave: #536174;
+    --fundo-pagina: #f7f8fa;
+    --borda-card: #e0e4ea;
+    --sombra-card: 0 14px 28px rgba(15, 23, 42, 0.09);
+    --raio: 8px;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -66,6 +76,107 @@ body {
 main {
     margin: 1%;
 }
+
+
+body {
+    min-height: 100vh;
+    background: var(--fundo-pagina);
+    color: var(--texto-principal);
+}
+
+.left-painel {
+    width: 254px;
+    min-width: 254px;
+    padding: 26px 14px;
+    background: var(--verde-original);
+    box-sizing: border-box;
+}
+
+.logo {
+    gap: 12px;
+    margin-bottom: 36px;
+    padding: 0 8px 26px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: var(--raio);
+    box-sizing: border-box;
+}
+
+.logo span {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.left-painel>span {
+    display: block;
+    margin: 22px 12px 12px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.left-painel ul {
+    gap: 8px;
+    margin: 0 0 28px;
+}
+
+.left-painel ul li {
+    min-height: 44px;
+    margin-bottom: 0;
+    padding: 0 12px;
+    border-radius: var(--raio);
+    transition: background-color 0.2s ease;
+}
+
+.left-painel ul li:hover,
+.left-painel ul li.active {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.left-painel ul li img {
+    width: 20px;
+    min-width: 20px;
+}
+
+.left-painel ul li a {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-left: 8px;
+    color: #ffffff;
+    font-size: 0.98rem;
+    font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .top-painel {
     display: flex;
@@ -261,4 +372,4 @@ main {
     border-radius: 5px;
     gap: 4vw;
 }
-
+
