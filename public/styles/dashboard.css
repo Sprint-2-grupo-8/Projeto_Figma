@@ -206,14 +206,13 @@ body {
     justify-content: center;
     align-items: flex-start;
     margin-top: 2vh;
-    padding: 20px;
+    padding:20px;
     border-radius: 5px;
-    gap: 4vw;
+    gap: 2vw;
 }
 
 .indicador {
-    width: 15vw;
-    height: 12vh;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -275,7 +274,7 @@ body {
 
 .graficos {
     display: flex;
-    flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+    flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
     width: 100%;
