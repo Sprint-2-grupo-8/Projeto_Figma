@@ -12,8 +12,7 @@ function buscarUltimasMedidas(idEstufa) {
             END AS momento_grafico   
         FROM registro
         JOIN sensor ON fkSensor = idSensor
-        WHERE dtHrRegistro >= CURDATE() - INTERVAL 1 DAY
-	    AND dtHrRegistro < CURDATE()
+        WHERE dtHrRegistro >= NOW() - INTERVAL 24 HOUR
         AND fkEstufa = ${idEstufa}
         GROUP BY DATE(dtHrRegistro),
         CASE 
@@ -48,8 +47,7 @@ function buscarDistribuicao(idEstufa) {
 	    DATE_FORMAT(MIN(dtHrRegistro), '%H:00') AS momento_grafico
     FROM registro
     JOIN sensor ON fkSensor = idSensor
-        WHERE dtHrRegistro >= CURDATE() - INTERVAL 1 DAY
-	    AND dtHrRegistro < CURDATE()
+        WHERE dtHrRegistro >= NOW() - INTERVAL 24 HOUR
         AND fkEstufa = ${idEstufa}
     GROUP BY
 	    DATE(dtHrRegistro),

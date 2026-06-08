@@ -16,7 +16,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="styles/dashboard.css">
-    <link rel="shortcut icon" href="assets/img/Frame.svg" >
+    <link rel="shortcut icon" href="assets/img/Frame.svg">
 
 </head>
 
@@ -47,7 +47,7 @@
             <li>
                 <i class="fa-solid fa-file-image"></i>
                 <a href="assets/img/manual_gascontrol.jpeg" target="_blank">
-                Manual de instalação
+                    Manual de instalação
                 </a>
             </li>
             <li>
@@ -179,13 +179,22 @@
     }
 
     let proximaAtualizacao;
+
+    let estufas_alertas = JSON.parse(sessionStorage.getItem("ESTUFAS_ALERTAS")) || [];
     async function obterDadosGrafico(estufa) {
         let estufa_id = estufa ? estufa : '';
+        if (!estufa_id) {
+            return;
+        }
+
+        estufaAtual = estufa_id;
 
         // Buscar os alertas no vetor estufas_alertas
-        let qtd_alertas = estufas_alertas[Number(estufa_id - 1)].alertas;
+        let dados_alerta = estufas_alertas[Number(estufa_id - 1)];
 
-        let qtd_estabilizados = estufas_alertas[(estufa_id - 1)].alertas_estabilizados;
+        let qtd_alertas = dados_alerta ? dados_alerta.alertas : 0;
+
+        let qtd_estabilizados = dados_alerta ? dados_alerta.alertas_estabilizados : 0;
 
         let porcentagem_establ = qtd_alertas > 0 && qtd_estabilizados > 0 ? Number((qtd_estabilizados / qtd_alertas) * 100) : 0;
 
@@ -491,6 +500,7 @@
         );
     }
     let concentracao = 0;
+    let estufaAtual = 0;
 
     function exibirConcentracao(resposta) {
 
@@ -516,12 +526,16 @@
 
         document.getElementById("nivel_atual").innerHTML = concentracao;
 
-        atualizarConcentracao();
+        // atualizarConcentracao();
     }
 
 
     function atualizarConcentracao() {
-        let estufa_id = obterDadosGrafico();
+        let estufa_id = estufaAtual;
+
+        if (!estufa_id) {
+            return;
+        }
         fetch(`/medidas/tempo-real/concentracao/${estufa_id}`, { cache: 'no-store' }).then(function
             (response) {
             if (response.ok) {
