@@ -155,9 +155,14 @@ const doughnut_config = {
                     size: 14
                 },
                 formatter: (value, context) => {
-                    const dados = context.chart.data.datasets[0].data;
-                    const total = dados.reduce((acc, val) => acc + val, 0);
-                    const porcentagem = (value / total * 100).toFixed(1);
+                    const data = context.chart.data.datasets[0].data;
+                    const total = data.reduce((acc, val) => acc + val, 0);
+
+                    if (total == 0) {
+                        return '0%';
+                    }
+
+                    const porcentagem = Math.round(value / total * 100);
                     return porcentagem + '%';
                 }
             }
