@@ -127,11 +127,15 @@ VALUES
 ('Arduino MQ-2 UNO', '2026-04-26', 'Ativo', 5),
 ('Arduino MQ-2 UNO', '2026-04-26', 'Ativo', 5),
 ('Arduino MQ-2 UNO', '2026-04-27', 'Inativo', 6),
-('Arduino MQ-2 UNO', '2026-04-27', 'Inativo', 6),
+('Arduino MQ-2 UNO', '2026-04-27', 'Ativo', 6),
 ('Arduino MQ-2 UNO', '2026-05-01', 'Ativo', 7),
 ('Arduino MQ-2 UNO', '2026-05-01', 'Ativo', 7),
 ('Arduino MQ-2 UNO', '2026-05-02', 'Ativo', 8),
-('Arduino MQ-2 UNO', '2026-05-02', 'Ativo', 8);
+('Arduino MQ-2 UNO', '2026-05-02', 'Ativo', 8),
+('Arduino MQ-2 UNO', '2026-05-03', 'Ativo', 9),
+('Arduino MQ-2 UNO', '2026-05-03', 'Ativo', 9),
+('Arduino MQ-2 UNO', '2026-05-04', 'Ativo', 10),
+('Arduino MQ-2 UNO', '2026-05-04', 'Ativo', 10);
 
 
 
