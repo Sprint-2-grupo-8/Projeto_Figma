@@ -117,7 +117,7 @@ function criarCardAlerta(alertaInfo) {
         card.classList.add('is-resolvido');
     }
 
-    // Store status, original status and resolution info for filtering
+
     card.dataset.status = alertaInfo.classeStatus;
     card.dataset.original = alertaInfo.originalStatus;
     card.dataset.resolvido = alertaInfo.isResolvido ? 'true' : 'false';
@@ -507,18 +507,26 @@ function removerTodosAlertas() {
 
     atualizarAlertas();
 }
-
 function excluirAlerta(idEstufa, ppm) {
 
-    alertasExcluidos.push({
-        estufa: idEstufa,
-        ppm: ppm
-    });
+    const botao = event.currentTarget;
+    const card = botao.closest('.notificacao');
 
-    sessionStorage.setItem(
-        'ALERTAS_EXCLUIDOS',
-        JSON.stringify(alertasExcluidos)
-    );
+    card.classList.add('removendo');
 
-    atualizarAlertas();
+    setTimeout(() => {
+
+        alertasExcluidos.push({
+            estufa: idEstufa,
+            ppm: ppm
+        });
+
+        sessionStorage.setItem(
+            'ALERTAS_EXCLUIDOS',
+            JSON.stringify(alertasExcluidos)
+        );
+
+        atualizarAlertas();
+
+    }, 300);
 }
