@@ -242,28 +242,13 @@ function buscarEstufasEmAlerta(idEmpresa) {
 
 function buscarRankingAlertas(idEmpresa) {
 
-    var instrucaoSql = `
-        SELECT
-            sq_estufas.nome_estufa AS nome,
-            COUNT(r.idRegistro) AS qtd_alertas
-        FROM registro r
-        JOIN (
-            SELECT
-                idSensor,
-                e.nome AS nome_estufa,
-                e.gasMinimo,
-                e.gasMaximo,
-                ROW_NUMBER() OVER (ORDER BY fkEstufa) AS fkEstufa
-            FROM sensor
-            JOIN estufa e ON fkEstufa = idEstufa
-            WHERE fkEmpresa = ${idEmpresa}
-            ) AS sq_estufas
-        ON fkSensor = sq_estufas.idSensor
-        WHERE r.dtHrRegistro >= NOW() - INTERVAL 7 DAY
-        AND (r.ppm < sq_estufas.gasMinimo OR r.ppm > sq_estufas.gasMaximo)
-        GROUP BY sq_estufas.fkEstufa, sq_estufas.nome_estufa
-        ORDER BY qtd_alertas DESC;
-    `;
+    var instrucaoSql = ` SELECT
+	 e.nome AS nome, COUNT(r.idRegistro) AS qtd_alertas FROM registro r
+	 JOIN sensor s ON r.fkSensor = s.idSensor
+	 JOIN estufa e ON s.fkEstufa = e.idEstufa
+	 WHERE e.fkEmpresa = ${idEmpresa} AND r.dtHrRegistro >= NOW() - INTERVAL 7 DAY
+	 AND (r.ppm < e.gasMinimo OR r.ppm > e.gasMaximo) 
+	 GROUP BY e.idEstufa, e.nome ORDER BY qtd_alertas DESC; `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

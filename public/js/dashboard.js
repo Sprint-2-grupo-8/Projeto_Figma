@@ -32,7 +32,8 @@ function atualizarContadorAlertas() {
             estufa.alertas -
             estufa.alertas_estabilizados
         );
-
+	
+	qtd_estufas_alerta.innerHTML = totalAlertas + " alertas";
     });
 
     const contador =
@@ -128,9 +129,7 @@ function buscarKpisGerais() {
 
     var totalAlertasPendentes =
         sessionStorage.getItem("TOTAL_ALERTAS_PENDENTES") || 0;
-
-    qtd_estufas_alerta.innerHTML =
-        totalAlertasPendentes + " alertas";
+        
 
     const cardAlertas = document.getElementById("card_alertas");
     const legenda = cardAlertas.querySelector(".legenda");
@@ -152,14 +151,13 @@ function buscarKpisGerais() {
 
         legenda.innerHTML = "Alertas ainda não resolvidos";
     }
-    fetch(`/medidas/estufas-em-alerta/${idEmpresa}`, { cache: "no-store" })
-        .then(function (response) {
-            if (response.ok) {
-                response.json().then(function (resposta) {
-                    qtd_estufas_alerta.innerHTML = resposta[0].qtd_estufas_alerta + " estufas";
-                });
-            }
-        });
+
+//    fetch(`/medidas/estufas-em-alerta/${idEmpresa}`, { cache: "no-store" })
+//        .then(function (response) {
+//            if (response.ok) {
+//                response.json().then(function (resposta) {
+//                    qtd_estufas_alerta.innerHTML = resposta[0].qtd_estufas_alerta + " estufas";
+//                });
 }
 
 function buscarRankingAlertas() {

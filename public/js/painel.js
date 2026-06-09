@@ -93,7 +93,7 @@ function classificarPpm(ppm) {
         return { status: 'yellow', texto: 'Atenção (Próximo ao Mínimo)' };
     if (ppm >= limiteMaximo - faixaAlerta)
         return { status: 'yellow', texto: 'Atenção (Próximo ao Máximo)' };
-    return { status: 'green', texto: 'Ideal' };
+    
 
 }
 // Cria um card de alerta com informações e botões de ação
