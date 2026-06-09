@@ -192,6 +192,9 @@ async function atualizarAlertas() {
 
             const registros = await resposta.json();
 
+            const ultimaLimpeza =
+    localStorage.getItem('ULTIMA_LIMPEZA_ALERTAS');
+
             const calcularTendencia = (dados) => {
                 if (!dados || dados.length < 2) return '';
 
@@ -219,6 +222,19 @@ async function atualizarAlertas() {
                 calcularTendencia(registros);
 
             registros.forEach(registro => {
+
+                   if (ultimaLimpeza) {
+
+        const dataRegistro =
+            new Date(registro.dtHrRegistro);
+
+        const dataLimpeza =
+            new Date(ultimaLimpeza);
+
+        if (dataRegistro <= dataLimpeza) {
+            return;
+        }
+    }
                 const ppm = Number(registro.ppm);
 
                 if (isNaN(ppm)) return;
@@ -450,5 +466,15 @@ function desfazerResolucao(idEstufa, ppm) {
     let resolvidos = JSON.parse(sessionStorage.getItem('ALERTAS_RESOLVIDOS')) || [];
     resolvidos = resolvidos.filter(r => !(r.estufa === idEstufa && r.ppm === ppm));
     sessionStorage.setItem('ALERTAS_RESOLVIDOS', JSON.stringify(resolvidos));
+    atualizarAlertas();
+}
+
+function removerTodosAlertas() {
+
+    localStorage.setItem(
+        'ULTIMA_LIMPEZA_ALERTAS',
+        new Date().toISOString()
+    );
+
     atualizarAlertas();
 }

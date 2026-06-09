@@ -107,19 +107,27 @@
                         <img src="assets/img/engrenagem.svg" alt="">
                     </button>
                 </section>
+<section class="filtros-alertas">
+    <div class="filtros-alertas__texto">
+        <span>Alertas recentes</span>
+    </div>
 
-                <section class="filtros-alertas">
-                    <div class="filtros-alertas__texto">
-                        <span>Alertas recentes</span>
-                        <label for="filter_alertas">Filtrar alertas</label>
-                    </div>
-                    <select id="filter_alertas">
-                        <option value="todos">Todos</option>
-                        <option value="perigo">Perigo</option>
-                        <option value="atencao">Atenção</option>
-                        <option value="resolvidos">Resolvidos</option>
-                    </select>
-                </section>
+    <div class="acoes-alertas">
+        <label for="filter_alertas">Filtrar alertas</label>
+
+        <select id="filter_alertas">
+            <option value="todos">Todos</option>
+            <option value="perigo">Perigo</option>
+            <option value="atencao">Atenção</option>
+            <option value="resolvidos">Resolvidos</option>
+        </select>
+
+        <button class="btn-limpar-alertas" onclick="removerTodosAlertas()">
+            <i class="fa-solid fa-trash"></i>
+            Limpar Alertas
+        </button>
+    </div>
+</section>
 
                 <div class="notificacoes" aria-live="polite"></div>
             </div>
