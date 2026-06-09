@@ -81,15 +81,15 @@ function classificarPpm(ppm) {
         ? (limiteMaximo - limiteMinimo) * 0.1
         : 50;
 
-    if (ppm < limiteMinimo)  
-        return { status: 'red',    texto: 'Perigo (Abaixo)' };
-    if (ppm > limiteMaximo)                     
-        return { status: 'red',    texto: 'Perigo (Acima)' };
-    if (ppm <= limiteMinimo + faixaAlerta)       
+    if (ppm < limiteMinimo)
+        return { status: 'red', texto: 'Perigo (Abaixo)' };
+    if (ppm > limiteMaximo)
+        return { status: 'red', texto: 'Perigo (Acima)' };
+    if (ppm <= limiteMinimo + faixaAlerta)
         return { status: 'yellow', texto: 'Atenção (Próximo ao Mínimo)' };
-    if (ppm >= limiteMaximo - faixaAlerta)      
+    if (ppm >= limiteMaximo - faixaAlerta)
         return { status: 'yellow', texto: 'Atenção (Próximo ao Máximo)' };
-    return    { status: 'green',  texto: 'Ideal' };
+    return { status: 'green', texto: 'Ideal' };
 
 }
 // Cria um card de alerta com informações e botões de ação
@@ -102,7 +102,7 @@ function criarCardAlerta(alertaInfo) {
     if (alertaInfo.isResolvido) {
         card.classList.add('is-resolvido');
     }
-   
+
     // Store status, original status and resolution info for filtering
     card.dataset.status = alertaInfo.classeStatus;
     card.dataset.original = alertaInfo.originalStatus;
@@ -127,12 +127,12 @@ function criarCardAlerta(alertaInfo) {
     const resolverLabel = card.querySelector('.resolver-label');
 
     if (alertaInfo.originalStatus === 'green') {
-        
+
         btnResolver.classList.add('btn-resolver--inativo');
         btnResolver.disabled = true;
         btnResolver.title = 'Leitura dentro da faixa ideal';
     } else if (alertaInfo.isResolvido) {
-        
+
         btnResolver.classList.add('btn-resolver--resolvido');
         btnResolver.title = 'Marcado como resolvido';
         resolverLabel.textContent = 'Resolvido';
@@ -140,7 +140,7 @@ function criarCardAlerta(alertaInfo) {
         btnVerificar.querySelector('i').className = 'fa-regular fa-circle-check';
         btnResolver.addEventListener('click', () => desfazerResolucao(alertaInfo.idEstufa, alertaInfo.ppm));
     } else {
-      
+
         btnResolver.title = 'Marcar como resolvido';
         btnResolver.addEventListener('click', () => marcarAlertaResolvido(alertaInfo.idEstufa, alertaInfo.ppm));
     }
@@ -336,6 +336,11 @@ async function atualizarAlertas() {
             estufa.alertas_estabilizados
         );
     });
+
+    sessionStorage.setItem(
+        'TOTAL_ALERTAS_PENDENTES',
+        totalAlertasAtualizado
+    );
 
     const quantidadeAlertas =
         document.getElementById(

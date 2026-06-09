@@ -12,7 +12,7 @@ function buscarUltimasMedidas(idEstufa) {
             END AS momento_grafico   
         FROM registro
         JOIN sensor ON fkSensor = idSensor
-        WHERE dtHrRegistro >= NOW() - INTERVAL 24 HOUR
+        WHERE dtHrRegistro >= NOW() - INTERVAL 24 HOUR  
         AND fkEstufa = ${idEstufa}
         GROUP BY DATE(dtHrRegistro),
         CASE 
