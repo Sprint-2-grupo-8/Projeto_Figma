@@ -170,7 +170,7 @@ body {
 }
 
 .acoes-alertas {
-  display: flex;
+    display: flex;
     align-items: center;
     gap: 12px;
 }
@@ -202,6 +202,40 @@ body {
 
 .btn-limpar-alertas:hover {
     opacity: 0.9;
+}
+
+
+
+.btn-excluir {
+   position: absolute;
+    top: 8px;
+    right: 8px;
+
+    width: 28px;
+    height: 28px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #ef4444;
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    z-index: 10;
+     transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-excluir:hover {
+    background-color: #dc2626;
+    transform: scale(1.05);
 }
 
 .resumo-alertas {
@@ -291,7 +325,7 @@ body {
 }
 
 .filtros-alertas {
-     display: flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     min-height: 102px;
@@ -349,16 +383,19 @@ body {
 }
 
 .notificacao {
+      position: relative;
+
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 72px;
+    grid-template-columns: 1fr 100px;
     gap: 20px;
+
     align-items: center;
+
     min-height: 112px;
     padding: 22px 24px;
     border-radius: var(--raio);
     border: 1px solid transparent;
     box-shadow: 0 14px 28px rgba(15, 23, 42, 0.05);
-    box-sizing: border-box;
 }
 
 .alerta-conteudo {
@@ -435,15 +472,20 @@ body {
 
 .buttons {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+
+    min-width: 90px;
+
+    padding-top: 35px; 
     gap: 8px;
 }
 
+
 .btn-resolver {
-    width: 56px;
-    height: 56px;
+    width: 58px;
+    height: 58px;
     border-radius: var(--raio);
     border: none;
     background: #ffffff;

@@ -13,6 +13,10 @@ function fecharPopup() {
     janelaConfiguracao.style.display = 'none';
 }
 
+let alertasExcluidos =
+    JSON.parse(
+        sessionStorage.getItem('ALERTAS_EXCLUIDOS')
+    ) || [];
 
 let limiteMinimo = 0;
 let limiteMaximo = 900;
@@ -81,15 +85,15 @@ function classificarPpm(ppm) {
         ? (limiteMaximo - limiteMinimo) * 0.1
         : 50;
 
-    if (ppm < limiteMinimo)  
-        return { status: 'red',    texto: 'Perigo (Abaixo)' };
-    if (ppm > limiteMaximo)                     
-        return { status: 'red',    texto: 'Perigo (Acima)' };
-    if (ppm <= limiteMinimo + faixaAlerta)       
+    if (ppm < limiteMinimo)
+        return { status: 'red', texto: 'Perigo (Abaixo)' };
+    if (ppm > limiteMaximo)
+        return { status: 'red', texto: 'Perigo (Acima)' };
+    if (ppm <= limiteMinimo + faixaAlerta)
         return { status: 'yellow', texto: 'Atenção (Próximo ao Mínimo)' };
-    if (ppm >= limiteMaximo - faixaAlerta)      
+    if (ppm >= limiteMaximo - faixaAlerta)
         return { status: 'yellow', texto: 'Atenção (Próximo ao Máximo)' };
-    return    { status: 'green',  texto: 'Ideal' };
+    return { status: 'green', texto: 'Ideal' };
 
 }
 // Cria um card de alerta com informações e botões de ação
@@ -98,11 +102,21 @@ function criarCardAlerta(alertaInfo) {
     const template = document.getElementById('template-alerta');
     const card = template.content.cloneNode(true).querySelector('.notificacao');
 
+    const btnExcluir =
+        card.querySelector('.btn-excluir');
+
+    btnExcluir.addEventListener('click', () =>
+        excluirAlerta(
+            alertaInfo.idEstufa,
+            alertaInfo.ppm
+        )
+    );
+
     card.classList.add(alertaInfo.classeStatus);
     if (alertaInfo.isResolvido) {
         card.classList.add('is-resolvido');
     }
-   
+
     // Store status, original status and resolution info for filtering
     card.dataset.status = alertaInfo.classeStatus;
     card.dataset.original = alertaInfo.originalStatus;
@@ -127,12 +141,12 @@ function criarCardAlerta(alertaInfo) {
     const resolverLabel = card.querySelector('.resolver-label');
 
     if (alertaInfo.originalStatus === 'green') {
-        
+
         btnResolver.classList.add('btn-resolver--inativo');
         btnResolver.disabled = true;
         btnResolver.title = 'Leitura dentro da faixa ideal';
     } else if (alertaInfo.isResolvido) {
-        
+
         btnResolver.classList.add('btn-resolver--resolvido');
         btnResolver.title = 'Marcado como resolvido';
         resolverLabel.textContent = 'Resolvido';
@@ -140,7 +154,7 @@ function criarCardAlerta(alertaInfo) {
         btnVerificar.querySelector('i').className = 'fa-regular fa-circle-check';
         btnResolver.addEventListener('click', () => desfazerResolucao(alertaInfo.idEstufa, alertaInfo.ppm));
     } else {
-      
+
         btnResolver.title = 'Marcar como resolvido';
         btnResolver.addEventListener('click', () => marcarAlertaResolvido(alertaInfo.idEstufa, alertaInfo.ppm));
     }
@@ -164,6 +178,8 @@ async function atualizarAlertas() {
     estufasAlertas.forEach(estufa => {
         estufa.alertas = 0;
         estufa.alertas_estabilizados = 0;
+
+
     });
 
     const estufas = [1, 2, 3, 4];
@@ -193,7 +209,7 @@ async function atualizarAlertas() {
             const registros = await resposta.json();
 
             const ultimaLimpeza =
-    localStorage.getItem('ULTIMA_LIMPEZA_ALERTAS');
+                localStorage.getItem('ULTIMA_LIMPEZA_ALERTAS');
 
             const calcularTendencia = (dados) => {
                 if (!dados || dados.length < 2) return '';
@@ -223,21 +239,32 @@ async function atualizarAlertas() {
 
             registros.forEach(registro => {
 
-                   if (ultimaLimpeza) {
+                if (ultimaLimpeza) {
 
-        const dataRegistro =
-            new Date(registro.dtHrRegistro);
+                    const dataRegistro =
+                        new Date(registro.dtHrRegistro);
 
-        const dataLimpeza =
-            new Date(ultimaLimpeza);
+                    const dataLimpeza =
+                        new Date(ultimaLimpeza);
 
-        if (dataRegistro <= dataLimpeza) {
-            return;
-        }
-    }
+                    if (dataRegistro <= dataLimpeza) {
+                        return;
+                    }
+                }
                 const ppm = Number(registro.ppm);
 
                 if (isNaN(ppm)) return;
+
+                const foiExcluido =
+                    alertasExcluidos.some(
+                        a =>
+                            a.estufa === idEstufa &&
+                            a.ppm === ppm
+                    );
+
+                if (foiExcluido) {
+                    return;
+                }
 
                 const {
                     status: statusOriginal,
@@ -286,6 +313,8 @@ async function atualizarAlertas() {
                     tendencia: tendenciaEstufa
                 });
             });
+
+          
 
         } catch (erro) {
             console.error(
@@ -474,6 +503,21 @@ function removerTodosAlertas() {
     localStorage.setItem(
         'ULTIMA_LIMPEZA_ALERTAS',
         new Date().toISOString()
+    );
+
+    atualizarAlertas();
+}
+
+function excluirAlerta(idEstufa, ppm) {
+
+    alertasExcluidos.push({
+        estufa: idEstufa,
+        ppm: ppm
+    });
+
+    sessionStorage.setItem(
+        'ALERTAS_EXCLUIDOS',
+        JSON.stringify(alertasExcluidos)
     );
 
     atualizarAlertas();
