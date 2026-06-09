@@ -608,6 +608,12 @@ body {
  
 }
 
+.btn-resolver img {
+    display: none;
+    width: 22px;
+    height: 22px;
+}
+
 
 .btn-resolver::before {
     content: "";
@@ -637,7 +643,11 @@ body {
 }
 
 .btn-resolver--resolvido {
-    background-color: var(--verde-original);
+    background: linear-gradient(
+        180deg,
+        #059669,
+        #047857
+    );
     box-shadow: 0 10px 24px rgba(5, 150, 105, 0.26);
 }
 
