@@ -1,7 +1,4 @@
-<<<<<<< Updated upstream
-=======
 let idEmpresa = sessionStorage.ID_EMPRESA;
->>>>>>> Stashed changes
 
 let data_atual = new Date();
 let data_formatada = data_atual.toLocaleDateString('pt-BR');
@@ -108,11 +105,8 @@ function filter(idEstufa) {
 }
 
 function buscarKpisGerais() {
-<<<<<<< Updated upstream
      fetch("/medidas/menor-concentracao-geral", { cache: "no-store" })
-=======
     fetch(`/medidas/menor-concentracao-geral/${idEmpresa}`, { cache: "no-store" })
->>>>>>> Stashed changes
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
@@ -132,7 +126,6 @@ function buscarKpisGerais() {
             }
         });
 
-<<<<<<< Updated upstream
     var totalAlertasPendentes =
         sessionStorage.getItem("TOTAL_ALERTAS_PENDENTES") || 0;
 
@@ -159,7 +152,6 @@ function buscarKpisGerais() {
 
         legenda.innerHTML = "Alertas ainda não resolvidos";
     }
-=======
     fetch(`/medidas/estufas-em-alerta/${idEmpresa}`, { cache: "no-store" })
         .then(function (response) {
             if (response.ok) {
@@ -168,7 +160,6 @@ function buscarKpisGerais() {
                 });
             }
         });
->>>>>>> Stashed changes
 }
 
 function buscarRankingAlertas() {
