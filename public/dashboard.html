@@ -20,7 +20,7 @@
 
 </head>
 
-<body onload="filter()">
+<body onload="carregarDashboard()">
     <div class="left-painel">
         <div class="logo">
             <img src="assets/img/logo branca.svg">
@@ -133,11 +133,11 @@
                 <span class="value" id="maior_estufa">--</span>
                 <span class="legenda legenda-danger" id="maior_ppm">-- ppm</span>
             </div>
-            <div class="indicador indicador-danger">
-                <span class="title">Estufas em Alerta</span>
+            <div class="indicador indicador-danger" id="card_alertas">
+                <span class="title">Alertas pendentes</span>
 
                 <span class="value" id="qtd_estufas_alerta">--</span>
-                <span class="legenda legenda-danger">Estufas com alerta ativo</span>
+                <span class="legenda legenda-danger">Alertas ainda não resolvidos</span>
             </div>
         </div>
 

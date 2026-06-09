@@ -1,3 +1,4 @@
+
 let data_atual = new Date();
 let data_formatada = data_atual.toLocaleDateString('pt-BR');
 console.log(
@@ -7,6 +8,11 @@ console.log(
 const dataAtualElement = document.getElementById('data_atual');
 if (dataAtualElement) {
     dataAtualElement.innerText = data_formatada;
+}
+
+async function carregarDashboard() {
+    await atualizarAlertas();
+    filter();
 }
 
 function atualizarContadorAlertas() {
@@ -56,8 +62,8 @@ function filter(idEstufa) {
 
         let option_alerta = tipo_dash.querySelector(
             `option[data-estufa="${idEstufa}"]`
-        );  
-            option_alerta.selected = true;
+        );
+        option_alerta.selected = true;
 
     }
 
@@ -98,7 +104,7 @@ function filter(idEstufa) {
 }
 
 function buscarKpisGerais() {
-    fetch("/medidas/menor-concentracao-geral", { cache: "no-store" })
+     fetch("/medidas/menor-concentracao-geral", { cache: "no-store" })
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
@@ -118,14 +124,32 @@ function buscarKpisGerais() {
             }
         });
 
-    fetch("/medidas/estufas-em-alerta", { cache: "no-store" })
-        .then(function (response) {
-            if (response.ok) {
-                response.json().then(function (resposta) {
-                    qtd_estufas_alerta.innerHTML = resposta[0].qtd_estufas_alerta + " estufas";
-                });
-            }
-        });
+    var totalAlertasPendentes =
+        sessionStorage.getItem("TOTAL_ALERTAS_PENDENTES") || 0;
+
+    qtd_estufas_alerta.innerHTML =
+        totalAlertasPendentes + " alertas";
+
+    const cardAlertas = document.getElementById("card_alertas");
+    const legenda = cardAlertas.querySelector(".legenda");
+
+    if (Number(totalAlertasPendentes) == 0) {
+        cardAlertas.classList.remove("indicador-danger");
+        cardAlertas.classList.add("indicador-ok");
+
+        legenda.classList.remove("legenda-danger");
+        legenda.classList.add("legenda-ok");
+
+        legenda.innerHTML = "Nenhum alerta pendente";
+    } else {
+        cardAlertas.classList.remove("indicador-ok");
+        cardAlertas.classList.add("indicador-danger");
+
+        legenda.classList.remove("legenda-ok");
+        legenda.classList.add("legenda-danger");
+
+        legenda.innerHTML = "Alertas ainda não resolvidos";
+    }
 }
 
 function buscarRankingAlertas() {
@@ -191,7 +215,7 @@ function buscarPercentualRegistrosPorFaixa() {
 
                     atualizarGraficoPercentual(dados);
                     console.log("Dados enviados:", dados);
-                    
+
                 });
 
             } else {
