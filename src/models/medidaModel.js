@@ -11,11 +11,6 @@ function buscarUltimasMedidas(idEstufa, idEmpresa) {
                 ELSE CONCAT(FLOOR(HOUR(dtHrRegistro) / 4) * 4, ':00')
             END AS momento_grafico   
         FROM registro
-<<<<<<< Updated upstream
-        JOIN sensor ON fkSensor = idSensor
-        WHERE dtHrRegistro >= NOW() - INTERVAL 24 HOUR  
-        AND fkEstufa = ${idEstufa}
-=======
         JOIN (
             SELECT
                 idSensor,
@@ -27,7 +22,6 @@ function buscarUltimasMedidas(idEstufa, idEmpresa) {
         ON fkSensor = sq_estufas.idSensor
         WHERE dtHrRegistro >= NOW() - INTERVAL 24 HOUR
         AND sq_estufas.fkEstufa = ${idEstufa}
->>>>>>> Stashed changes
         GROUP BY DATE(dtHrRegistro),
         CASE 
                 WHEN FLOOR(HOUR(dtHrRegistro) / 4) * 4 < 10
