@@ -186,7 +186,7 @@ async function atualizarAlertas() {
 
     for (const idEstufa of estufas) {
         try {
-            const resposta = await fetch(`/medidas/registros/${idEstufa}`);
+            const resposta = await fetch(`/medidas/registros/${idEstufa}/${idEmpresa}`);
 
             if (resposta.status === 204) {
                 console.log(

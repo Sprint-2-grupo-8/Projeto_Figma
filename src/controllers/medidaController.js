@@ -5,7 +5,7 @@ function buscarUltimasMedidas(req, res) {
 
     console.log(`Recuperando as ultimas medidas`);
 
-    medidaModel.buscarUltimasMedidas(req.params.id).then(function (resultado) {
+    medidaModel.buscarUltimasMedidas(req.params.id, req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -23,7 +23,7 @@ function buscarRegistros(req, res) {
 
     console.log(`Recuperando todos registros de ontem`);
 
-    medidaModel.buscarRegistros(req.params.id).then(function (resultado) {
+    medidaModel.buscarRegistros(req.params.id, req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -39,7 +39,7 @@ function buscarRegistros(req, res) {
 function buscarDistribuicao(req, res) {
     console.log(`Recuperando medidas em tempo real`);
 
-    medidaModel.buscarDistribuicao(req.params.id).then(function (resultado) {
+    medidaModel.buscarDistribuicao(req.params.id, req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -55,7 +55,7 @@ function buscarDistribuicao(req, res) {
 function buscarDistribuicaoTempoReal(req,res) {
     console.log(`Recuperando medidas em tempo real - Distribuição`);
 
-    medidaModel.buscarDistribuicaoTempoReal().then(function (resultado) {
+    medidaModel.buscarDistribuicaoTempoReal(req.params.id, req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -70,7 +70,7 @@ function buscarDistribuicaoTempoReal(req,res) {
 
 function buscarConcentracao(req,res) {
     
-    medidaModel.buscarConcentracao(req.params.id).then(function (resultado) {
+    medidaModel.buscarConcentracao(req.params.id, req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -85,7 +85,7 @@ function buscarConcentracao(req,res) {
 
 function atualizarConcentracao(req, res) {
 
-    medidaModel.atualizarConcentracao(req.params.id).then(function (resultado) {
+    medidaModel.atualizarConcentracao(req.params.id, req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -100,7 +100,7 @@ function atualizarConcentracao(req, res) {
 
 function buscarMaiorConcentracaoGeral(req, res) {
 
-    medidaModel.buscarMaiorConcentracaoGeral().then(function (resultado) {
+    medidaModel.buscarMaiorConcentracaoGeral(req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -115,7 +115,7 @@ function buscarMaiorConcentracaoGeral(req, res) {
 
 function buscarMenorConcentracaoGeral(req, res) {
 
-    medidaModel.buscarMenorConcentracaoGeral().then(function (resultado) {
+    medidaModel.buscarMenorConcentracaoGeral(req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -130,7 +130,7 @@ function buscarMenorConcentracaoGeral(req, res) {
 
 function buscarEstufasEmAlerta(req, res) {
 
-    medidaModel.buscarEstufasEmAlerta().then(function (resultado) {
+    medidaModel.buscarEstufasEmAlerta(req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -145,7 +145,7 @@ function buscarEstufasEmAlerta(req, res) {
 
 function buscarRankingAlertas(req, res) {
 
-    medidaModel.buscarRankingAlertas().then(function (resultado) {
+    medidaModel.buscarRankingAlertas(req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -160,7 +160,7 @@ function buscarRankingAlertas(req, res) {
 
 function buscarPercentualRegistrosPorFaixa(req, res) {
 
-    medidaModel.buscarPercentualRegistrosPorFaixa().then(function (resultado) {
+    medidaModel.buscarPercentualRegistrosPorFaixa(req.params.empresaId).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {

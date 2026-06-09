@@ -101,7 +101,7 @@ function logar() {
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.id;
                 sessionStorage.CPF_USUARIO = json.cpf;
-                
+                sessionStorage.ID_EMPRESA = json.empresa;
                 if (email_login == "gascontrol.suporte@gmail.com" && senha_login == "G45.Control") {
                      setTimeout(function () {
                     window.location = "bobia.html";

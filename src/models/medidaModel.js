@@ -1,6 +1,6 @@
 var database = require("../database/config");
 
-function buscarUltimasMedidas(idEstufa) {
+function buscarUltimasMedidas(idEstufa, idEmpresa) {
 
     var instrucaoSql = `
         SELECT
@@ -11,9 +11,23 @@ function buscarUltimasMedidas(idEstufa) {
                 ELSE CONCAT(FLOOR(HOUR(dtHrRegistro) / 4) * 4, ':00')
             END AS momento_grafico   
         FROM registro
+<<<<<<< Updated upstream
         JOIN sensor ON fkSensor = idSensor
         WHERE dtHrRegistro >= NOW() - INTERVAL 24 HOUR  
         AND fkEstufa = ${idEstufa}
+=======
+        JOIN (
+            SELECT
+                idSensor,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) fkEstufa
+            FROM sensor
+            JOIN estufa ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
+        WHERE dtHrRegistro >= NOW() - INTERVAL 24 HOUR
+        AND sq_estufas.fkEstufa = ${idEstufa}
+>>>>>>> Stashed changes
         GROUP BY DATE(dtHrRegistro),
         CASE 
                 WHEN FLOOR(HOUR(dtHrRegistro) / 4) * 4 < 10
@@ -26,31 +40,47 @@ function buscarUltimasMedidas(idEstufa) {
     return database.executar(instrucaoSql);
 }
 
-function buscarRegistros(idEstufa) {
+function buscarRegistros(idEstufa, idEmpresa) {
 
     var instrucaoSql = `
     SELECT
         ROUND(ppm, 0) AS ppm,
         dtHrRegistro
     FROM registro
-    JOIN sensor ON fkSensor = idSensor
+    JOIN (
+            SELECT
+                idSensor,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) fkEstufa
+            FROM sensor
+            JOIN estufa ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
     WHERE dtHrRegistro >= NOW() - INTERVAL 1 DAY
-        AND fkEstufa = ${idEstufa}
+        AND sq_estufas.fkEstufa = ${idEstufa}
     ORDER BY dtHrRegistro DESC`;
 
     console.log("Executando a instrução SQL de buscarRegistros:" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function buscarDistribuicao(idEstufa) {
+function buscarDistribuicao(idEstufa, idEmpresa) {
     var instrucaoSql = `
     SELECT
 	    ROUND(AVG(ppm), 0) AS media_ppm,
 	    DATE_FORMAT(MIN(dtHrRegistro), '%H:00') AS momento_grafico
     FROM registro
-    JOIN sensor ON fkSensor = idSensor
+    JOIN (
+            SELECT
+                idSensor,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) fkEstufa
+            FROM sensor
+            JOIN estufa ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
         WHERE dtHrRegistro >= NOW() - INTERVAL 24 HOUR
-        AND fkEstufa = ${idEstufa}
+        AND sq_estufas.fkEstufa = ${idEstufa}
     GROUP BY
 	    DATE(dtHrRegistro),
 	    HOUR(dtHrRegistro)
@@ -60,26 +90,44 @@ function buscarDistribuicao(idEstufa) {
     return database.executar(instrucaoSql);
 }
 
-function buscarDistribuicaoTempoReal() {
+function buscarDistribuicaoTempoReal(idEstufa, idEmpresa) {
     var instrucaoSql = `
     SELECT
         ROUND(AVG(ppm), 0) AS media_ppm,
         DATE_FORMAT(NOW(), '%H:00') AS momento_grafico
     FROM registro
+    JOIN (
+            SELECT
+                idSensor,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) fkEstufa
+            FROM sensor
+            JOIN estufa ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
     WHERE DATE(dtHrRegistro) = CURDATE()
-        AND HOUR(dtHrRegistro) = HOUR(NOW());`
+        AND HOUR(dtHrRegistro) = HOUR(NOW())
+        AND sq_estufas.fkEstufa = ${idEstufa};`
 
     console.log("Executando o SQL:" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function buscarConcentracao(idEstufa) {
+function buscarConcentracao(idEstufa, idEmpresa) {
     var instrucaoSql = `
     SELECT
         ROUND(ppm, 0) as ppm
     FROM registro
-    JOIN sensor ON fkSensor = idSensor
-    WHERE fkEstufa = ${idEstufa}
+    JOIN (
+            SELECT
+                idSensor,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) fkEstufa
+            FROM sensor
+            JOIN estufa ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
+    WHERE sq_estufas.fkEstufa = ${idEstufa}
     ORDER BY dtHrRegistro DESC
     LIMIT 1;`
 
@@ -87,13 +135,21 @@ function buscarConcentracao(idEstufa) {
     return database.executar(instrucaoSql);
 }
 
-function atualizarConcentracao(idEstufa) {
+function atualizarConcentracao(idEstufa, idEmpresa) {
     var instrucaoSql = `
     SELECT
         ROUND(ppm, 0) as ppm
     FROM registro
-    JOIN sensor ON fkSensor = idSensor
-    WHERE fkEstufa = ${idEstufa}
+    JOIN (
+            SELECT
+                idSensor,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) fkEstufa
+            FROM sensor
+            JOIN estufa ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
+    WHERE sq_estufas.fkEstufa = ${idEstufa}
     ORDER BY dtHrRegistro DESC
     LIMIT 1;`
 
@@ -101,17 +157,23 @@ function atualizarConcentracao(idEstufa) {
     return database.executar(instrucaoSql);
 }
 
-function buscarMaiorConcentracaoGeral() {
+function buscarMaiorConcentracaoGeral(idEmpresa) {
 
     var instrucaoSql = `
         SELECT
-            e.nome,
+            sq_estufas.nome,
             ROUND(r.ppm, 0) AS ppm
         FROM registro r
-        JOIN sensor s
-            ON r.fkSensor = s.idSensor
-        JOIN estufa e
-            ON s.fkEstufa = e.idestufa
+        JOIN (
+            SELECT
+                idSensor,
+                nome,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) fkEstufa
+            FROM sensor
+            JOIN estufa ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
         WHERE r.dtHrRegistro = (
             SELECT MAX(r2.dtHrRegistro)
             FROM registro r2
@@ -125,17 +187,23 @@ function buscarMaiorConcentracaoGeral() {
     return database.executar(instrucaoSql);
 }
 
-function buscarMenorConcentracaoGeral() {
+function buscarMenorConcentracaoGeral(idEmpresa) {
 
     var instrucaoSql = `
         SELECT
-            e.nome,
+            sq_estufas.nome,
             ROUND(r.ppm, 0) AS ppm
         FROM registro r
-        JOIN sensor s
-            ON r.fkSensor = s.idSensor
-        JOIN estufa e
-            ON s.fkEstufa = e.idestufa
+        JOIN (
+            SELECT
+                idSensor,
+                nome,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) fkEstufa
+            FROM sensor
+            JOIN estufa ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
         WHERE r.dtHrRegistro = (
             SELECT MAX(r2.dtHrRegistro)
             FROM registro r2
@@ -149,42 +217,57 @@ function buscarMenorConcentracaoGeral() {
     return database.executar(instrucaoSql);
 }
 
-function buscarEstufasEmAlerta() {
+function buscarEstufasEmAlerta(idEmpresa) {
 
     var instrucaoSql = `
         SELECT
-            COUNT(DISTINCT e.idestufa) AS qtd_estufas_alerta
+            COUNT(DISTINCT sq_estufas.fkEstufa) AS qtd_estufas_alerta
         FROM registro r
-        JOIN sensor s
-            ON r.fkSensor = s.idSensor
-        JOIN estufa e
-            ON s.fkEstufa = e.idestufa
+        JOIN (
+            SELECT
+                idSensor,
+                e.gasMinimo,
+                e.gasMaximo,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) AS fkEstufa
+            FROM sensor
+            JOIN estufa e ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
         WHERE r.dtHrRegistro = (
             SELECT MAX(r2.dtHrRegistro)
             FROM registro r2
             WHERE r2.fkSensor = r.fkSensor
         )
-        AND (r.ppm < e.gasMinimo OR r.ppm > e.gasMaximo);
+        AND (r.ppm < sq_estufas.gasMinimo OR r.ppm > sq_estufas.gasMaximo);
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function buscarRankingAlertas() {
+function buscarRankingAlertas(idEmpresa) {
 
     var instrucaoSql = `
         SELECT
-            e.nome,
+            sq_estufas.nome_estufa AS nome,
             COUNT(r.idRegistro) AS qtd_alertas
         FROM registro r
-        JOIN sensor s
-            ON r.fkSensor = s.idSensor
-        JOIN estufa e
-            ON s.fkEstufa = e.idestufa
+        JOIN (
+            SELECT
+                idSensor,
+                e.nome AS nome_estufa,
+                e.gasMinimo,
+                e.gasMaximo,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) AS fkEstufa
+            FROM sensor
+            JOIN estufa e ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
         WHERE r.dtHrRegistro >= NOW() - INTERVAL 7 DAY
-        AND (r.ppm < e.gasMinimo OR r.ppm > e.gasMaximo)
-        GROUP BY e.idestufa, e.nome
+        AND (r.ppm < sq_estufas.gasMinimo OR r.ppm > sq_estufas.gasMaximo)
+        GROUP BY sq_estufas.fkEstufa, sq_estufas.nome_estufa
         ORDER BY qtd_alertas DESC;
     `;
 
@@ -192,28 +275,35 @@ function buscarRankingAlertas() {
     return database.executar(instrucaoSql);
 }
 
-function buscarPercentualRegistrosPorFaixa() {
+function buscarPercentualRegistrosPorFaixa(idEmpresa) {
 
     var instrucaoSql = `
         SELECT
-            SUM(CASE WHEN r.ppm BETWEEN e.gasMinimo AND e.gasMaximo THEN 1 ELSE 0 END) AS ideal,
+            SUM(CASE WHEN r.ppm BETWEEN sq_estufas.gasMinimo AND sq_estufas.gasMaximo THEN 1 ELSE 0 END) AS ideal,
             SUM(CASE WHEN 
-                (r.ppm >= e.gasMinimo - 100 AND r.ppm < e.gasMinimo)
+                (r.ppm >= sq_estufas.gasMinimo - 100 AND r.ppm < sq_estufas.gasMinimo)
                 OR
-                (r.ppm > e.gasMaximo AND r.ppm <= e.gasMaximo + 100)
+                (r.ppm > sq_estufas.gasMaximo AND r.ppm <= sq_estufas.gasMaximo + 100)
             THEN 1 ELSE 0 END) AS intermediaria,
             SUM(CASE WHEN 
-                r.ppm < e.gasMinimo - 100
+                r.ppm < sq_estufas.gasMinimo - 100
                 OR
-                r.ppm > e.gasMaximo + 100
+                r.ppm > sq_estufas.gasMaximo + 100
             THEN 1 ELSE 0 END) AS critica
         FROM registro r
-        JOIN sensor s
-            ON r.fkSensor = s.idSensor
-        JOIN estufa e
-            ON s.fkEstufa = e.idestufa
+        JOIN (
+            SELECT
+                idSensor,
+                e.gasMinimo,
+                e.gasMaximo,
+                ROW_NUMBER() OVER (ORDER BY fkEstufa) AS fkEstufa
+            FROM sensor
+            JOIN estufa e ON fkEstufa = idEstufa
+            WHERE fkEmpresa = ${idEmpresa}
+            ) AS sq_estufas
+        ON fkSensor = sq_estufas.idSensor
         WHERE r.dtHrRegistro >= NOW() - INTERVAL 7 DAY;
-    `;
+        `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

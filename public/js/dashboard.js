@@ -1,3 +1,7 @@
+<<<<<<< Updated upstream
+=======
+let idEmpresa = sessionStorage.ID_EMPRESA;
+>>>>>>> Stashed changes
 
 let data_atual = new Date();
 let data_formatada = data_atual.toLocaleDateString('pt-BR');
@@ -104,7 +108,11 @@ function filter(idEstufa) {
 }
 
 function buscarKpisGerais() {
+<<<<<<< Updated upstream
      fetch("/medidas/menor-concentracao-geral", { cache: "no-store" })
+=======
+    fetch(`/medidas/menor-concentracao-geral/${idEmpresa}`, { cache: "no-store" })
+>>>>>>> Stashed changes
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
@@ -114,7 +122,7 @@ function buscarKpisGerais() {
             }
         });
 
-    fetch("/medidas/maior-concentracao-geral", { cache: "no-store" })
+    fetch(`/medidas/maior-concentracao-geral/${idEmpresa}`, { cache: "no-store" })
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
@@ -124,6 +132,7 @@ function buscarKpisGerais() {
             }
         });
 
+<<<<<<< Updated upstream
     var totalAlertasPendentes =
         sessionStorage.getItem("TOTAL_ALERTAS_PENDENTES") || 0;
 
@@ -150,11 +159,21 @@ function buscarKpisGerais() {
 
         legenda.innerHTML = "Alertas ainda não resolvidos";
     }
+=======
+    fetch(`/medidas/estufas-em-alerta/${idEmpresa}`, { cache: "no-store" })
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    qtd_estufas_alerta.innerHTML = resposta[0].qtd_estufas_alerta + " estufas";
+                });
+            }
+        });
+>>>>>>> Stashed changes
 }
 
 function buscarRankingAlertas() {
 
-    fetch("/medidas/ranking-alertas", { cache: "no-store" })
+    fetch(`/medidas/ranking-alertas/${idEmpresa}`, { cache: "no-store" })
         .then(function (response) {
 
             if (response.status == 204) {
@@ -195,7 +214,7 @@ function atualizarGraficoRanking(labels, dados) {
 
 function buscarPercentualRegistrosPorFaixa() {
 
-    fetch("/medidas/percentual-registros-faixa", { cache: "no-store" })
+    fetch(`/medidas/percentual-registros-faixa/${idEmpresa}`, { cache: "no-store" })
         .then(function (response) {
 
             if (response.status == 204) {

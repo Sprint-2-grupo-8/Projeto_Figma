@@ -184,6 +184,7 @@
     let proximaAtualizacao;
 
     let estufas_alertas = JSON.parse(sessionStorage.getItem("ESTUFAS_ALERTAS")) || [];
+
     async function obterDadosGrafico(estufa) {
         let estufa_id = estufa ? estufa : '';
         if (!estufa_id) {
@@ -222,7 +223,7 @@
 
 
         try {
-            fetch(`/medidas/ultimas/${estufa_id}`, { cache: 'no-store' }).then(function (response) {
+            fetch(`/medidas/ultimas/${estufa_id}/${idEmpresa}`, { cache: 'no-store' }).then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
                         console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -235,7 +236,7 @@
                 }
             });
 
-            fetch(`/medidas/distribuicao/${estufa_id}`, { cache: 'no-store' }).then(function
+            fetch(`/medidas/distribuicao/${estufa_id}/${idEmpresa}`, { cache: 'no-store' }).then(function
                 (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
@@ -248,7 +249,7 @@
                 }
             });
 
-            fetch(`/medidas/concentracao/${estufa_id}`, { cache: 'no-store' }).then(function
+            fetch(`/medidas/concentracao/${estufa_id}/${idEmpresa}`, { cache: 'no-store' }).then(function
                 (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
@@ -353,7 +354,7 @@
     function buscarRegistros(estufa) {
         let estufa_id = estufa ? estufa : '';
 
-        fetch(`/medidas/registros/${estufa_id}`, { cache: 'no-store' }).then(function (response) {
+        fetch(`/medidas/registros/${estufa_id}/${idEmpresa}`, { cache: 'no-store' }).then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
@@ -463,7 +464,7 @@
 
         // Criando estrutura para plotar gráfico - dados
         console.log('----------------------------------------------')
-        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGraficoDistribuicao":')
         console.log(resposta)
 
         // Limpando para não acumular os dados de outras estufas
@@ -539,7 +540,7 @@
         if (!estufa_id) {
             return;
         }
-        fetch(`/medidas/tempo-real/concentracao/${estufa_id}`, { cache: 'no-store' }).then(function
+        fetch(`/medidas/tempo-real/concentracao/${estufa_id}/${idEmpresa}`, { cache: 'no-store' }).then(function
             (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {

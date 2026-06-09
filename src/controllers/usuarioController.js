@@ -30,6 +30,7 @@ function autenticar(req, res) {
                                         nome: resultadoAutenticar[0].nome,
                                         cpf: resultadoAutenticar[0].cpf,
                                         senha: resultadoAutenticar[0].senha,
+                                        empresa: resultadoAutenticar[0].empresaId,
                                         aquarios: resultadoAquarios
                                     });
                                 } else {
@@ -39,6 +40,7 @@ function autenticar(req, res) {
                                         nome: resultadoAutenticar[0].nome,
                                         cpf: resultadoAutenticar[0].cpf,
                                         senha: resultadoAutenticar[0].senha,
+                                        empresa: resultadoAutenticar[0].empresaId,
                                         aquarios: []
                                     });
                                 }
