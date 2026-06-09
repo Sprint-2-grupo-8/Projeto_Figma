@@ -184,13 +184,14 @@ function buscarPercentualRegistrosPorFaixa() {
                 response.json().then(function (resposta) {
 
                     let dados = [
-                        resposta[0].ideal,
-                        resposta[0].intermediaria,
-                        resposta[0].critica
+                        Number(resposta[0].ideal),
+                        Number(resposta[0].intermediaria),
+                        Number(resposta[0].critica)
                     ];
 
                     atualizarGraficoPercentual(dados);
-
+                    console.log("Dados enviados:", dados);
+                    
                 });
 
             } else {

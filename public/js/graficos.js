@@ -135,9 +135,9 @@ const doughnut_data = {
     labels: percentual_label,
     datasets: [{
         label: 'Percentual ',
+        data: [],
         backgroundColor: ['rgb(54, 162, 235)', 'rgb(255, 255, 0)', 'rgb(255, 99, 132)'],
         borderColor: ['rgb(54, 162, 235)', 'rgb(255, 255, 0)', 'rgb(255, 99, 132)'],
-        data: [70, 5, 25],
     }]
 };
 
@@ -155,8 +155,8 @@ const doughnut_config = {
                     size: 14
                 },
                 formatter: (value, context) => {
-                    const data = context.chart.data.datasets[0].data;
-                    const total = data.reduce((acc, val) => acc + val, 0);
+                    const dados = context.chart.data.datasets[0].data;
+                    const total = dados.reduce((acc, val) => acc + val, 0);
                     const porcentagem = (value / total * 100).toFixed(1);
                     return porcentagem + '%';
                 }
