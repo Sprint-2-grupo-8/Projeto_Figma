@@ -13,6 +13,10 @@ function fecharPopup() {
     janelaConfiguracao.style.display = 'none';
 }
 
+let alertasExcluidos =
+    JSON.parse(
+        sessionStorage.getItem('ALERTAS_EXCLUIDOS')
+    ) || [];
 
 let limiteMinimo = 0;
 let limiteMaximo = 900;
@@ -98,12 +102,21 @@ function criarCardAlerta(alertaInfo) {
     const template = document.getElementById('template-alerta');
     const card = template.content.cloneNode(true).querySelector('.notificacao');
 
+    const btnExcluir =
+        card.querySelector('.btn-excluir');
+
+    btnExcluir.addEventListener('click', () =>
+        excluirAlerta(
+            alertaInfo.idEstufa,
+            alertaInfo.ppm
+        )
+    );
+
     card.classList.add(alertaInfo.classeStatus);
     if (alertaInfo.isResolvido) {
         card.classList.add('is-resolvido');
     }
 
-    // Store status, original status and resolution info for filtering
     card.dataset.status = alertaInfo.classeStatus;
     card.dataset.original = alertaInfo.originalStatus;
     card.dataset.resolvido = alertaInfo.isResolvido ? 'true' : 'false';
@@ -164,6 +177,8 @@ async function atualizarAlertas() {
     estufasAlertas.forEach(estufa => {
         estufa.alertas = 0;
         estufa.alertas_estabilizados = 0;
+
+
     });
 
     const estufas = [1, 2, 3, 4];
@@ -192,6 +207,9 @@ async function atualizarAlertas() {
 
             const registros = await resposta.json();
 
+            const ultimaLimpeza =
+                localStorage.getItem('ULTIMA_LIMPEZA_ALERTAS');
+
             const calcularTendencia = (dados) => {
                 if (!dados || dados.length < 2) return '';
 
@@ -219,9 +237,33 @@ async function atualizarAlertas() {
                 calcularTendencia(registros);
 
             registros.forEach(registro => {
+
+                if (ultimaLimpeza) {
+
+                    const dataRegistro =
+                        new Date(registro.dtHrRegistro);
+
+                    const dataLimpeza =
+                        new Date(ultimaLimpeza);
+
+                    if (dataRegistro <= dataLimpeza) {
+                        return;
+                    }
+                }
                 const ppm = Number(registro.ppm);
 
                 if (isNaN(ppm)) return;
+
+                const foiExcluido =
+                    alertasExcluidos.some(
+                        a =>
+                            a.estufa === idEstufa &&
+                            a.ppm === ppm
+                    );
+
+                if (foiExcluido) {
+                    return;
+                }
 
                 const {
                     status: statusOriginal,
@@ -270,6 +312,8 @@ async function atualizarAlertas() {
                     tendencia: tendenciaEstufa
                 });
             });
+
+          
 
         } catch (erro) {
             console.error(
@@ -456,4 +500,37 @@ function desfazerResolucao(idEstufa, ppm) {
     resolvidos = resolvidos.filter(r => !(r.estufa === idEstufa && r.ppm === ppm));
     sessionStorage.setItem('ALERTAS_RESOLVIDOS', JSON.stringify(resolvidos));
     atualizarAlertas();
+}
+
+function removerTodosAlertas() {
+
+    localStorage.setItem(
+        'ULTIMA_LIMPEZA_ALERTAS',
+        new Date().toISOString()
+    );
+
+    atualizarAlertas();
+}
+function excluirAlerta(idEstufa, ppm) {
+
+    const botao = event.currentTarget;
+    const card = botao.closest('.notificacao');
+
+    card.classList.add('removendo');
+
+    setTimeout(() => {
+
+        alertasExcluidos.push({
+            estufa: idEstufa,
+            ppm: ppm
+        });
+
+        sessionStorage.setItem(
+            'ALERTAS_EXCLUIDOS',
+            JSON.stringify(alertasExcluidos)
+        );
+
+        atualizarAlertas();
+
+    }, 300);
 }

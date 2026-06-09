@@ -30,11 +30,13 @@ function buscarRegistros(idEstufa) {
 
     var instrucaoSql = `
     SELECT
-        ROUND(ppm, 0) ppm
+        ROUND(ppm, 0) AS ppm,
+        dtHrRegistro
     FROM registro
     JOIN sensor ON fkSensor = idSensor
     WHERE dtHrRegistro >= NOW() - INTERVAL 1 DAY
-        AND fkEstufa = ${idEstufa}`;
+        AND fkEstufa = ${idEstufa}
+    ORDER BY dtHrRegistro DESC`;
 
     console.log("Executando a instrução SQL de buscarRegistros:" + instrucaoSql);
     return database.executar(instrucaoSql);

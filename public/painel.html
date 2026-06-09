@@ -18,7 +18,7 @@
 
     <link rel="stylesheet" href="styles/dashboard.css">
     <link rel="stylesheet" href="styles/painel.css">
-    <link rel="shortcut icon" href="assets/img/Frame.svg" >
+    <link rel="shortcut icon" href="assets/img/Frame.svg">
 </head>
 
 <body>
@@ -48,7 +48,7 @@
             <li>
                 <i class="fa-solid fa-file-image"></i>
                 <a href="assets/img/manual_gascontrol.jpeg" target="_blank">
-                Manual de instalação
+                    Manual de instalação
                 </a>
             </li>
             <li>
@@ -107,27 +107,38 @@
                         <img src="assets/img/engrenagem.svg" alt="">
                     </button>
                 </section>
-
                 <section class="filtros-alertas">
                     <div class="filtros-alertas__texto">
                         <span>Alertas recentes</span>
-                        <label for="filter_alertas">Filtrar alertas</label>
                     </div>
-                    <select id="filter_alertas">
-                        <option value="todos">Todos</option>
-                        <option value="perigo">Perigo</option>
-                        <option value="atencao">Atenção</option>
-                        <option value="resolvidos">Resolvidos</option>
-                    </select>
+
+                    <div class="acoes-alertas">
+                        <label for="filter_alertas">Filtrar alertas</label>
+
+                        <select id="filter_alertas">
+                            <option value="todos">Todos</option>
+                            <option value="perigo">Perigo</option>
+                            <option value="atencao">Atenção</option>
+                            <option value="resolvidos">Resolvidos</option>
+                        </select>
+
+                        <button class="btn-limpar-alertas" onclick="removerTodosAlertas()">
+                            <i class="fa-solid fa-trash"></i>
+                            Limpar Alertas
+                        </button>
+                    </div>
                 </section>
 
                 <div class="notificacoes" aria-live="polite"></div>
             </div>
         </div>
 
-       
+
         <template id="template-alerta">
             <div class="notificacao">
+                <div class="alerta-icone">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
                 <div class="alerta-conteudo">
                     <div class="alerta-linha-principal">
                         <span class="status-chip"></span>
@@ -146,6 +157,10 @@
                 <div class="buttons">
                     <button class="btn-resolver"><img src="assets/img/check.svg" alt=""></button>
                     <span class="resolver-label">Resolver</span>
+
+                    <button class="btn-excluir">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
             </div>
         </template>
@@ -187,7 +202,7 @@
 
 </body>
 <script>
-    
+
     // Atualiza o contador de alertas ao carregar a página (valor só att depois da 1° chamada de atualizarAlertas)
     const elQtdAlertas = document.getElementById('id_qtd_alertas');
     if (elQtdAlertas) {
@@ -205,4 +220,5 @@
     });
 
 </script>
+
 </html>
